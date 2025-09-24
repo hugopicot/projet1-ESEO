@@ -8,7 +8,11 @@
   --noir: #000000;
 }
 
-
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 html, body {
   margin: 0;
   padding: 0;
@@ -26,10 +30,11 @@ header {
     backdrop-filter: blur(10px);
     z-index: 1000;
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    font-family: Nohemi, sans-serif;
 }
 
 .logo {
-    height: 32px;
+    height: 64px;
 }
 
 .menu {
@@ -37,19 +42,22 @@ header {
     display: flex;
     gap: 25px;
 }
+
 .menu a {
     text-decoration: none;
     color: #7DC2A5;
-    font-weight: 500;
+    font-weight: 750;
     transition: color 0.3s;
 }
 .menu a:hover {
     color: #9FCDA8;
 }
 
+
 .btn:hover, button:hover {
     background: linear-gradient(135deg, #9FCDA8, #9FCDA8);
     transform: translateY(-2px);
+    transition: background 0.5s;
 }
 
 body {
