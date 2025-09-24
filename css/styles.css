@@ -53,7 +53,7 @@ header {
 }
 
 body {
-  background-color: var(--beige);
+  background-color: var(--blanc);
 }
 
 h1, h2, h3, h4, p {
@@ -68,9 +68,6 @@ h1 {
     flex-shrink: 0;
     color: var(--noir);
 }
-
-
-
 
 h2 {
   font-family: Nohemi, sans-serif;
@@ -102,7 +99,7 @@ p, span {
 
 
 .hero {
-  background-color: var(--beige);
+  background-color: var(--blanc);
   color: var(--noir);
   padding: 100px;
   text-align: center;
@@ -143,6 +140,6 @@ p, span {
 }
 
 .hero-img {
-  width: 50%;
+  width: 70%;
   padding: 20px;
 }
