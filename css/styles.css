@@ -143,3 +143,44 @@ p, span {
   width: 70%;
   padding: 20px;
 }
+
+.mechanisme {
+  padding: 100px;
+}
+
+.mechanisme-title {
+  font-size: 42px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+
+.card-mechanism {
+  display: flex;
+  justify-content: space-between;
+  align-items: left;
+}
+
+.card-mechanism .card {
+  flex: 0 0 calc(33.33% - 20px);
+  background-color: var(--vert-beige);  
+  border-radius: 25px;
+  padding: 20px;
+  margin: 20px;
+  text-align: left;
+}
+
+.card-mechanism .card img {
+  width: 75%;
+  margin-bottom: 10px;
+}
+
+.card-mechanism .card h3 {
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.card-mechanism .card p {
+  font-size: 18px;
+  font-weight: lighter;
+}
