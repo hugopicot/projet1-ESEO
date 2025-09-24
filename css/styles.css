@@ -152,6 +152,52 @@ p, span {
   padding: 20px;
 }
 
+
+
+/* Footer */
+footer {
+    padding: 50px;
+    background-color: var(--vert);
+    color: var(--blanc);
+}
+
+footer img {
+    width: 200px;
+    height: auto;
+    margin-bottom: 24px;
+}
+
+footer>div {
+    width: 100%;
+    max-width: 1200px;
+    padding: 25px 0;
+    display: flex;
+    gap: 48px;
+}
+
+footer .bold-text {
+    margin-bottom: 16px;
+}
+
+.legal {
+    display: flex;
+    justify-content: space-between;
+    padding: 25px 0 0 0;
+}
+
+.legal>ul {
+    display: flex;
+    gap: 12px;
+}
+
+footer h2, footer .bold-text {
+    color: var(--blanc);
+}
+
+footer>div:not(:last-child) {
+    border-bottom: 1px solid var(--blanc);
+}
+
 .mechanisme {
   padding: 100px;
 }
