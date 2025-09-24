@@ -23,8 +23,19 @@ h1, h2, h3, h4, p {
   padding: 0;
 }
 
+h1 {
+    font-family: Nohemi, sans-serif;
+    font-size: 42px;
+    font-weight: 400;
+    flex-shrink: 0;
+    color: var(--noir);
+}
+
+
+
+
 h2 {
-  font-family: Inter, sans-serif;
+  font-family: Nohemi, sans-serif;
   font-size: 42px;
   font-weight: 400;
   flex-shrink: 0;
@@ -32,21 +43,21 @@ h2 {
 }
 
 h3, .h3 {
-  font-family: Inter, sans-serif;
+  font-family: Nohemi, sans-serif;
   font-size: 32px;
   font-weight: 400;
   color: var(--noir);
 }
 
 h4 {
-  font-family: Inter, sans-serif;
+  font-family: Nohemi, sans-serif;
   font-size: 18px;
   font-weight: 600;
   color: var(--noir);
 }
 
 p, span {
-  font-family: Inter, sans-serif;
+  font-family: Nohemi, sans-serif;
   font-size: 14px;
   font-weight: lighter;
 }
@@ -55,7 +66,7 @@ p, span {
 .hero {
   background-color: var(--beige);
   color: var(--noir);
-  padding: 100px 0;
+  padding: 100px;
   text-align: center;
 }
 
@@ -76,7 +87,7 @@ p, span {
   color: var(--blanc);
   padding: 10px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 15px;
   font-size: 18px;
   font-weight: 600;
   cursor: pointer;
@@ -87,8 +98,13 @@ p, span {
   color: var(--turquoise);
   padding: 10px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 15px;
   font-size: 18px;
   font-weight: 600;
   cursor: pointer;
+}
+
+.hero-img {
+  width: 50%;
+  padding: 20px;
 }
