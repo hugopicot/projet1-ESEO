@@ -14,6 +14,44 @@ html, body {
   padding: 0;
 }
 
+header {
+    width: 100%;
+    padding: 15px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background: #E3EBD0;
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.logo {
+    height: 32px;
+}
+
+.menu {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+.menu a {
+    text-decoration: none;
+    color: #7DC2A5;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+.menu a:hover {
+    color: #9FCDA8;
+}
+
+.btn:hover, button:hover {
+    background: linear-gradient(135deg, #9FCDA8, #9FCDA8);
+    transform: translateY(-2px);
+}
+
 body {
   background-color: var(--beige);
 }
