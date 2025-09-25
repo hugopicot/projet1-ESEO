@@ -6,6 +6,12 @@
   --turquoise: #7DC2A5;
   --blanc: #ffffff;
   --noir: #000000;
+  --primary: #8CFF2E;
+  --background: #050505;
+  --UI-1: #0D0D0D;
+  --UI-2: #171717;
+  --UI-3: #2F2F2F;
+  --Border: #F8F8FA;
 }
 
 * {
@@ -26,13 +32,14 @@ header {
     justify-content: space-between;
     position: sticky;
     top: 0;
-    background: var(--blanc);
+    background: var(--background);
     z-index: 1000;
-    font-family: Nohemi, sans-serif;
+    font-family: 'Manrope', sans-serif;
 }
 
 .logo {
-    height: 64px;
+    height: 50px;
+    
 }
 
 .menu {
@@ -43,23 +50,16 @@ header {
 
 .menu a {
     text-decoration: none;
-    color: #7DC2A5;
-    font-weight: 750;
+    color: var(--blanc);
+    font-weight: 16px;
     transition: color 0.3s;
 }
 .menu a:hover {
-    color: #9FCDA8;
-}
-
-
-.btn:hover, button:hover {
-    background: linear-gradient(135deg, #9FCDA8, #9FCDA8);
-    transform: translateY(-2px);
-    transition: background 0.5s;
+    color: var(--primary);
 }
 
 body {
-  background-color: var(--blanc);
+  background-color: var(--background);
 }
 
 h1, h2, h3, h4, p {
@@ -68,51 +68,52 @@ h1, h2, h3, h4, p {
 }
 
 h1 {
-    font-family: Nohemi, sans-serif;
-    font-size: 42px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 64px;
     font-weight: 400;
     flex-shrink: 0;
-    color: var(--noir);
+    color: var(--blanc);
 }
 
 h2 {
-  font-family: Nohemi, sans-serif;
+  font-family: 'Manrope', sans-serif;
   font-size: 42px;
   font-weight: 400;
   flex-shrink: 0;
-  color: var(--noir);
+  color: var(--blanc);
 }
 
 h3, .h3 {
-  font-family: Nohemi, sans-serif;
+  font-family: 'Manrope', sans-serif;
   font-size: 32px;
   font-weight: 400;
-  color: var(--noir);
+  color: var(--blanc);
 }
 
 h4 {
-  font-family: Nohemi, sans-serif;
+  font-family: 'Manrope', sans-serif;
   font-size: 18px;
   font-weight: 600;
-  color: var(--noir);
+  color: var(--blanc);
 }
 
 p, span {
-  font-family: Nohemi, sans-serif;
+  font-family: 'Manrope', sans-serif;
   font-size: 14px;
   font-weight: lighter;
+  color: var(--blanc);
 }
 
 
 .hero {
-  background-color: var(--blanc);
-  color: var(--noir);
+  background-color: var(--background);
+  color: var(--blanc);
   padding: 100px;
   text-align: center;
 }
 
 .hero-title {
-  font-size: 42px;
+  font-size: 64px;
   font-weight: 400;
   margin-bottom: 20px;
 }
@@ -123,27 +124,46 @@ p, span {
   margin-bottom: 40px;
 }
 
+
 .btn {
-  background-color: var(--turquoise);
-  color: var(--blanc);
-  padding: 10px 20px;
+  background-color: var(--primary);
+  color: var(--background);
+  padding: 12px 24px;
   border: none;
-  border-radius: 15px;
+  border-radius: 23px;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 200;
   cursor: pointer;
+  box-shadow: 0 12px 30px rgba(140, 255, 46, 0.3), 0 4px 15px rgba(140, 255, 46, 0.2);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:hover {
+  background-color: var(--primary);
+  color: var(--background);
+  box-shadow: none;
 }
 
 .btn1 {
-  background-color: var(--blanc);
-  color: var(--turquoise);
-  padding: 10px 20px;
-  margin: 5px;
-  border: 1px solid var(--turquoise);
-  border-radius: 15px;
+  background-color: var(--UI-2);
+  color: var(--blanc);
+  padding: 12px 24px;
+  border: none;
+  border-radius: 23px;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 200;
   cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn1:hover {
+  background-color: var(--UI-3);
+  color: var(--blanc);
+  box-shadow: none;
 }
 
 .hero-img {
@@ -153,10 +173,83 @@ p, span {
 
 
 
+
+
+
+
+.mechanisme {
+  padding: 100px;
+}
+
+.mechanisme-title {
+  font-size: 42px;
+  font-weight: 1200;
+  margin-bottom: 20px;
+}
+
+.card-mechanism {
+  display: flex;
+  justify-content: space-between;
+  align-items: left;
+}
+
+.card-mechanism .card {
+  flex: 0 0 calc(33.33% - 20px);
+  background-color: var(--UI-1);  
+  color: var(--blanc);
+  border-radius: 25px;
+  padding: 20px;
+  margin: 20px;
+  text-align: left;
+}
+
+.card-mechanism .card img {
+  width: 75%;
+  margin-bottom: 10px;
+}
+
+.card-step {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: auto;
+  padding: 8px 16px;
+  border-radius: 10px;
+  background: var(--noir);
+  color: var(--blanc);
+  display: block;
+  width: fit-content;
+  max-width: fit-content;
+  text-align: left;
+  float: none;
+  clear: both;
+  box-shadow: 
+    0 4px 8px rgba(140, 255, 46, 0.10),
+    0 8px 16px rgba(140, 255, 46, 0.1),
+    0 0 20px rgba(140, 255, 46, 0.08);
+}
+
+.card-mechanism .card h3 {
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  color: var(--blanc);
+}
+
+.card-mechanism .card p {
+  font-size: 18px;
+  font-weight: lighter;
+}
+
+
+
+
 /* Footer */
 footer {
     padding: 50px;
-    background-color: var(--vert);
+    background-color: var(--UI-1);
     color: var(--blanc);
 }
 
@@ -195,64 +288,4 @@ footer h2, footer .bold-text {
 
 footer>div:not(:last-child) {
     border-bottom: 1px solid var(--blanc);
-}
-
-.mechanisme {
-  padding: 100px;
-}
-
-.mechanisme-title {
-  font-size: 42px;
-  font-weight: 400;
-  margin-bottom: 20px;
-}
-
-.card-mechanism {
-  display: flex;
-  justify-content: space-between;
-  align-items: left;
-}
-
-.card-mechanism .card {
-  flex: 0 0 calc(33.33% - 20px);
-  background-color: var(--vert-beige);  
-  border-radius: 25px;
-  padding: 20px;
-  margin: 20px;
-  text-align: left;
-}
-
-.card-mechanism .card img {
-  width: 75%;
-  margin-bottom: 10px;
-}
-
-.card-step {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 15px;
-  margin-top: 0;
-  padding: 8px 16px;
-  border-radius: 20px;
-  background: var(--vert);
-  color: var(--noir);
-  display: inline-block;
-  width: auto;
-  max-width: fit-content;
-  box-shadow: 
-    0 4px 8px rgba(159, 205, 168, 0.3),
-    0 8px 16px rgba(125, 194, 165, 0.2),
-    0 0 20px rgba(159, 205, 168, 0.4);
-  transition: all 0.3s ease;
-}
-
-.card-mechanism .card h3 {
-  font-size: 24px;
-  font-weight: 400;
-  margin-bottom: 10px;
-}
-
-.card-mechanism .card p {
-  font-size: 18px;
-  font-weight: lighter;
 }
