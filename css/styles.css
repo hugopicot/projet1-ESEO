@@ -26,10 +26,8 @@ header {
     justify-content: space-between;
     position: sticky;
     top: 0;
-    background: #E3EBD0;
-    backdrop-filter: blur(10px);
+    background: var(--blanc);
     z-index: 1000;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     font-family: Nohemi, sans-serif;
 }
 
@@ -137,10 +135,11 @@ p, span {
 }
 
 .btn1 {
-  background-color: var(--beige);
+  background-color: var(--blanc);
   color: var(--turquoise);
   padding: 10px 20px;
-  border: none;
+  margin: 5px;
+  border: 1px solid var(--turquoise);
   border-radius: 15px;
   font-size: 18px;
   font-weight: 600;
@@ -226,6 +225,25 @@ footer>div:not(:last-child) {
 .card-mechanism .card img {
   width: 75%;
   margin-bottom: 10px;
+}
+
+.card-step {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  margin-top: 0;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: var(--vert);
+  color: var(--noir);
+  display: inline-block;
+  width: auto;
+  max-width: fit-content;
+  box-shadow: 
+    0 4px 8px rgba(159, 205, 168, 0.3),
+    0 8px 16px rgba(125, 194, 165, 0.2),
+    0 0 20px rgba(159, 205, 168, 0.4);
+  transition: all 0.3s ease;
 }
 
 .card-mechanism .card h3 {
