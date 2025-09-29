@@ -108,20 +108,44 @@ p, span {
 .hero {
   background-color: var(--background);
   color: var(--blanc);
-  padding: 100px;
+  padding: 40px;
   text-align: center;
 }
+
+.hero-tag {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: auto;
+  padding: 8px 16px;
+  border-radius: 10px;
+  background: var(--noir);
+  color: var(--primary);
+  display: inline-block;
+  width: fit-content;
+  box-shadow: 
+    0 4px 8px rgba(140, 255, 46, 0.10),
+    0 8px 16px rgba(140, 255, 46, 0.1),
+    0 0 20px rgba(140, 255, 46, 0.08);
+}
+
 
 .hero-title {
   font-size: 64px;
   font-weight: 400;
   margin-bottom: 20px;
+  padding-left: 300px;
+  padding-right: 300px; 
 }
 
 .hero-text {
   font-size: 18px;
   font-weight: lighter;
   margin-bottom: 40px;
+  padding-left: 490px;
+  padding-right: 490px; 
 }
 
 
@@ -170,12 +194,6 @@ p, span {
   width: 70%;
   padding: 20px;
 }
-
-
-
-
-
-
 
 .mechanisme {
   padding: 100px;
@@ -242,9 +260,6 @@ p, span {
   font-size: 18px;
   font-weight: lighter;
 }
-
-
-
 
 /* Footer */
 footer {
