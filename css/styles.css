@@ -39,7 +39,6 @@ header {
 
 .logo {
     height: 50px;
-    
 }
 
 .menu {
@@ -136,16 +135,12 @@ p, span {
   font-size: 64px;
   font-weight: 400;
   margin-bottom: 20px;
-  padding-left: 300px;
-  padding-right: 300px; 
 }
 
 .hero-text {
   font-size: 18px;
   font-weight: lighter;
   margin-bottom: 40px;
-  padding-left: 490px;
-  padding-right: 490px; 
 }
 
 
@@ -224,10 +219,15 @@ p, span {
 .card-mechanism .card img {
   width: 75%;
   margin-bottom: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: var(--background);
+  border-radius: 25px;
 }
 
 .card-step {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   margin-bottom: 15px;
   margin-top: 0;
@@ -236,19 +236,14 @@ p, span {
   padding: 8px 16px;
   border-radius: 10px;
   background: var(--noir);
-  color: var(--blanc);
+  color: var(--primary);
   display: block;
   width: fit-content;
-  max-width: fit-content;
-  text-align: left;
-  float: none;
-  clear: both;
   box-shadow: 
     0 4px 8px rgba(140, 255, 46, 0.10),
     0 8px 16px rgba(140, 255, 46, 0.1),
     0 0 20px rgba(140, 255, 46, 0.08);
 }
-
 .card-mechanism .card h3 {
   font-size: 24px;
   font-weight: 400;
@@ -257,8 +252,7 @@ p, span {
 }
 
 .card-mechanism .card p {
-  font-size: 18px;
-  font-weight: lighter;
+  font-size: 16px;
 }
 
 /* Footer */
