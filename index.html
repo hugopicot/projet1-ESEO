@@ -26,7 +26,7 @@
     </nav>
     <!-- Boutons -->
     <div>
-        <button class="btn1">
+        <button class="btn1" onclick="openPopup()">
             Contact
         </button>
         <button class="btn">
@@ -35,7 +35,24 @@
 
     </div>
 </header>
+<div class="overlay" id="overlay" onclick="closePopup(event)">
+    <div class="popup" onclick="event.stopPropagation()">
+        <button class="close-btn" onclick="closePopup()">✖</button>
+        <h3>Contact</h3>
+        <form>
+            <label>Nom :</label>
+            <input type="text" name="nom">
 
+            <label>Email :</label>
+            <input type="email" name="email">
+
+            <label>Message :</label>
+            <textarea name="message"></textarea>
+
+            <button class="btn">Envoyer</button>
+        </form>
+    </div>
+</div>
 <section class="hero">
       <div>
         <div>
@@ -76,6 +93,7 @@
         </div>
 
     </div>
+
 </section>
 <section class="mechanisme">
     <div >
@@ -84,7 +102,7 @@
         </h2>
     </div>
 
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="row row-cols-1 row-cols-md-3 g-4" style="color: var(--blanc);">
         <div class="card-body">
             <p class="card-step">UwU</p>
             <h5 class="card-title">Card title</h5>
@@ -116,6 +134,7 @@
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
         </div>
     </div>
+
 </section>
 </body>
 <footer>

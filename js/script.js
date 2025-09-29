@@ -1,3 +1,13 @@
+function openPopup() {
+    document.getElementById("overlay").classList.add("active");
+}
+
+function closePopup(event) {
+    // Ferme si on clique sur l’overlay ou sur le bouton X
+    if (!event || event.target.id === "overlay") {
+        document.getElementById("overlay").classList.remove("active");
+    }
+}
 document.addEventListener('DOMContentLoaded', function() {
     
     // Gestion du formulaire de liste d'attente
