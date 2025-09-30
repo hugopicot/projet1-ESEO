@@ -309,7 +309,8 @@ footer>div:not(:last-child) {
     border-bottom: 1px solid var(--blanc);
 }
 #question-1{
-  background-color: rgb(4, 3, 2);
+  background-color: var(--background);
+  padding: 20px;
   
 }
 .vos-questions{
@@ -322,16 +323,22 @@ footer>div:not(:last-child) {
   margin: 10px;
 }
 .vos-questions button{
-  width: 100px;
-  height: 50px;
-  border-radius: 20px;
-  background: #8CFF2E;
-
+  background-color: var(--primary);
+  color: var(--background);
+  padding: 12px 24px;
+  border: none;
+  border-radius: 23px;
+  font-size: 18px;
+  font-weight: 200;
+  cursor: pointer;
+  box-shadow: 0 12px 30px rgba(140, 255, 46, 0.3), 0 4px 15px rgba(140, 255, 46, 0.2);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow: hidden;
+    z-index: 1;
 }
 .continur{
   margin: 10px;
   padding:0PX;
-   box-shadow: 0 12px 30px rgba(140, 255, 46, 0.3), 0 4px 15px rgba(140, 255, 46, 0.2);
 }
 .continur p{
   text-align: center;
@@ -340,8 +347,7 @@ footer>div:not(:last-child) {
 .continur div {
   margin: 30px;
   padding: 0px;
-  box-shadow: #8CFF2E;
-  background-color: #12211b;
+  background-color: var(--UI-1);
   border-radius: 30px;
   align-items: center;
   width: 100%;
@@ -415,3 +421,38 @@ input, textarea {
     border-radius: 5px;
 }
 
+
+.top-title-pricing {
+  font-size: 16px;
+  font-weight: 600;
+  padding: 8px 16px;
+  color: var(--primary);
+  text-align: center;
+}
+
+
+
+.title-pricing {
+  font-size: 42px;
+  font-weight: 1200;
+  margin-bottom: 20px;
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: auto;
+  padding: 8px 16px;
+  color: var(--blanc);
+  display: block;
+  text-align: center;
+}
+
+.plan-text {
+  color: var(--blanc);
+  text-align: center;
+}
+
+
+.pricing-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
