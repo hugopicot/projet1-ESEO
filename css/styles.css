@@ -52,7 +52,7 @@ header {
 .menu a {
     text-decoration: none;
     color: var(--blanc);
-    font-weight: 16px;
+    font-weight: 16;
     transition: color 0.3s;
 }
 .menu a:hover {
@@ -189,6 +189,10 @@ p, span {
 .hero-img {
   width: 70%;
   padding: 20px;
+  transform:translateY(0px);
+  transition:all 1s ease;
+
+
 }
 
 .mechanisme {
@@ -204,7 +208,7 @@ p, span {
 .card-mechanism {
   display: flex;
   justify-content: space-between;
-  align-items: left;
+  align-items: flex-end;
 }
 
 .card-mechanism .card {

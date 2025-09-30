@@ -162,3 +162,18 @@ window.addEventListener("scroll", () => {
         }
     });
 });
+
+const img = document.getElementById("anim1");
+
+// Crée un observateur qui "espionne" quand l'image entre dans la fenêtre
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            img.style.opacity = "1";
+            img.style.transform = "translateY(30) scale(1.1)";
+        }
+    });
+});
+
+// On observe l’image
+observer.observe(img);
