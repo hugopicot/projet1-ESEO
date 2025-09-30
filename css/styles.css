@@ -184,7 +184,7 @@ p, span {
 }
 
 .btn1:hover {
- 
+  
   color: var(--blanc);
   box-shadow: none;
 }
