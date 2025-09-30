@@ -447,6 +447,9 @@ input, textarea {
 .plan-text {
   color: var(--blanc);
   text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 30px;
 }
 
 .plan-container {
@@ -456,6 +459,7 @@ input, textarea {
   gap: 20px;
 }
 
+
 .plan-pro {
   background-color: var(--UI-1);
   color: var(--blanc);
@@ -464,8 +468,6 @@ input, textarea {
   padding: 20px;
   margin: 20px;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
   width: 22%;
   padding: 30px;
   gap: 20px;
@@ -495,7 +497,7 @@ input, textarea {
 .btn-pro {
   background-color: var(--primary);
   color: var(--background);
-  padding: 12px 50px;
+  padding: 12px 40px;
   border: none;
   border-radius: 23px;
   font-size: 18px;
@@ -514,13 +516,13 @@ input, textarea {
 .btn-starter {
   background-color: var(--UI-2);
   color: var(--blanc);
-  padding: 12px 50px;
+  padding: 12px 40px;
   border: none;
   border-radius: 23px;
   font-size: 18px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  overflow: hidden;
+  margin-bottom: 20px;
 }
 
 .btn-starter:hover {
@@ -542,8 +544,6 @@ input, textarea {
   padding: 20px;
   margin: 20px;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
   width: 22%;
   padding: 30px;
   gap: 20px;

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQs Template - Block Item Dark</title>
+    <link href="../css/main.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white py-12">
+
+  <!-- Dark Theme FAQ Section -->
+<div class="max-w-xl mx-auto">
+  <h2 class="text-4xl font-extrabold mb-8 text-center">FAQ</h2>
+  <div class="space-y-6">
+    <!-- Item 1 -->
+    <div class="bg-gray-800 shadow-md rounded-lg">
+      <button
+        class="w-full flex items-center justify-between p-4 focus:outline-none"
+        onclick="toggleItem(1)"
+        aria-expanded="false"
+        aria-controls="content-1"
+        id="faq-button-1"
+      >
+        <span class="text-lg font-semibold">
+          Do you offer international shipping?
+        </span>
+        <svg
+          id="icon-plus-1"
+          class="w-6 h-6 text-gray-400"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <!-- Plus Icon Path -->
+          <path
+            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+          />
+        </svg>
+        <svg
+          id="icon-minus-1"
+          class="w-6 h-6 text-gray-400 hidden"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <!-- Minus Icon Path -->
+          <path
+            d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"
+          />
+        </svg>
+      </button>
+      <div
+        id="content-1"
+        class="text-gray-300 overflow-hidden max-h-0 transition-all duration-500"
+        role="region"
+        aria-labelledby="faq-button-1"
+      >
+        <p class="p-4">Yes, we ship to over 50 countries worldwide...</p>
+      </div>
+    </div>
+
+    <!-- Item 2 -->
+    <div class="bg-gray-800 shadow-md rounded-lg">
+      <button
+        class="w-full flex items-center justify-between p-4 focus:outline-none"
+        onclick="toggleItem(2)"
+        aria-expanded="false"
+        aria-controls="content-2"
+        id="faq-button-2"
+      >
+        <span class="text-lg font-semibold">Can I change my order?</span>
+        <svg
+          id="icon-plus-2"
+          class="w-6 h-6 text-gray-400"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <!-- Plus Icon Path -->
+          <path
+            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+          />
+        </svg>
+        <svg
+          id="icon-minus-2"
+          class="w-6 h-6 text-gray-400 hidden"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <!-- Minus Icon Path -->
+          <path
+            d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"
+          />
+        </svg>
+      </button>
+      <div
+        id="content-2"
+        class="text-gray-300 overflow-hidden max-h-0 transition-all duration-500"
+        role="region"
+        aria-labelledby="faq-button-2"
+      >
+        <p class="p-4">You can change your order within 24 hours of purchase...</p>
+      </div>
+    </div>
+
+    <!-- Add more items as needed -->
+  </div>
+</div>
+
+    
+<script>
+  function toggleItem(id) {
+      const content = document.getElementById(`content-${id}`);
+      const iconPlus = document.getElementById(`icon-plus-${id}`);
+      const iconMinus = document.getElementById(`icon-minus-${id}`);
+      
+      if (content.style.maxHeight) {
+        content.style.maxHeight = null;
+        arrow.classList.remove('rotate-180');
+      } else {
+        content.style.maxHeight = content.scrollHeight + 'px';
+        arrow.classList.add('rotate-180');
+      }
+
+      setTimeout(() => {
+        content.classList.toggle('hidden');
+      }, 300);
+      iconPlus.classList.toggle('hidden');
+      iconMinus.classList.toggle('hidden');
+  }
+</script>
+</body>
+</html>
