@@ -359,6 +359,7 @@ footer>div:not(:last-child) {
 .continur{
   margin: 10px;
   padding:0PX;
+  box-shadow: 0 12px 30px rgba(140, 255, 46, 0.3), 0 4px 15px rgba(140, 255, 46, 0.2);
 }
 .continur p{
   text-align: center;
