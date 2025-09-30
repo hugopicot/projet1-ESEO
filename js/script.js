@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
             right: '20px',
             padding: '16px 24px',
             borderRadius: '12px',
-            color: 'white',
+            color: 'black',
             fontFamily: 'Manrope, sans-serif',
             fontWeight: '500',
             fontSize: '14px',
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const formContainer = document.querySelector('.email-form-container');
     if (formContainer) {
         formContainer.style.opacity = '0';
-        formContainer.style.transform = 'translateY(30px)';
+        formContainer.style.transform = 'translateY(-30px)';
         formContainer.style.transition = 'all 0.8s ease';
         
         setTimeout(() => {
