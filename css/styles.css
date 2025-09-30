@@ -35,11 +35,12 @@ header {
     background: var(--background);
     z-index: 1000;
     font-family: 'Manrope', sans-serif;
+    opacity: 75%;
+    backdrop-filter:blur(5px);
 }
 
 .logo {
     height: 50px;
-    
 }
 
 .menu {
@@ -108,9 +109,29 @@ p, span {
 .hero {
   background-color: var(--background);
   color: var(--blanc);
-  padding: 100px;
+  padding: 40px;
   text-align: center;
 }
+
+.hero-tag {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: auto;
+  padding: 8px 16px;
+  border-radius: 10px;
+  background: var(--noir);
+  color: var(--primary);
+  display: inline-block;
+  width: fit-content;
+  box-shadow:
+    0 4px 8px rgba(140, 255, 46, 0.10),
+    0 8px 16px rgba(140, 255, 46, 0.1),
+    0 0 20px rgba(140, 255, 46, 0.08);
+}
+
 
 .hero-title {
   font-size: 64px;
@@ -136,8 +157,8 @@ p, span {
   cursor: pointer;
   box-shadow: 0 12px 30px rgba(140, 255, 46, 0.3), 0 4px 15px rgba(140, 255, 46, 0.2);
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  position: relative;
   overflow: hidden;
+    z-index: 1;
 }
 
 .btn:hover {
@@ -156,7 +177,6 @@ p, span {
   font-weight: 200;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  position: relative;
   overflow: hidden;
 }
 
@@ -170,12 +190,6 @@ p, span {
   width: 70%;
   padding: 20px;
 }
-
-
-
-
-
-
 
 .mechanisme {
   padding: 100px;
@@ -206,10 +220,15 @@ p, span {
 .card-mechanism .card img {
   width: 75%;
   margin-bottom: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: var(--background);
+  border-radius: 25px;
 }
 
 .card-step {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   margin-bottom: 15px;
   margin-top: 0;
@@ -218,19 +237,14 @@ p, span {
   padding: 8px 16px;
   border-radius: 10px;
   background: var(--noir);
-  color: var(--blanc);
+  color: var(--primary);
   display: block;
   width: fit-content;
-  max-width: fit-content;
-  text-align: left;
-  float: none;
-  clear: both;
   box-shadow: 
     0 4px 8px rgba(140, 255, 46, 0.10),
     0 8px 16px rgba(140, 255, 46, 0.1),
     0 0 20px rgba(140, 255, 46, 0.08);
 }
-
 .card-mechanism .card h3 {
   font-size: 24px;
   font-weight: 400;
@@ -239,11 +253,12 @@ p, span {
 }
 
 .card-mechanism .card p {
-  font-size: 18px;
-  font-weight: lighter;
+  font-size: 16px;
 }
 
-
+.feature-card{
+    color: var(--UI-1);
+}
 
 
 /* Footer */
@@ -336,3 +351,63 @@ footer>div:not(:last-child) {
   margin: 20px;
   padding: 0px;
 }
+
+
+
+.overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: none;             /* caché par défaut */
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay.active {
+    display: flex;
+}
+
+/* --- Fenêtre popup --- */
+.popup {
+    background: var(--UI-1);
+    padding: 20px;
+    border-radius: 15px;
+    width: 350px;
+    max-width: 90%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: fadeIn 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+/* Animation d’apparition */
+@keyframes fadeIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+/* Bouton fermer */
+.close-btn {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    color: var(--blanc);
+}
+
+input, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid var(--UI-2);
+    border-radius: 5px;
+}
+
