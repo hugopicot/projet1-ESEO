@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="utf-8">
@@ -13,9 +13,7 @@
 <body>
 <!-- Header -->
 <header>
-    <!-- Logo -->
     <img class="logo" src="asset/img/logo.png" alt="illustration" >
-    <!-- liens -->
     <nav>
         <ul class="menu">
             <li><a href="#section1" class="nav-link">Comment ça marche</a></li>
@@ -24,54 +22,42 @@
             <li><a href="#section4" class="nav-link">Blog</a></li>
         </ul>
     </nav>
-    <!-- Boutons -->
     <div>
-        <button class="btn1" onclick="openPopup()">
-            Contact
-        </button>
-        <button class="btn">
-            <a href="html/waitlist.html">Liste d'attente</a>
-        </button>
-
+        <button class="btn1" onclick="openPopup()">Contact</button>
+        <a href="html/waitlist.html" class="btn">Liste d'attente</a>
     </div>
 </header>
+
 <div class="overlay" id="overlay" onclick="closePopup(event)">
     <div class="popup" onclick="event.stopPropagation()">
         <button class="close-btn" onclick="closePopup()">✖</button>
         <h3>Contact</h3>
         <form>
-            <label>Nom :</label>
-            <input type="text" name="nom">
+            <label for="nom"> Nom :</label>
+            <input type="text" id="nom" name="nom">
 
-            <label>Email :</label>
-            <input type="email" name="email">
+            <label for="email">Email :</label>
+            <input type="email" id="email" name="email">
 
-            <label>Message :</label>
-            <textarea name="message"></textarea>
+            <label for="message">Message :</label>
+            <textarea id="message" name="message"></textarea>
 
             <button class="btn">Envoyer</button>
         </form>
     </div>
 </div>
-<section class="hero">
-      <div>
-        <div>
-            <p class="hero-tag">
-                All-in-One Finance Toolkit
-            </p>
-        </div>
+
+<main>
+    <section class="hero">
+        <p class="hero-tag">All-in-One Finance Toolkit</p>
         <h1 class="hero-title">Prenez le contrôle de vos finances — avec clarté</h1>
         <p class="hero-text">Toutes vos informations financières, enfin réunies en un seul endroit : suivez vos revenus, vos dépenses et atteignez vos objectifs en toute simplicité.</p>
-        <button class = "btn">Essayez maintenant</button><br>
-          <img id="anim1" class="hero-img" src="asset/img/hero.avif" alt="illustration">
-      </div>
+        <button class="btn">Essayez maintenant</button><br>
+        <img id="anim1" class="hero-img" src="asset/img/hero.avif" alt="illustration">
 </section>
+
 <section id="section1" class="hero">
-    <div>
-        <h2 class="mechanisme-title">
-            Comment ça marche
-        </h2>
-    </div>
+        <h2 class="mechanisme-title">Comment ça marche</h2>
     <div class ="card-mechanism">
         <div class="card">
             <img src="asset/img/card.avif" alt="illustration">
@@ -91,13 +77,10 @@
             <h3 class="card-title">Titre</h3>
             <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>
         </div>
-
     </div>
-
 </section>
-<!--les questionnaires-->
-<section id="question-1">
 
+<section id="question-1">
     <div class="vos-questions">
         <h1> vous avez des questions ?  <br>nous avons des  réponses.</h1>
         <p> contacter nous ici pour toute autre question .</p>
@@ -106,7 +89,6 @@
 
     <div class="faq-container">
         <div class="faq-items">
-            <!-- Item 1 -->
             <div class="faq-item">
                 <button
                     class="faq-button"
@@ -334,11 +316,10 @@
 </section>
 
 <section id="section3">
-    <div>
-        <p class="top-title-pricing">Prix</p>
-        <h2 class="title-pricing">Plans simples</h2>
-        <p class="plan-text">Tarification simple et sans frais cachés. Tout ce dont vous avez besoin pour mieux gérer votre argent.</p>
-    </div>
+    <p class="top-title-pricing">Prix</p>
+    <h2 class="title-pricing">Plans simples</h2>
+    <p class="plan-text">Tarification simple et sans frais cachés. Tout ce dont vous avez besoin pour mieux gérer votre argent.</p>
+
     <div class="plan-container">
         <div class="plan-starter">
             <h4 class="plan-title">Starter</h4>
@@ -377,14 +358,10 @@
         <img class="img-1" src="c:\Users\hanni\Documents\GitHub\projet1-ESEO\html\projeteseo.webp" alt="femme">
     </div>
 </section>
-
-</body>
+</main>
 <footer>
-    <!-- 1ere partie footer -->
     <div class="footer-content">
-        <!-- Logo -->
         <img src="asset/img/logo.png" alt="Reservetel Logo" class="logo">
-        <!-- Texte -->
         <div class="infos">
            <p>  © 2025 - Tous droits réservé • Politique de confidentialité </p>
         </div>
@@ -409,10 +386,5 @@
             </ul>
     </div>
 </footer>
-
-
-
-
-
-
+</body>
 </html>
