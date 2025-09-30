@@ -188,3 +188,7 @@ body {
         padding: 14px 24px;
     }
 }
+
+.plan-pro {
+  border: 1px solid var(--UI-2);
+}
