@@ -144,50 +144,238 @@
 
 <!--les questionnaires-->
 <section id="question-1">
-
     <div class="vos-questions">
         <h1> vous avez des questions ?  <br>nous avons des  réponses.</h1>
         <p> contacter nous ici pour toute autre question .</p>
         <button class="btn1" onclick="openPopup()"> contactez-nous </button>
     </div>
-    <div class="continur">
-        <div>
-            <h4>pour quel type d'entreprise ce modèle est-concu ?</h4>
-            <P>
-                clario est concu pour les outils SaaS , les tableaux de bord, les platformes fintech ou tout produit numérique <br> nécessitant une page d'attérissage moderne et axée sur  
-                la convertion . il est entièrement pour s'adapter a un éventail de service web
-            </P>
+    
+    <div class="faq-container">
+        <div class="faq-items">
+            <!-- Item 1 -->
+            <div class="faq-item">
+                <button
+                    class="faq-button"
+                    onclick="toggleFaqItem(1)"
+                    aria-expanded="false"
+                    aria-controls="faq-content-1"
+                    id="faq-button-1"
+                >
+                    <span class="faq-question">
+                        Pour quel type d'entreprise ce modèle est-il conçu ?
+                    </span>
+                    <svg
+                        id="faq-icon-plus-1"
+                        class="faq-icon"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                    >
+                        <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/>
+                    </svg>
+                    <svg
+                        id="faq-icon-minus-1"
+                        class="faq-icon hidden"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                    >
+                        <path d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"/>
+                    </svg>
+                </button>
+                <div
+                    id="faq-content-1"
+                    class="faq-content"
+                    role="region"
+                    aria-labelledby="faq-button-1"
+                >
+                    <p>Nova est conçu pour les outils SaaS, les tableaux de bord, les plateformes fintech ou tout produit numérique nécessitant une page d'atterrissage moderne et axée sur la conversion. Il est entièrement adaptable à un éventail de services web.</p>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="faq-item">
+                <button
+                    class="faq-button"
+                    onclick="toggleFaqItem(2)"
+                    aria-expanded="false"
+                    aria-controls="faq-content-2"
+                    id="faq-button-2"
+                >
+                    <span class="faq-question">Le modèle est-il adapté aux mobiles et réactif ?</span>
+                    <svg
+                        id="faq-icon-plus-2"
+                        class="faq-icon"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                    >
+                        <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/>
+                    </svg>
+                    <svg
+                        id="faq-icon-minus-2"
+                        class="faq-icon hidden"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                    >
+                        <path d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"/>
+                    </svg>
+                </button>
+                <div
+                    id="faq-content-2"
+                    class="faq-content"
+                    role="region"
+                    aria-labelledby="faq-button-2"
+                >
+                    <p>Absolument. La mise en page s'adapte parfaitement à toutes les tailles d'écran, y compris les ordinateurs de bureau, les tablettes et les smartphones. Chaque section est conçue pour offrir une expérience transparente sur tous les appareils.</p>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="faq-item">
+                <button
+                    class="faq-button"
+                    onclick="toggleFaqItem(3)"
+                    aria-expanded="false"
+                    aria-controls="faq-content-3"
+                    id="faq-button-3"
+                >
+                    <span class="faq-question">Puis-je utiliser ce modèle sans compétences en codage ?</span>
+                    <svg
+                        id="faq-icon-plus-3"
+                        class="faq-icon"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                    >
+                        <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/>
+                    </svg>
+                    <svg
+                        id="faq-icon-minus-3"
+                        class="faq-icon hidden"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                    >
+                        <path d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"/>
+                    </svg>
+                </button>
+                <div
+                    id="faq-content-3"
+                    class="faq-content"
+                    role="region"
+                    aria-labelledby="faq-button-3"
+                >
+                    <p>Oui, le modèle est entièrement modifiable avec des outils de glisser-déposer. Aucune connaissance en codage n'est requise pour mettre à jour le texte, échanger des images ou ajuster les mises en page.</p>
+                </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="faq-item">
+                <button
+                    class="faq-button"
+                    onclick="toggleFaqItem(4)"
+                    aria-expanded="false"
+                    aria-controls="faq-content-4"
+                    id="faq-button-4"
+                >
+                    <span class="faq-question">Aurai-je accès aux futures mises à jour ?</span>
+                    <svg
+                        id="faq-icon-plus-4"
+                        class="faq-icon"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                    >
+                        <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/>
+                    </svg>
+                    <svg
+                        id="faq-icon-minus-4"
+                        class="faq-icon hidden"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                    >
+                        <path d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"/>
+                    </svg>
+                </button>
+                <div
+                    id="faq-content-4"
+                    class="faq-content"
+                    role="region"
+                    aria-labelledby="faq-button-4"
+                >
+                    <p>Oui. Une fois l'achat effectué, vous recevrez automatiquement toutes les améliorations ou optimisations futures que nous apporterons au modèle. Votre version reste à jour avec les meilleures pratiques.</p>
+                </div>
+            </div>
+
+            <!-- Item 5 -->
+            <div class="faq-item">
+                <button
+                    class="faq-button"
+                    onclick="toggleFaqItem(5)"
+                    aria-expanded="false"
+                    aria-controls="faq-content-5"
+                    id="faq-button-5"
+                >
+                    <span class="faq-question">Puis-je utiliser ce modèle pour des projets commerciaux ?</span>
+                    <svg
+                        id="faq-icon-plus-5"
+                        class="faq-icon"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                    >
+                        <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/>
+                    </svg>
+                    <svg
+                        id="faq-icon-minus-5"
+                        class="faq-icon hidden"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                    >
+                        <path d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"/>
+                    </svg>
+                </button>
+                <div
+                    id="faq-content-5"
+                    class="faq-content"
+                    role="region"
+                    aria-labelledby="faq-button-5"
+                >
+                    <p>Sans faute. Nova est concédé sous licence pour un usage personnel et commercial, ce qui vous permet de créer des sites Web clients ou de lancer votre propre produit sans aucun problème de licence.</p>
+                </div>
+            </div>
+
+            <!-- Item 6 -->
+            <div class="faq-item">
+                <button
+                    class="faq-button"
+                    onclick="toggleFaqItem(6)"
+                    aria-expanded="false"
+                    aria-controls="faq-content-6"
+                    id="faq-button-6"
+                >
+                    <span class="faq-question">Comment puis-je obtenir de l'aide si je rencontre des problèmes ?</span>
+                    <svg
+                        id="faq-icon-plus-6"
+                        class="faq-icon"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                    >
+                        <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/>
+                    </svg>
+                    <svg
+                        id="faq-icon-minus-6"
+                        class="faq-icon hidden"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                    >
+                        <path d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"/>
+                    </svg>
+                </button>
+                <div
+                    id="faq-content-6"
+                    class="faq-content"
+                    role="region"
+                    aria-labelledby="faq-button-6"
+                >
+                    <p>Nous sommes là pour vous aider. Si vous avez des questions, vous pouvez nous joindre directement par notre formulaire de contact. Nous répondons généralement dans les 24 heures.</p>
+                </div>
+            </div>
         </div>
-        <div> 
-            <h4>Le modèle est-il adapté aux mobiles et réactif ?</h4>
-            <p>
-                Absolument. La mise en page s’adapte parfaitement à toutes les  tailles d’écran, y compris les ordinateurs de bureau, les tablettes et  <br>les smartphones. Chaque section est conçue pour offrir une expérience transparente sur tous les appareils
-            </p>
-        </div>
-        <div>
-            <h4>puis-je utiliser ce modèle sans compétences en codage ?</h4>
-            <p>
-                oui , le modèle est entièrement modifiable dans framer a l'aide d'outils de glisser-déposer.Aucune connaissance en codage n'est <br> requise pour mettre a jour le texte , échanger des image ou ajuster  <br>les mises en page
-            </p>
-        </div>
-        <div>
-            <h4>Aurai-je accès aux futures mises à jour ?</h4>
-            <P>
-               Oui. Une fois l’achat effectué, vous recevrez automatiquement toutes les améliorations ou optimisations futures que nous apporterons au modèle. <br> Votre version reste à jour avec les meilleures pratiques. 
-            </P>
-        </div>
-        <div>
-            <H4>Puis-je utiliser ce modèle pour des projets commerciaux ?</H4>
-            <P>
-               Sans faute. Clario est concédé sous licence pour un usage personnel et commercial, ce qui vous permet de créer des sites Web clients ou <br> de lancer votre propre produit sans aucun problème de licence.
-            </P>   
-        </div>   
-        <div>
-            <h4>Comment puis-je obtenir de l’aide si je rencontre des problèmes ?</h4>
-            <p>
-                Nous sommes là pour vous aider. Si vous avez des questions, vous pouvez nous joindre directement à l’adresse hello@kadirov.design. Nous <br> répondons généralement dans les 24 heures.
-            </p>
-        </div>    
     </div>
 </section>
 

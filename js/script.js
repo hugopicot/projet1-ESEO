@@ -190,3 +190,29 @@ if (imganim) {
         imganim.style.transform = 'translateY(0)';
     }, 500);
 }*/
+
+// Fonction pour gérer l'ouverture/fermeture des éléments FAQ
+function toggleFaqItem(id) {
+    const content = document.getElementById(`faq-content-${id}`);
+    const button = document.getElementById(`faq-button-${id}`);
+    const iconPlus = document.getElementById(`faq-icon-plus-${id}`);
+    const iconMinus = document.getElementById(`faq-icon-minus-${id}`);
+    
+    if (content && button && iconPlus && iconMinus) {
+        const isExpanded = button.getAttribute('aria-expanded') === 'true';
+        
+        if (isExpanded) {
+            // Fermer
+            content.style.maxHeight = '0';
+            button.setAttribute('aria-expanded', 'false');
+            iconPlus.classList.remove('hidden');
+            iconMinus.classList.add('hidden');
+        } else {
+            // Ouvrir
+            content.style.maxHeight = content.scrollHeight + 'px';
+            button.setAttribute('aria-expanded', 'true');
+            iconPlus.classList.add('hidden');
+            iconMinus.classList.remove('hidden');
+        }
+    }
+}
