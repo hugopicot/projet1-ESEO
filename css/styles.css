@@ -410,3 +410,38 @@ input, textarea {
     border-radius: 5px;
 }
 
+
+.top-title-pricing {
+  font-size: 16px;
+  font-weight: 600;
+  padding: 8px 16px;
+  color: var(--primary);
+  text-align: center;
+}
+
+
+
+.title-pricing {
+  font-size: 42px;
+  font-weight: 1200;
+  margin-bottom: 20px;
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: auto;
+  padding: 8px 16px;
+  color: var(--blanc);
+  display: block;
+  text-align: center;
+}
+
+.plan-text {
+  color: var(--blanc);
+  text-align: center;
+}
+
+
+.pricing-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
