@@ -305,7 +305,8 @@ footer>div:not(:last-child) {
     border-bottom: 1px solid var(--blanc);
 }
 #question-1{
-  background-color: rgb(4, 3, 2);
+  background-color: var(--background);
+  padding: 20px;
   
 }
 .vos-questions{
@@ -321,13 +322,12 @@ footer>div:not(:last-child) {
   width: 100px;
   height: 50px;
   border-radius: 20px;
-  background: #8CFF2E;
-
+  background-color: var(--primary);
+  color: var(--UI);
 }
 .continur{
   margin: 10px;
   padding:0PX;
-   box-shadow: 0 12px 30px rgba(140, 255, 46, 0.3), 0 4px 15px rgba(140, 255, 46, 0.2);
 }
 .continur p{
   text-align: center;
@@ -336,8 +336,7 @@ footer>div:not(:last-child) {
 .continur div {
   margin: 30px;
   padding: 0px;
-  box-shadow: #8CFF2E;
-  background-color: #12211b;
+  background-color: var(--UI-1);
   border-radius: 30px;
   align-items: center;
   width: 100%;
