@@ -417,3 +417,42 @@ input, textarea {
     border-radius: 5px;
 }
 
+.blog{
+  margin: 20px;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  left:0px ;
+  text-align: left;
+}
+
+.blog p{
+  font-size: 19px;
+  margin: 30px;
+  padding: 0px;
+}
+.img-1{
+  height: 500px;
+  width: 400px;
+  padding: 10px;
+  position: relative;
+  left: 100px;
+
+}
+
+.btm{
+  background-color: var(--primary);
+  color: var(--background);
+  padding: 12px 24px;
+  border: none;
+  border-radius: 23px;
+  font-size: 18px;
+  font-weight: 200;
+  cursor: pointer;
+  box-shadow: 0 12px 30px rgba(140, 255, 46, 0.3), 0 4px 15px rgba(140, 255, 46, 0.2);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow: hidden;
+    z-index: 1;
+
+}
