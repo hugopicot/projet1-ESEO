@@ -162,3 +162,57 @@ window.addEventListener("scroll", () => {
         }
     });
 });
+
+/*const imganim1 = document.getElementById('anim1');
+
+// Crée un observateur qui "espionne" quand l'image entre dans la fenêtre
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            imganim1.style.opacity = "1";
+            imganim1.style.transform = "translateY(30) scale(1.1)";
+        }
+    });
+});
+*/
+// On observe l’image
+/*observer.observe(imganim1);
+
+
+const imganim = document.getElementById('anim1');
+if (imganim) {
+    imganim.style.opacity = '0';
+    imganim.style.transform = 'translateY(-30px)';
+    imganim.style.transition = 'all 0.8s ease';
+
+    setTimeout(() => {
+        imganim.style.opacity = '1';
+        imganim.style.transform = 'translateY(0)';
+    }, 500);
+}*/
+
+// Fonction pour gérer l'ouverture/fermeture des éléments FAQ
+function toggleFaqItem(id) {
+    const content = document.getElementById(`faq-content-${id}`);
+    const button = document.getElementById(`faq-button-${id}`);
+    const iconPlus = document.getElementById(`faq-icon-plus-${id}`);
+    const iconMinus = document.getElementById(`faq-icon-minus-${id}`);
+    
+    if (content && button && iconPlus && iconMinus) {
+        const isExpanded = button.getAttribute('aria-expanded') === 'true';
+        
+        if (isExpanded) {
+            // Fermer
+            content.style.maxHeight = '0';
+            button.setAttribute('aria-expanded', 'false');
+            iconPlus.classList.remove('hidden');
+            iconMinus.classList.add('hidden');
+        } else {
+            // Ouvrir
+            content.style.maxHeight = content.scrollHeight + 'px';
+            button.setAttribute('aria-expanded', 'true');
+            iconPlus.classList.add('hidden');
+            iconMinus.classList.remove('hidden');
+        }
+    }
+}

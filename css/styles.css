@@ -32,11 +32,11 @@ header {
     justify-content: space-between;
     position: sticky;
     top: 0;
-    background: var(--background);
     z-index: 1000;
     font-family: 'Manrope', sans-serif;
-    opacity: 75%;
-    backdrop-filter:blur(5px);
+    background: rgba(13, 13, 13, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
 }
 
 .logo {
@@ -52,7 +52,7 @@ header {
 .menu a {
     text-decoration: none;
     color: var(--blanc);
-    font-weight: 16px;
+    font-weight: 16;
     transition: color 0.3s;
 }
 .menu a:hover {
@@ -97,7 +97,11 @@ h4 {
   font-weight: 600;
   color: var(--blanc);
 }
-
+a {
+    display: inline-block;
+    color: var(--noir);
+    text-decoration: none;
+}
 p, span {
   font-family: 'Manrope', sans-serif;
   font-size: 14px;
@@ -118,7 +122,7 @@ p, span {
   font-weight: 600;
   margin-bottom: 15px;
   margin-top: 0;
-  margin-left: 0;
+  margin-left: 0px;
   margin-right: auto;
   padding: 8px 16px;
   border-radius: 10px;
@@ -153,7 +157,6 @@ p, span {
   border: none;
   border-radius: 23px;
   font-size: 18px;
-  font-weight: 200;
   cursor: pointer;
   box-shadow: 0 12px 30px rgba(140, 255, 46, 0.3), 0 4px 15px rgba(140, 255, 46, 0.2);
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -189,6 +192,8 @@ p, span {
 .hero-img {
   width: 70%;
   padding: 20px;
+
+
 }
 
 .mechanisme {
@@ -204,7 +209,7 @@ p, span {
 .card-mechanism {
   display: flex;
   justify-content: space-between;
-  align-items: left;
+  align-items: flex-end;
 }
 
 .card-mechanism .card {
@@ -256,6 +261,25 @@ p, span {
   font-size: 16px;
 }
 
+.feature-tag{
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    margin-top: 0;
+    margin-left: 0;
+    text-align: center;
+    margin-right: auto;
+    padding: 8px 16px;
+    border-radius: 10px;
+    background: var(--noir);
+    color: var(--primary);
+    display: inline-block;
+    width: fit-content;
+    box-shadow:
+            0 4px 8px rgba(140, 255, 46, 0.10),
+            0 8px 16px rgba(140, 255, 46, 0.1),
+            0 0 20px rgba(140, 255, 46, 0.08);
+}
 .feature-card{
     color: var(--UI-1);
 }
@@ -455,4 +479,210 @@ input, textarea {
   overflow: hidden;
     z-index: 1;
 
+}
+.top-title-pricing {
+  font-size: 16px;
+  font-weight: 600;
+  padding: 8px 16px;
+  color: var(--primary);
+  text-align: center;
+}
+
+.title-pricing {
+  font-size: 42px;
+  font-weight: 1200;
+  margin-bottom: 20px;
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: auto;
+  padding: 8px 16px;
+  color: var(--blanc);
+  display: block;
+  text-align: center;
+}
+
+.plan-text {
+  color: var(--blanc);
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 30px;
+}
+
+.plan-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+
+.plan-pro {
+  background-color: var(--UI-1);
+  color: var(--blanc);
+  border: 4px solid var(--UI-2);
+  border-radius: 25px;
+  padding: 20px;
+  margin: 20px;
+  display: block;
+  width: 22%;
+  padding: 30px;
+  gap: 20px;
+}
+
+.plan-title {
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  color: var(--blanc);
+}
+
+.plan-price {
+  font-size: 42px;
+  font-weight: 1200;
+  margin-bottom: 20px;
+  color: var(--blanc);
+
+}
+.plan-description {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 20px;
+  color: var(--blanc);
+}
+
+.btn-pro {
+  background-color: var(--primary);
+  color: var(--background);
+  padding: 12px 40px;
+  border: none;
+  border-radius: 23px;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 12px 30px rgba(140, 255, 46, 0.3), 0 4px 15px rgba(140, 255, 46, 0.2);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  margin-bottom: 20px;
+}
+
+.btn-pro:hover {
+  background-color: var(--primary);
+  color: var(--background);
+  box-shadow: none;
+}
+
+.btn-starter {
+  background-color: var(--UI-2);
+  color: var(--blanc);
+  padding: 12px 40px;
+  border: none;
+  border-radius: 23px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  margin-bottom: 20px;
+}
+
+.btn-starter:hover {
+  background-color: var(--UI-3);
+  color: var(--blanc);
+  box-shadow: none;
+}
+
+.plan-features {
+  padding: 10px;
+  margin-bottom: 20px;
+  color: var(--blanc);
+}
+
+.plan-starter {
+  background-color: var(--UI-1);
+  color: var(--blanc);
+  border-radius: 25px;
+  padding: 20px;
+  margin: 20px;
+  display: block;
+  width: 22%;
+  padding: 30px;
+  gap: 20px;
+}
+
+/* FAQ Styles */
+.faq-container {
+  max-width: 36rem;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.faq-title {
+  font-size: 42px;
+  font-weight: 800;
+  margin-bottom: 32px;
+  text-align: center;
+  color: var(--blanc);
+}
+
+.faq-items {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.faq-item {
+  background-color: var(--UI-1);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+.faq-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--blanc);
+  font-family: 'Manrope', sans-serif;
+}
+
+.faq-button:focus {
+  outline: none;
+}
+
+.faq-question {
+  font-size: 18px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.faq-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--blanc);
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+.faq-content {
+  color: var(--blanc);
+  opacity: 0.8;
+  overflow: hidden;
+  max-height: 0;
+  transition: all 0.5s ease;
+}
+
+.faq-content p {
+  padding: 16px;
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.faq-content.expanded {
+  max-height: 200px;
+}
+
+.hidden {
+  display: none;
 }
