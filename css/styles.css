@@ -285,101 +285,57 @@ p, span {
 }
 
 
-/* Footer */
+/* --- Footer --- */
 footer {
-    padding: 50px;
-    background-color: var(--UI-1);
+    background-color: var(--noir); /* ou une couleur qui va bien avec ton site */
     color: var(--blanc);
-}
-
-footer img {
-    width: 200px;
-    height: auto;
-    margin-bottom: 24px;
-}
-
-footer>div {
-    width: 100%;
-    max-width: 1200px;
-    padding: 25px 0;
-    display: flex;
-    gap: 48px;
-}
-
-footer .bold-text {
-    margin-bottom: 16px;
-}
-
-.legal {
+    padding: 40px 60px;
     display: flex;
     justify-content: space-between;
-    padding: 25px 0 0 0;
+    align-items: flex-start;
+    flex-wrap: wrap;
 }
 
-.legal>ul {
+.footer-content {
     display: flex;
-    gap: 12px;
+    flex-direction: column;
+    gap: 15px;
 }
 
-footer h2, footer .bold-text {
+footer .logo {
+    max-width: 120px;
+}
+
+.footer-content .infos p {
+    font-size: 14px;
+    margin: 0;
     color: var(--blanc);
 }
 
-footer>div:not(:last-child) {
-    border-bottom: 1px solid var(--blanc);
+.footer-list {
+    display: flex;
+    gap: 60px;
 }
-#question-1{
-  background-color: var(--background);
-  padding: 20px;
-  
+
+.footer-list p {
+    margin-bottom: 10px;
+    font-weight: bold;
 }
-.vos-questions{
-  text-align: center;
-  margin: 0px;
-  font-size: 30px;
+
+.footer-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
-.vos-questions p{
-  font-size: 14px;
-  margin: 10px;
+
+.footer-menu li {
+    margin-bottom: 6px;
+    font-size: 14px;
+    cursor: pointer;
 }
-.vos-questions button{
-  background-color: var(--primary);
-  color: var(--background);
-  padding: 12px 24px;
-  border: none;
-  border-radius: 23px;
-  font-size: 18px;
-  font-weight: 200;
-  cursor: pointer;
-  box-shadow: 0 12px 30px rgba(140, 255, 46, 0.3), 0 4px 15px rgba(140, 255, 46, 0.2);
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  overflow: hidden;
-    z-index: 1;
-}
-.continur{
-  margin: 10px;
-  padding:0PX;
-}
-.continur p{
-  text-align: center;
-  font-size: 15px;
-}
-.continur div {
-  margin: 30px;
-  padding: 0px;
-  background-color: var(--UI-1);
-  border-radius: 30px;
-  align-items: center;
-  width: 100%;
-  height: 40%;
-  
-}
-.continur h4{
-  text-align: center;
-  font-weight:bold ;
-  font-size: 20px;
-  margin: 20px;
-  padding: 0px;
+
+.footer-menu li:hover {
+    text-decoration: underline;
 }
 
 
@@ -465,21 +421,7 @@ input, textarea {
 
 }
 
-.btm{
-  background-color: var(--primary);
-  color: var(--background);
-  padding: 12px 24px;
-  border: none;
-  border-radius: 23px;
-  font-size: 18px;
-  font-weight: 200;
-  cursor: pointer;
-  box-shadow: 0 12px 30px rgba(140, 255, 46, 0.3), 0 4px 15px rgba(140, 255, 46, 0.2);
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  overflow: hidden;
-    z-index: 1;
 
-}
 .top-title-pricing {
   font-size: 16px;
   font-weight: 600;
