@@ -3,193 +3,110 @@ function openPopup() {
 }
 
 function closePopup(event) {
-    // Ferme si on clique sur l’overlay ou sur le bouton X
+    // Ferme si on clique sur l'overlay ou sur le bouton X
     if (!event || event.target.id === "overlay") {
         document.getElementById("overlay").classList.remove("active");
     }
 }
+
 document.addEventListener('DOMContentLoaded', function() {
-    
-    // Gestion du formulaire de liste d'attente
+    // Gestion du formulaire de liste d'attente (waitlist)
     function initWaitlistForm() {
         const form = document.getElementById('waitlist-form');
+        if (!form) return; // Pas de formulaire sur la page principale
+
         const emailInput = document.getElementById('email');
-        const submitBtn = form?.querySelector('.join-btn');
-        
-        if (!form) return;
-        
-        form.addEventListener('submit', function(e) {
+        const submitBtn = form.querySelector('.join-btn');
+        const originalText = submitBtn.textContent;
+
+        form.addEventListener('submit', async function (e) {
             e.preventDefault();
-            
+
             const email = emailInput.value.trim();
-            
-            // Validation de l'email
             if (!isValidEmail(email)) {
                 showNotification('Veuillez entrer une adresse email valide', 'error');
                 return;
             }
-            
-            
-            // Simuler une requête (remplacez par votre API)
-            setTimeout(() => {
-                // Succès
-                showNotification('Merci ! Vous avez été ajouté à notre liste d\'attente.', 'success');
+
+            submitBtn.textContent = 'Inscription...';
+            submitBtn.disabled = true;
+
+            try {
+                // Ne pas modifier le fetch
+                const response = await fetch('https://dummyjson.com/users/add', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email })
+                });
+                if (!response.ok) throw new Error('bad status');
+                const data = await response.json();
+                showNotification('Merci ! Inscription confirmee (id ' + data.id + ').', 'success');
                 form.reset();
-                
-                // Restaurer le bouton
+            } catch (err) {
+                showNotification('Une erreur est survenue. Reessayez.', 'error');
+            } finally {
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
-                submitBtn.style.opacity = '1';
-                
-                // Animation de succès
-                submitBtn.style.background = '#4CAF50';
-                setTimeout(() => {
-                    submitBtn.style.background = '';
-                }, 2000);
-                
-            }, 2000);
-        });
-        
-        // Animation au focus de l'input
-        emailInput.addEventListener('focus', function() {
-            this.parentElement.style.transform = 'scale(1.02)';
-        });
-        
-        emailInput.addEventListener('blur', function() {
-            this.parentElement.style.transform = 'scale(1)';
+            }
         });
     }
-    
-    // Validation d'email
-    function isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
+
+    // Validation simple: on verifie juste "@" et un point
+    function isValidEmail(text) {
+        return text.indexOf('@') > 0 && text.indexOf('.') > 0;
     }
-    
-    // Système de notifications
-    function showNotification(message, type = 'info') {
-        // Supprimer les notifications existantes
-        const existingNotifications = document.querySelectorAll('.notification');
-        existingNotifications.forEach(notif => notif.remove());
-        
-        const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
-        notification.textContent = message;
-        
-        // Styles de base
-        Object.assign(notification.style, {
-            position: 'fixed',
-            top: '20px',
-            right: '20px',
-            padding: '16px 24px',
-            borderRadius: '12px',
-            color: 'black',
-            fontFamily: 'Manrope, sans-serif',
-            fontWeight: '500',
-            fontSize: '14px',
-            zIndex: '10000',
-            transform: 'translateX(100%)',
-            transition: 'all 0.3s ease',
-            maxWidth: '400px',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)'
-        });
-        
-        // Couleurs selon le type
-        if (type === 'success') {
-            notification.style.background = '#8CFF2E';
-            notification.style.color = '#000000';
-        } else if (type === 'error') {
-            notification.style.background = '#FF4D4F';
-            notification.style.color = '#000000';
-        } else {
-            notification.style.background = '#2196F3';
-            notification.style.color = '#000000';
-        }
-        
-        document.body.appendChild(notification);
-        
-        // Animation d'entrée
-        setTimeout(() => {
-            notification.style.transform = 'translateX(0)';
-        }, 100);
-        
-        // Auto-suppression après 5 secondes
-        setTimeout(() => {
-            notification.style.transform = 'translateX(100%)';
-            setTimeout(() => {
-                notification.remove();
-            }, 300);
-        }, 5000);
+
+    // Notification tres simple (toujours visible 4s)
+    function showNotification(message, type) {
+        var old = document.querySelector('.notification');
+        if (old) old.remove();
+        var box = document.createElement('div');
+        box.className = 'notification ' + (type || 'info');
+        box.textContent = message;
+        box.setAttribute('role', 'status');
+        box.setAttribute('aria-live', 'polite');
+        box.style.position = 'fixed';
+        box.style.top = '16px';
+        box.style.right = '16px';
+        box.style.padding = '12px 16px';
+        box.style.borderRadius = '10px';
+        box.style.font = '500 14px Manrope, sans-serif';
+        box.style.color = '#000';
+        box.style.zIndex = '10000';
+        box.style.background = type === 'success' ? '#8CFF2E' : (type === 'error' ? '#FF4D4F' : '#2196F3');
+        document.body.appendChild(box);
+        setTimeout(function () { box.remove(); }, 4000);
     }
-    
-    // Initialiser le formulaire
+
+    // Initialiser le formulaire si présent
     initWaitlistForm();
-    
-    // Animation d'apparition du formulaire
-    const formContainer = document.querySelector('.email-form-container');
-    if (formContainer) {
-        formContainer.style.opacity = '0';
-        formContainer.style.transform = 'translateY(-30px)';
-        formContainer.style.transition = 'all 0.8s ease';
-        
-        setTimeout(() => {
-            formContainer.style.opacity = '1';
-            formContainer.style.transform = 'translateY(0)';
-        }, 500);
-    }
-});
 
+    // (Pas d'animations superflues pour rester simple)
 
-const sections = document.querySelectorAll("section");
-const navLinks = document.querySelectorAll(".nav-link");
+    // Surlignage du lien de navigation actif (après chargement du DOM)
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
 
-window.addEventListener("scroll", () => {
-    let current = "";
-
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-
-        if (pageYOffset >= sectionTop - sectionHeight / 4) {
-            current = section.getAttribute("id");
-        }
-    });
-
-    navLinks.forEach(link => {
-        link.classList.remove("active");
-        if (link.getAttribute("href") === "#" + current) {
-            link.classList.add("active");
-        }
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (pageYOffset >= sectionTop - sectionHeight / 4) {
+                current = section.getAttribute('id') || '';
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + current) {
+                link.classList.add('active');
+            }
+        });
     });
 });
 
-/*const imganim1 = document.getElementById('anim1');
 
-// Crée un observateur qui "espionne" quand l'image entre dans la fenêtre
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            imganim1.style.opacity = "1";
-            imganim1.style.transform = "translateY(30) scale(1.1)";
-        }
-    });
-});
-*/
-// On observe l’image
-/*observer.observe(imganim1);
-
-
-const imganim = document.getElementById('anim1');
-if (imganim) {
-    imganim.style.opacity = '0';
-    imganim.style.transform = 'translateY(-30px)';
-    imganim.style.transition = 'all 0.8s ease';
-
-    setTimeout(() => {
-        imganim.style.opacity = '1';
-        imganim.style.transform = 'translateY(0)';
-    }, 500);
-}*/
+// (Surlignage nav déplacé dans DOMContentLoaded)
 
 // Fonction pour gérer l'ouverture/fermeture des éléments FAQ
 function toggleFaqItem(id) {
@@ -197,10 +114,10 @@ function toggleFaqItem(id) {
     const button = document.getElementById(`faq-button-${id}`);
     const iconPlus = document.getElementById(`faq-icon-plus-${id}`);
     const iconMinus = document.getElementById(`faq-icon-minus-${id}`);
-    
+
     if (content && button && iconPlus && iconMinus) {
         const isExpanded = button.getAttribute('aria-expanded') === 'true';
-        
+
         if (isExpanded) {
             // Fermer
             content.style.maxHeight = '0';
