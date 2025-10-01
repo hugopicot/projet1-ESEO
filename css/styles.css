@@ -1,103 +1,172 @@
+/* 
+   NOVA - Feuille de style principale
+   =================================
+   
+   Styles CSS personnalisés pour la plateforme Nova.
+   Utilise des variables CSS pour la cohérence des couleurs et
+   suit une approche mobile-first avec Bootstrap 5.
+   
+   Structure :
+   1. Variables CSS (couleurs, espacements)
+   2. Reset et styles de base
+   3. Typographie et hiérarchie
+   4. Composants spécifiques (header, hero, cards, etc.)
+   5. Responsive design et media queries
+*/
+
+/* 
+   VARIABLES CSS - Palette de couleurs et tokens design
+   ===================================================
+   Définit la charte graphique complète de l'application.
+   Facilite la maintenance et assure la cohérence visuelle.
+*/
 :root {
-  --beige: #F1F1D3;
-  --vert-beige: #E3EBD0;
-  --vert-clair: #C7DDC5;
-  --vert: #9FCDA8;
-  --turquoise: #7DC2A5;
-  --blanc: #ffffff;
-  --noir: #000000;
-  --primary: #8CFF2E;
-  --background: #050505;
-  --UI-1: #0D0D0D;
-  --UI-2: #171717;
-  --UI-3: #2F2F2F;
-  --Border: #F8F8FA;
+  /* Palette de couleurs principales - Thème naturel */
+  --beige: #F1F1D3;           /* Couleur douce pour les backgrounds secondaires */
+  --vert-beige: #E3EBD0;      /* Transition entre beige et vert */
+  --vert-clair: #C7DDC5;      /* Vert pastel pour les éléments subtils */
+  --vert: #9FCDA8;            /* Vert principal pour les accents */
+  --turquoise: #7DC2A5;       /* Couleur complémentaire pour la diversité */
+  
+  /* Couleurs système */
+  --blanc: #ffffff;           /* Blanc pur pour les textes et backgrounds */
+  --noir: #000000;            /* Noir pour les textes principaux */
+  
+  /* Couleurs fonctionnelles */
+  --primary: #8CFF2E;         /* Couleur primaire - Vert fluo pour les CTA */
+  --background: #050505;      /* Background principal - Noir profond */
+  
+  /* Interface utilisateur - Niveaux de gris */
+  --UI-1: #0D0D0D;           /* Background le plus sombre */
+  --UI-2: #171717;           /* Background intermédiaire */
+  --UI-3: #2F2F2F;           /* Background le plus clair */
+  --Border: #F8F8FA;         /* Couleur des bordures */
 }
 
+/* 
+   RESET CSS - Normalisation des styles par défaut
+   ===============================================
+   Supprime les marges/paddings par défaut et définit box-sizing
+*/
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    margin: 0;                 /* Supprime toutes les marges par défaut */
+    padding: 0;                /* Supprime tous les paddings par défaut */
+    box-sizing: border-box;    /* Inclut padding et border dans la largeur */
 }
+
+/* Reset spécifique pour html et body */
 html, body {
   margin: 0;
   padding: 0;
 }
 
+/* 
+   HEADER - Navigation principale
+   =============================
+   Styles pour le header sticky avec effet de transparence et blur.
+   Optimisé pour la lisibilité sur tous les backgrounds.
+*/
 header {
-    width: 100%;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    font-family: 'Manrope', sans-serif;
-    background: rgba(13, 13, 13, 0.8);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    width: 100%;                    /* Largeur complète */
+    position: sticky;               /* Reste fixé en haut lors du scroll */
+    top: 0;                        /* Position au sommet de la page */
+    z-index: 1000;                 /* Au-dessus de tous les autres éléments */
+    font-family: 'Manrope', sans-serif; /* Police cohérente avec le design */
+    background: rgba(13, 13, 13, 0.8);  /* Background semi-transparent */
+    backdrop-filter: blur(20px);    /* Effet de flou sur le contenu en arrière-plan */
+    -webkit-backdrop-filter: blur(20px); /* Support Safari */
 }
 
+/* Logo de l'entreprise */
 .logo {
-    height: 50px;
+    height: 50px;                  /* Hauteur fixe pour cohérence */
 }
 
+/* 
+   NAVIGATION - Menu principal
+   ==========================
+   Styles pour la liste de navigation horizontale
+*/
 .menu {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 25px;
-    padding-left: 0;
+    list-style: none;              /* Supprime les puces de liste */
+    display: flex;                 /* Layout flexbox pour alignement horizontal */
+    flex-wrap: wrap;               /* Permet le retour à la ligne sur mobile */
+    gap: 25px;                     /* Espacement uniforme entre les liens */
+    padding-left: 0;               /* Supprime le padding par défaut des listes */
 }
 
+/* Liens de navigation */
 .menu a {
-    text-decoration: none;
-    color: var(--blanc);
-    font-weight: 16;
-    transition: color 0.3s;
+    text-decoration: none;         /* Supprime le soulignement par défaut */
+    color: var(--blanc);           /* Couleur blanche pour contraste */
+    font-weight: 16;               /* Poids de police pour lisibilité */
+    transition: color 0.3s;        /* Animation douce au survol */
 }
+
+/* Effet de survol sur les liens */
 .menu a:hover {
-    color: var(--primary);
+    color: var(--primary);         /* Change vers la couleur primaire au survol */
 }
 
+/* 
+   STYLES DE BASE - Body et typographie
+   ===================================
+   Définit l'apparence générale de la page et la hiérarchie typographique
+*/
 body {
-  background-color: var(--background);
+  background-color: var(--background); /* Background sombre principal */
 }
 
+/* Reset des marges pour tous les éléments de texte */
 h1, h2, h3, h4, p {
-  margin: 0;
-  padding: 0;
+  margin: 0;                       /* Supprime les marges par défaut */
+  padding: 0;                      /* Supprime les paddings par défaut */
 }
 
+/* 
+   HIÉRARCHIE TYPOGRAPHIQUE
+   ========================
+   Définit les styles pour chaque niveau de titre selon l'importance
+*/
+
+/* Titre principal H1 - Hero sections */
 h1 {
-    font-family: 'Manrope', sans-serif;
-    font-size: 64px;
-    font-weight: 400;
-    flex-shrink: 0;
-    color: var(--blanc);
+    font-family: 'Manrope', sans-serif; /* Police principale */
+    font-size: 64px;                    /* Taille importante pour impact visuel */
+    font-weight: 400;                   /* Poids normal pour élégance */
+    flex-shrink: 0;                     /* Empêche la réduction dans flexbox */
+    color: var(--blanc);                /* Couleur blanche pour contraste */
 }
 
+/* Titre de section H2 */
 h2 {
   font-family: 'Manrope', sans-serif;
-  font-size: 42px;
+  font-size: 42px;                     /* Taille intermédiaire */
   font-weight: 400;
   flex-shrink: 0;
   color: var(--blanc);
 }
 
+/* Sous-titres H3 */
 h3, .h3 {
   font-family: 'Manrope', sans-serif;
-  font-size: 32px;
+  font-size: 32px;                     /* Taille pour sous-sections */
   font-weight: 400;
   color: var(--blanc);
 }
 
+/* Titres de composants H4 */
 h4 {
   font-family: 'Manrope', sans-serif;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 18px;                     /* Taille plus petite pour détails */
+  font-weight: 600;                    /* Poids plus lourd pour distinction */
   color: var(--blanc);
 }
+
+/* Liens génériques */
 a {
-    display: inline-block;
-    color: var(--noir);
+    display: inline-block;             /* Permet les transformations CSS */
+    color: var(--noir);                /* Couleur par défaut */
     text-decoration: none;
 }
 p, span {

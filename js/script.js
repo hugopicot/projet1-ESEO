@@ -1,7 +1,9 @@
+// Ouvre la fenêtre de contact (rend l'overlay visible)
 function openPopup() {
     document.getElementById("overlay").classList.add("active");
 }
 
+// Ferme la fenêtre de contact (clic overlay ou bouton)
 function closePopup(event) {
     // Ferme si on clique sur l'overlay ou sur le bouton X
     if (!event || event.target.id === "overlay") {
@@ -11,6 +13,8 @@ function closePopup(event) {
 
 document.addEventListener('DOMContentLoaded', function() {
     // Gestion du formulaire de liste d'attente (waitlist)
+    // But: prendre l'email, le vérifier simplement, l'envoyer via fetch,
+    // puis afficher un message clair à l'utilisateur.
     function initWaitlistForm() {
         const form = document.getElementById('waitlist-form');
         if (!form) return; // Pas de formulaire sur la page principale
@@ -28,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
+            // Indiquer un traitement en cours (evite les doubles clics)
             submitBtn.textContent = 'Inscription...';
             submitBtn.disabled = true;
 
@@ -40,11 +45,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 if (!response.ok) throw new Error('bad status');
                 const data = await response.json();
+                // Succès: affichage d'une notification de confirmation
                 showNotification('Merci ! Inscription confirmee (id ' + data.id + ').', 'success');
                 form.reset();
             } catch (err) {
+                // Erreur réseau/serveur
                 showNotification('Une erreur est survenue. Reessayez.', 'error');
             } finally {
+                // Restaurer le bouton à son état initial
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
             }
@@ -84,6 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // (Pas d'animations superflues pour rester simple)
 
     // Surlignage du lien de navigation actif (après chargement du DOM)
+    // Références utilisées pour surligner l'onglet actif au scroll
     const sections = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('.nav-link');
 

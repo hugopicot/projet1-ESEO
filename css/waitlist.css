@@ -1,191 +1,303 @@
+/* 
+   WAITLIST.CSS - Styles spécifiques à la page Waitlist
+   ====================================================
+   
+   Feuille de style dédiée à la page de liste d'attente Nova.
+   Structure simple et claire optimisée pour la conversion.
+   
+   Contenu :
+   - Variables de couleurs (héritées du thème global)
+   - Mise en page de la hero et du formulaire d'email
+   - Règles responsive basiques pour mobile
+   
+   Objectif : Maximiser le taux de conversion avec un design épuré
+*/
+
+/* 
+   VARIABLES CSS - Palette de couleurs héritée
+   ===========================================
+   Reprend les variables du thème global pour cohérence visuelle
+*/
 :root {
-  --beige: #F1F1D3;
-  --vert-beige: #E3EBD0;
-  --vert-clair: #C7DDC5;
-  --vert: #9FCDA8;
-  --turquoise: #7DC2A5;
-  --blanc: #ffffff;
-  --noir: #000000;
-  --primary: #8CFF2E;
-  --background: #050505;
-  --UI-1: #0D0D0D;
-  --UI-2: #171717;
-  --UI-3: #2F2F2F;
-  --Border: #F8F8FA;
+  /* Palette de couleurs principales - Thème naturel */
+  --beige: #F1F1D3;           /* Couleur douce pour les backgrounds secondaires */
+  --vert-beige: #E3EBD0;      /* Transition entre beige et vert */
+  --vert-clair: #C7DDC5;      /* Vert pastel pour les éléments subtils */
+  --vert: #9FCDA8;            /* Vert principal pour les accents */
+  --turquoise: #7DC2A5;       /* Couleur complémentaire pour la diversité */
+  
+  /* Couleurs système */
+  --blanc: #ffffff;           /* Blanc pur pour les textes et backgrounds */
+  --noir: #000000;            /* Noir pour les textes principaux */
+  
+  /* Couleurs fonctionnelles */
+  --primary: #8CFF2E;         /* Couleur primaire - Vert fluo pour les CTA */
+  --background: #050505;      /* Background sombre principal */
+  
+  /* Couleurs d'interface utilisateur */
+  --UI-1: #0D0D0D;           /* Background des cartes et composants */
+  --UI-2: #171717;           /* Background des éléments interactifs */
+  --UI-3: #2F2F2F;           /* Background des éléments au survol */
+  --Border: #F8F8FA;         /* Couleur des bordures */
 }
 
+/* 
+   RESET CSS - Normalisation des styles
+   ====================================
+   Supprime les styles par défaut du navigateur
+*/
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    margin: 0;                 /* Supprime toutes les marges par défaut */
+    padding: 0;                /* Supprime tous les paddings par défaut */
+    box-sizing: border-box;    /* Inclut padding et border dans la largeur */
 }
+
+/* Reset spécifique pour HTML et body */
 html, body {
-  margin: 0;
-  padding: 0;
+  margin: 0;                   /* Supprime les marges du navigateur */
+  padding: 0;                  /* Supprime les paddings du navigateur */
 }
 
+/* 
+   STYLES DE BASE - Body principal
+   ===============================
+   Configuration générale de la page
+*/
 body {
-  background-color: var(--background);
+  background-color: var(--background); /* Background sombre cohérent avec le thème */
 }
 
+/* 
+   SECTION HERO - Zone principale de conversion
+   ============================================
+   Styles pour la section d'accueil centrée sur la conversion
+*/
 .hero {
-  background-color: var(--background);
-  color: var(--blanc);
-  padding: 40px;
-  text-align: center;
+  background-color: var(--background); /* Background sombre */
+  color: var(--blanc);                 /* Texte blanc pour contraste */
+  padding: 40px;                       /* Espacement interne généreux */
+  text-align: center;                  /* Centrage du contenu */
 }
 
+/* 
+   TAG HERO - Badge d'accroche
+   ===========================
+   Petit élément visuel pour attirer l'attention
+*/
 .hero-tag {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 15px;
-  margin-top: 0;
-  margin-left: 0;
-  margin-right: auto;
-  padding: 8px 16px;
-  border-radius: 10px;
-  background: var(--noir);
-  color: var(--primary);
-  display: inline-block;
-  width: fit-content;
+  font-size: 16px;                     /* Taille lisible mais discrète */
+  font-weight: 600;                    /* Poids semi-bold pour importance */
+  margin-bottom: 15px;                 /* Espacement avec l'élément suivant */
+  margin-top: 0;                       /* Pas de marge supérieure */
+  margin-left: 0;                      /* Alignement à gauche */
+  margin-right: auto;                  /* Centrage automatique */
+  padding: 8px 16px;                   /* Espacement interne du badge */
+  border-radius: 10px;                 /* Coins arrondis */
+  background: var(--noir);             /* Background noir pour contraste */
+  color: var(--primary);               /* Texte en couleur primaire */
+  display: inline-block;               /* Permet le dimensionnement */
+  width: fit-content;                  /* Largeur adaptée au contenu */
+  
+  /* Effet de glow avec box-shadow multiple */
   box-shadow: 
-    0 4px 8px rgba(140, 255, 46, 0.10),
-    0 8px 16px rgba(140, 255, 46, 0.1),
-    0 0 20px rgba(140, 255, 46, 0.08);
+    0 4px 8px rgba(140, 255, 46, 0.10),   /* Ombre proche */
+    0 8px 16px rgba(140, 255, 46, 0.1),   /* Ombre moyenne */
+    0 0 20px rgba(140, 255, 46, 0.08);    /* Effet de glow */
 }
 
-
+/* 
+   TITRE HERO - Titre principal de conversion
+   ==========================================
+   Titre impactant pour capter l'attention
+*/
 .hero-title {
-  font-size: 64px;
-  font-weight: 400;
-  margin-bottom: 20px;
+  font-size: 64px;                     /* Taille importante pour impact */
+  font-weight: 400;                    /* Poids normal pour élégance */
+  margin-bottom: 20px;                 /* Espacement avec la description */
 }
 
+/* 
+   TEXTE HERO - Description et proposition de valeur
+   =================================================
+   Texte explicatif pour convaincre l'utilisateur
+*/
 .hero-text {
-  font-size: 18px;
-  color: rgba(255, 255, 255, 0.555);
-  margin-bottom: 40px;
-  font-weight: 400;
+  font-size: 18px;                     /* Taille lisible */
+  color: rgba(255, 255, 255, 0.555);   /* Blanc semi-transparent pour hiérarchie */
+  margin-bottom: 40px;                 /* Espacement avec le formulaire */
+  font-weight: 400;                    /* Poids normal */
 }
 
+/* 
+   BOUTONS - Styles pour les call-to-action
+   ========================================
+   Boutons avec effet visuel pour encourager l'action
+*/
 
+/* Bouton principal */
 .btn {
-  background-color: var(--primary);
-  color: var(--background);
-  padding: 12px 24px;
-  border: none;
-  border-radius: 23px;
-  font-size: 18px;
-  font-weight: 200;
-  cursor: pointer;
+  background-color: var(--primary);    /* Couleur primaire pour visibilité */
+  color: var(--background);            /* Texte sombre sur fond clair */
+  padding: 12px 24px;                  /* Espacement interne confortable */
+  border: none;                        /* Supprime la bordure par défaut */
+  border-radius: 23px;                 /* Coins très arrondis */
+  font-size: 18px;                     /* Taille lisible */
+  font-weight: 200;                    /* Poids léger */
+  cursor: pointer;                     /* Curseur pointer au survol */
+  
+  /* Effet de glow avec box-shadow */
   box-shadow: 0 12px 30px rgba(140, 255, 46, 0.3), 0 4px 15px rgba(140, 255, 46, 0.2);
+  
+  /* Animation fluide avec courbe de Bézier personnalisée */
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  overflow: hidden;
+  overflow: hidden;                    /* Cache les débordements */
 }
 
+/* Effet de survol du bouton principal */
 .btn:hover {
-  background-color: var(--primary);
-  color: var(--background);
-  box-shadow: none;
+  background-color: var(--primary);    /* Maintient la couleur */
+  color: var(--background);            /* Maintient le contraste */
+  box-shadow: none;                    /* Supprime l'effet de glow */
 }
 
+/* Bouton secondaire */
 .btn1 {
-  background-color: var(--UI-2);
-  color: var(--blanc);
-  padding: 12px 24px;
-  border: none;
-  border-radius: 23px;
-  font-size: 18px;
-  font-weight: 200;
-  cursor: pointer;
+  background-color: var(--UI-2);       /* Background sombre */
+  color: var(--blanc);                 /* Texte blanc */
+  padding: 12px 24px;                  /* Espacement identique au bouton principal */
+  border: none;                        /* Supprime la bordure */
+  border-radius: 23px;                 /* Coins arrondis cohérents */
+  font-size: 18px;                     /* Taille cohérente */
+  font-weight: 200;                    /* Poids léger */
+  cursor: pointer;                     /* Curseur pointer */
+  
+  /* Animation fluide */
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  overflow: hidden;
+  overflow: hidden;                    /* Cache les débordements */
 }
 
+/* Effet de survol du bouton secondaire */
 .btn1:hover {
-  background-color: var(--UI-3);
-  color: var(--blanc);
-  box-shadow: none;
+  background-color: var(--UI-3);       /* Background plus clair au survol */
+  color: var(--blanc);                 /* Maintient le texte blanc */
+  box-shadow: none;                    /* Pas d'effet de glow */
 }
 
-/* Formulaire d'email */
+/* 
+   FORMULAIRE D'EMAIL - Zone de conversion principale
+   =================================================
+   Styles pour le formulaire d'inscription à la liste d'attente
+*/
+
+/* Container du formulaire */
 .email-form-container {
-    margin-top: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-top: 40px;                  /* Espacement avec le contenu précédent */
+    display: flex;                     /* Layout flexbox */
+    justify-content: center;           /* Centrage horizontal */
+    align-items: center;               /* Centrage vertical */
 }
 
+/* Formulaire principal */
 .email-form {
-    width: 100%;
-    max-width: 600px;
+    width: 100%;                       /* Largeur complète du container */
+    max-width: 600px;                  /* Largeur maximale pour lisibilité */
 }
 
+/* 
+   GROUPE DE CHAMPS - Input et bouton intégrés
+   ===========================================
+   Design moderne avec input et bouton dans le même container
+*/
 .form-group {
-    display: flex;
-    gap: 0;
-    background: #2a2a2a;
-    border-radius: 50px;
-    padding: 4px;
+    display: flex;                     /* Layout flexbox horizontal */
+    gap: 0;                           /* Pas d'espacement entre les éléments */
+    background: #2a2a2a;              /* Background sombre pour contraste */
+    border-radius: 50px;              /* Coins très arrondis */
+    padding: 4px;                     /* Padding interne minimal */
+    
+    /* Effet d'ombre pour profondeur */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    
+    /* Animation fluide pour les interactions */
     transition: all 0.3s ease;
 }
 
+/* 
+   CHAMP EMAIL - Input principal
+   ============================
+   Champ de saisie de l'adresse email
+*/
 .email-input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    padding: 16px 24px;
-    font-size: 16px;
-    color: var(--blanc);
-    font-family: 'Manrope', sans-serif;
-    outline: none;
-    border-radius: 50px;
+    flex: 1;                          /* Prend tout l'espace disponible */
+    background: transparent;           /* Background transparent */
+    border: none;                     /* Supprime la bordure */
+    padding: 16px 24px;               /* Espacement interne confortable */
+    font-size: 16px;                  /* Taille de police lisible */
+    color: var(--blanc);              /* Texte blanc */
+    font-family: 'Manrope', sans-serif; /* Police cohérente */
+    outline: none;                    /* Supprime l'outline par défaut */
+    border-radius: 50px;              /* Coins arrondis */
 }
 
-
+/* 
+   BOUTON DE SOUMISSION - Call-to-action principal
+   ===============================================
+   Bouton intégré au formulaire pour l'inscription
+*/
 .join-btn {
-    background: var(--primary);
-    color: var(--background);
-    border: none;
-    padding: 16px 32px;
-    border-radius: 50px;
-    font-size: 16px;
-    font-weight: 600;
-    font-family: 'Manrope', sans-serif;
-    cursor: pointer;
+    background: var(--primary);        /* Couleur primaire pour visibilité */
+    color: var(--background);          /* Texte sombre sur fond clair */
+    border: none;                     /* Supprime la bordure */
+    padding: 16px 32px;               /* Espacement généreux */
+    border-radius: 50px;              /* Coins très arrondis */
+    font-size: 16px;                  /* Taille lisible */
+    font-weight: 600;                 /* Poids semi-bold pour importance */
+    font-family: 'Manrope', sans-serif; /* Police cohérente */
+    cursor: pointer;                  /* Curseur pointer */
+    
+    /* Effet de glow subtil */
     box-shadow: 0 3px 30px rgba(140, 255, 46, 0.2), 0 4px 15px rgba(140, 255, 46, 0.1);
+    
+    /* Animation fluide */
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-
+/* Effet de survol du bouton de soumission */
 .join-btn:hover {
-    background-color: var(--primary);
-    color: var(--background);
-    box-shadow: none;
+    background-color: var(--primary);  /* Maintient la couleur */
+    color: var(--background);          /* Maintient le contraste */
+    box-shadow: none;                 /* Supprime l'effet de glow */
 }
 
+/* Effet de clic du bouton */
 .join-btn:active {
-    transform: translateY(0);
+    transform: translateY(0);         /* Pas de déplacement vertical */
 }
 
-/* Responsive */
+/* 
+   RESPONSIVE DESIGN - Adaptation mobile
+   ====================================
+   Styles spécifiques pour les écrans mobiles
+*/
 @media (max-width: 768px) {
+    /* Adaptation du formulaire pour mobile */
     .form-group {
-        flex-direction: column;
-        gap: 8px;
-        padding: 8px;
-        border-radius: 20px;
+        flex-direction: column;        /* Layout vertical sur mobile */
+        gap: 8px;                     /* Espacement entre les éléments */
+        padding: 8px;                 /* Padding réduit */
+        border-radius: 20px;          /* Coins moins arrondis */
     }
     
+    /* Adaptation du champ email pour mobile */
     .email-input {
-        border-radius: 16px;
-        text-align: center;
+        border-radius: 16px;          /* Coins adaptés au layout vertical */
+        text-align: center;           /* Centrage du texte sur mobile */
     }
     
+    /* Adaptation du bouton pour mobile */
     .join-btn {
-        border-radius: 16px;
-        padding: 14px 24px;
+        border-radius: 16px;          /* Coins adaptés au layout vertical */
+        padding: 14px 24px;           /* Padding ajusté pour mobile */
     }
 }
 
