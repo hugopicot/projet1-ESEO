@@ -11,67 +11,53 @@
     <script src="js/script.js"></script>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <!-- Logo -->
-        <img class="logo" src="asset/img/logo.png" alt="illustration" >
-        <!-- liens -->
-        <nav>
-            <ul class="menu">
-                <li><a href="#section1" class="nav-link">Comment ça marche</a></li>
-                <li><a href="#section2" class="nav-link">Fonctionnalité</a></li>
-                <li><a href="#section3" class="nav-link">Prix</a></li>
-                <li><a href="#section4" class="nav-link">Blog</a></li>
-            </ul>
-        </nav>
-        <!-- Boutons -->
-        <div>
-            <button class="btn1" onclick="openPopup()">
-                Contact
-            </button>
-            <button class="btn">
-                <a href="html/waitlist.html">Liste d'attente</a>
-            </button>
+<!-- Header -->
+<header>
+    <img class="logo" src="asset/img/logo.png" alt="illustration" >
+    <nav>
+        <ul class="menu">
+            <li><a href="#section1" class="nav-link">Comment ça marche</a></li>
+            <li><a href="#section2" class="nav-link">Fonctionnalité</a></li>
+            <li><a href="#section3" class="nav-link">Prix</a></li>
+            <li><a href="#section4" class="nav-link">Blog</a></li>
+        </ul>
+    </nav>
+    <div>
+        <button class="btn1" onclick="openPopup()">Contact</button>
+        <a href="html/waitlist.html" class="btn">Liste d'attente</a>
+    </div>
+</header>
 
-        </div>
-    </header>
-    <div class="overlay" id="overlay" onclick="closePopup(event)">
-        <div class="popup" onclick="event.stopPropagation()">
-            <button class="close-btn" onclick="closePopup()">✖</button>
-            <h3>Contact</h3>
-            <form>
-                <label>Nom :</label>
-                <input type="text" name="nom">
+<div class="overlay" id="overlay" onclick="closePopup(event)">
+    <div class="popup" onclick="event.stopPropagation()">
+        <button class="close-btn" onclick="closePopup()">✖</button>
+        <h3>Contact</h3>
+        <form>
+            <label for="nom"> Nom :</label>
+            <input type="text" id="nom" name="nom">
 
-            <label>Email :</label>
-            <input type="email" name="email">
+            <label for="email">Email :</label>
+            <input type="email" id="email" name="email">
 
-            <label>Message :</label>
-            <textarea name="message"></textarea>
+            <label for="message">Message :</label>
+            <textarea id="message" name="message"></textarea>
 
             <button class="btn">Envoyer</button>
         </form>
     </div>
 </div>
-<section class="hero">
-      <div>
-        <div>
-            <p class="hero-tag">
-                All-in-One Finance Toolkit
-            </p>
-        </div>
+
+<main>
+    <section class="hero">
+        <p class="hero-tag">All-in-One Finance Toolkit</p>
         <h1 class="hero-title">Prenez le contrôle de vos finances — avec clarté</h1>
         <p class="hero-text">Toutes vos informations financières, enfin réunies en un seul endroit : suivez vos revenus, vos dépenses et atteignez vos objectifs en toute simplicité.</p>
-        <button class = "btn">Essayez maintenant</button><br>
-          <img id="anim1" class="hero-img" src="asset/img/hero.avif" alt="illustration">
-      </div>
+        <button class="btn">Essayez maintenant</button><br>
+        <img id="anim1" class="hero-img" src="asset/img/hero.avif" alt="illustration">
 </section>
+
 <section id="section1" class="hero">
-    <div>
-        <h2 class="mechanisme-title">
-            Comment ça marche
-        </h2>
-    </div>
+        <h2 class="mechanisme-title">Comment ça marche</h2>
     <div class ="card-mechanism">
         <div class="card">
             <img src="asset/img/card.avif" alt="illustration">
@@ -93,11 +79,56 @@
         </div>
 
     </div>
-
 </section>
-<!--les questionnaires-->
-<section id="question-1">
 
+
+<section id="section2" class="mechanisme">
+    <div>
+        <p class="feature-tag">
+            Feature
+        </p>
+    </div>
+    <div >
+        <h2 class="mechanisme-title">
+            Designed for clarity, built for better money decisions
+        </h2>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4" style="color: var(--blanc);">
+        <div class="card-body">
+            <p class="card-step">UwU</p>
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+        </div>
+        <div class="card-body">
+            <p class="card-step">UwU</p>
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+        </div>
+        <div class="card-body">
+            <p class="card-step">UwU</p>
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+        </div>
+        <div class="card-body">
+            <p class="card-step">UwU</p>
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+        </div>
+        <div class="card-body">
+            <p class="card-step">UwU</p>
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+        </div>
+        <div class="card-body">
+            <p class="card-step">UwU</p>
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+        </div>
+    </div>
+</section>
+
+<section id="question-1">
     <div class="vos-questions">
         <h1> vous avez des questions ?  <br>nous avons des  réponses.</h1>
         <p> contacter nous ici pour toute autre question .</p>
@@ -144,245 +175,243 @@
                 </div>
             </div>
 
-                <!-- Item 2 -->
-                <div class="faq-item">
-                    <button
-                        class="faq-button"
-                        onclick="toggleFaqItem(2)"
-                        aria-expanded="false"
-                        aria-controls="faq-content-2"
-                        id="faq-button-2"
+            <!-- Item 2 -->
+            <div class="faq-item">
+                <button
+                    class="faq-button"
+                    onclick="toggleFaqItem(2)"
+                    aria-expanded="false"
+                    aria-controls="faq-content-2"
+                    id="faq-button-2"
+                >
+                    <span class="faq-question">Le modèle est-il adapté aux mobiles et réactif ?</span>
+                    <svg
+                        id="faq-icon-plus-2"
+                        class="faq-icon"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
                     >
-                        <span class="faq-question">Le modèle est-il adapté aux mobiles et réactif ?</span>
-                        <svg
-                            id="faq-icon-plus-2"
-                            class="faq-icon"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                        >
-                            <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/>
-                        </svg>
-                        <svg
-                            id="faq-icon-minus-2"
-                            class="faq-icon hidden"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                        >
-                            <path d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"/>
-                        </svg>
-                    </button>
-                    <div
-                        id="faq-content-2"
-                        class="faq-content"
-                        role="region"
-                        aria-labelledby="faq-button-2"
+                        <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/>
+                    </svg>
+                    <svg
+                        id="faq-icon-minus-2"
+                        class="faq-icon hidden"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
                     >
-                        <p>Absolument. La mise en page s'adapte parfaitement à toutes les tailles d'écran, y compris les ordinateurs de bureau, les tablettes et les smartphones. Chaque section est conçue pour offrir une expérience transparente sur tous les appareils.</p>
-                    </div>
+                        <path d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"/>
+                    </svg>
+                </button>
+                <div
+                    id="faq-content-2"
+                    class="faq-content"
+                    role="region"
+                    aria-labelledby="faq-button-2"
+                >
+                    <p>Absolument. La mise en page s'adapte parfaitement à toutes les tailles d'écran, y compris les ordinateurs de bureau, les tablettes et les smartphones. Chaque section est conçue pour offrir une expérience transparente sur tous les appareils.</p>
                 </div>
+            </div>
 
-                <!-- Item 3 -->
-                <div class="faq-item">
-                    <button
-                        class="faq-button"
-                        onclick="toggleFaqItem(3)"
-                        aria-expanded="false"
-                        aria-controls="faq-content-3"
-                        id="faq-button-3"
+            <!-- Item 3 -->
+            <div class="faq-item">
+                <button
+                    class="faq-button"
+                    onclick="toggleFaqItem(3)"
+                    aria-expanded="false"
+                    aria-controls="faq-content-3"
+                    id="faq-button-3"
+                >
+                    <span class="faq-question">Puis-je utiliser ce modèle sans compétences en codage ?</span>
+                    <svg
+                        id="faq-icon-plus-3"
+                        class="faq-icon"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
                     >
-                        <span class="faq-question">Puis-je utiliser ce modèle sans compétences en codage ?</span>
-                        <svg
-                            id="faq-icon-plus-3"
-                            class="faq-icon"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                        >
-                            <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/>
-                        </svg>
-                        <svg
-                            id="faq-icon-minus-3"
-                            class="faq-icon hidden"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                        >
-                            <path d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"/>
-                        </svg>
-                    </button>
-                    <div
-                        id="faq-content-3"
-                        class="faq-content"
-                        role="region"
-                        aria-labelledby="faq-button-3"
+                        <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/>
+                    </svg>
+                    <svg
+                        id="faq-icon-minus-3"
+                        class="faq-icon hidden"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
                     >
-                        <p>Oui, le modèle est entièrement modifiable avec des outils de glisser-déposer. Aucune connaissance en codage n'est requise pour mettre à jour le texte, échanger des images ou ajuster les mises en page.</p>
-                    </div>
+                        <path d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"/>
+                    </svg>
+                </button>
+                <div
+                    id="faq-content-3"
+                    class="faq-content"
+                    role="region"
+                    aria-labelledby="faq-button-3"
+                >
+                    <p>Oui, le modèle est entièrement modifiable avec des outils de glisser-déposer. Aucune connaissance en codage n'est requise pour mettre à jour le texte, échanger des images ou ajuster les mises en page.</p>
                 </div>
+            </div>
 
-                <!-- Item 4 -->
-                <div class="faq-item">
-                    <button
-                        class="faq-button"
-                        onclick="toggleFaqItem(4)"
-                        aria-expanded="false"
-                        aria-controls="faq-content-4"
-                        id="faq-button-4"
+            <!-- Item 4 -->
+            <div class="faq-item">
+                <button
+                    class="faq-button"
+                    onclick="toggleFaqItem(4)"
+                    aria-expanded="false"
+                    aria-controls="faq-content-4"
+                    id="faq-button-4"
+                >
+                    <span class="faq-question">Aurai-je accès aux futures mises à jour ?</span>
+                    <svg
+                        id="faq-icon-plus-4"
+                        class="faq-icon"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
                     >
-                        <span class="faq-question">Aurai-je accès aux futures mises à jour ?</span>
-                        <svg
-                            id="faq-icon-plus-4"
-                            class="faq-icon"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                        >
-                            <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/>
-                        </svg>
-                        <svg
-                            id="faq-icon-minus-4"
-                            class="faq-icon hidden"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                        >
-                            <path d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"/>
-                        </svg>
-                    </button>
-                    <div
-                        id="faq-content-4"
-                        class="faq-content"
-                        role="region"
-                        aria-labelledby="faq-button-4"
+                        <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/>
+                    </svg>
+                    <svg
+                        id="faq-icon-minus-4"
+                        class="faq-icon hidden"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
                     >
-                        <p>Oui. Une fois l'achat effectué, vous recevrez automatiquement toutes les améliorations ou optimisations futures que nous apporterons au modèle. Votre version reste à jour avec les meilleures pratiques.</p>
-                    </div>
+                        <path d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"/>
+                    </svg>
+                </button>
+                <div
+                    id="faq-content-4"
+                    class="faq-content"
+                    role="region"
+                    aria-labelledby="faq-button-4"
+                >
+                    <p>Oui. Une fois l'achat effectué, vous recevrez automatiquement toutes les améliorations ou optimisations futures que nous apporterons au modèle. Votre version reste à jour avec les meilleures pratiques.</p>
                 </div>
+            </div>
 
-                <!-- Item 5 -->
-                <div class="faq-item">
-                    <button
-                        class="faq-button"
-                        onclick="toggleFaqItem(5)"
-                        aria-expanded="false"
-                        aria-controls="faq-content-5"
-                        id="faq-button-5"
+            <!-- Item 5 -->
+            <div class="faq-item">
+                <button
+                    class="faq-button"
+                    onclick="toggleFaqItem(5)"
+                    aria-expanded="false"
+                    aria-controls="faq-content-5"
+                    id="faq-button-5"
+                >
+                    <span class="faq-question">Puis-je utiliser ce modèle pour des projets commerciaux ?</span>
+                    <svg
+                        id="faq-icon-plus-5"
+                        class="faq-icon"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
                     >
-                        <span class="faq-question">Puis-je utiliser ce modèle pour des projets commerciaux ?</span>
-                        <svg
-                            id="faq-icon-plus-5"
-                            class="faq-icon"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                        >
-                            <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/>
-                        </svg>
-                        <svg
-                            id="faq-icon-minus-5"
-                            class="faq-icon hidden"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                        >
-                            <path d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"/>
-                        </svg>
-                    </button>
-                    <div
-                        id="faq-content-5"
-                        class="faq-content"
-                        role="region"
-                        aria-labelledby="faq-button-5"
+                        <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/>
+                    </svg>
+                    <svg
+                        id="faq-icon-minus-5"
+                        class="faq-icon hidden"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
                     >
-                        <p>Sans faute. Nova est concédé sous licence pour un usage personnel et commercial, ce qui vous permet de créer des sites Web clients ou de lancer votre propre produit sans aucun problème de licence.</p>
-                    </div>
+                        <path d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"/>
+                    </svg>
+                </button>
+                <div
+                    id="faq-content-5"
+                    class="faq-content"
+                    role="region"
+                    aria-labelledby="faq-button-5"
+                >
+                    <p>Sans faute. Nova est concédé sous licence pour un usage personnel et commercial, ce qui vous permet de créer des sites Web clients ou de lancer votre propre produit sans aucun problème de licence.</p>
                 </div>
+            </div>
 
-                <!-- Item 6 -->
-                <div class="faq-item">
-                    <button
-                        class="faq-button"
-                        onclick="toggleFaqItem(6)"
-                        aria-expanded="false"
-                        aria-controls="faq-content-6"
-                        id="faq-button-6"
+            <!-- Item 6 -->
+            <div class="faq-item">
+                <button
+                    class="faq-button"
+                    onclick="toggleFaqItem(6)"
+                    aria-expanded="false"
+                    aria-controls="faq-content-6"
+                    id="faq-button-6"
+                >
+                    <span class="faq-question">Comment puis-je obtenir de l'aide si je rencontre des problèmes ?</span>
+                    <svg
+                        id="faq-icon-plus-6"
+                        class="faq-icon"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
                     >
-                        <span class="faq-question">Comment puis-je obtenir de l'aide si je rencontre des problèmes ?</span>
-                        <svg
-                            id="faq-icon-plus-6"
-                            class="faq-icon"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                        >
-                            <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/>
-                        </svg>
-                        <svg
-                            id="faq-icon-minus-6"
-                            class="faq-icon hidden"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                        >
-                            <path d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"/>
-                        </svg>
-                    </button>
-                    <div
-                        id="faq-content-6"
-                        class="faq-content"
-                        role="region"
-                        aria-labelledby="faq-button-6"
+                        <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/>
+                    </svg>
+                    <svg
+                        id="faq-icon-minus-6"
+                        class="faq-icon hidden"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
                     >
-                        <p>Nous sommes là pour vous aider. Si vous avez des questions, vous pouvez nous joindre directement par notre formulaire de contact. Nous répondons généralement dans les 24 heures.</p>
-                    </div>
+                        <path d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"/>
+                    </svg>
+                </button>
+                <div
+                    id="faq-content-6"
+                    class="faq-content"
+                    role="region"
+                    aria-labelledby="faq-button-6"
+                >
+                    <p>Nous sommes là pour vous aider. Si vous avez des questions, vous pouvez nous joindre directement par notre formulaire de contact. Nous répondons généralement dans les 24 heures.</p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section id="section3">
-        <div>
-            <p class="top-title-pricing">Prix</p>
-            <h2 class="title-pricing">Plans simples</h2>
-            <p class="plan-text">Tarification simple et sans frais cachés. Tout ce dont vous avez besoin pour mieux gérer votre argent.</p>
-        </div>
-        <div class="plan-container">
-            <div class="plan-starter">
-                <h4 class="plan-title">Starter</h4>
-                <h2 class="plan-price">29€</h2><p class="plan-duration">/mois</p>
-                <p class="plan-description">Idéal pour les freelances qui souhaitent avoir un contrôle total sur leurs finances personnelles.</p>
-                <button class="btn-starter">Obtenez Starter</button>
-                <ul class="plan-features">
-                    <li>Suivre les revenus et les dépenses</li>
-                    <li>Connectez jusqu'à 2 comptes</li>
-                    <li>Rapports mensuels</li>
-                    <li>Alertes intelligentes</li>
-                </ul>
-            </div>
-            <div class="plan-pro">
-                <h4 class="plan-title">Pro</h4>
-                <h2 class="plan-price">49€</h2><p class="plan-duration">/mois</p>
-                <p class="plan-description">Des outils avancés pour gérer votre argent plus intelligemment et débloquer des informations puissantes.</p>
-                <button class="btn-pro">Obtenez Pro</button>
-                <ul class="plan-features">
-                    <li>Comptes illimités</li>
-                    <li>Informations sur les dépenses en IA</li>
-                    <li>Alertes personnalisées</li>
-                    <li>Rapports avancés</li>
-                </ul>
-            </div>
-        </div>
-    </section>
+<section id="section3">
+    <p class="top-title-pricing">Prix</p>
+    <h2 class="title-pricing">Plans simples</h2>
+    <p class="plan-text">Tarification simple et sans frais cachés. Tout ce dont vous avez besoin pour mieux gérer votre argent.</p>
 
-    <section class="blog">
-        <div>
-            <h3>Prêt à gérer votre argent <br> plus intelligemment ?</h3>
-            <p>Commencez votre parcours vers des dépenses plus <br> intelligentes et une meilleure épargne – cela ne prend <br> que 2 minutes.</p>
-            <button class="btm">obtenez 14 jour d'essai gratuit</button>
+    <div class="plan-container">
+        <div class="plan-starter">
+            <h4 class="plan-title">Starter</h4>
+             <h2 class="plan-price">29€</h2><p class="plan-duration">/mois</p>
+            <p class="plan-description">Idéal pour les freelances qui souhaitent avoir un contrôle total sur leurs finances personnelles.</p>
+            <button class="btn-starter">Obtenez Starter</button>
+            <ul class="plan-features">
+                <li>Suivre les revenus et les dépenses</li>
+                <li>Connectez jusqu'à 2 comptes</li>
+                <li>Rapports mensuels</li>
+                <li>Alertes intelligentes</li>
+            </ul>
         </div>
-        <div>
-            <img class="img-1" src="asset/img/femme.webp" alt="femme">
+        <div class="plan-pro">
+            <h4 class="plan-title">Pro</h4>
+            <h2 class="plan-price">49€</h2><p class="plan-duration">/mois</p>
+            <p class="plan-description">Des outils avancés pour gérer votre argent plus intelligemment et débloquer des informations puissantes.</p>
+            <button class="btn-pro">Obtenez Pro</button>
+            <ul class="plan-features">
+                <li>Comptes illimités</li>
+                <li>Informations sur les dépenses en IA</li>
+                <li>Alertes personnalisées</li>
+                <li>Rapports avancés</li>
+            </ul>
         </div>
-    </section>
+    </div>
+</section>
 
-</body>
+<section class="blog">
+    <div>
+         <h3>Prêt à gérer votre argent <br> plus intelligemment ?</h3>
+         <p>Commencez votre parcours vers des dépenses plus <br> intelligentes et une meilleure épargne – cela ne prend <br> que 2 minutes.</p>
+         <button class="btm">obtenez 14 jour d'essai gratuit</button>
+    </div>
+    <div>
+        <img class="img-1" src="asset/img/femme.webp" alt="femme">
+    </div>
+</section>
+</main>
 <footer>
     <div class="footer-content">
         <img src="asset/img/logo.png" alt="Reservetel Logo" class="logo">
         <div class="infos">
-           <p>  © 2025 - Tous droits réservé • Politique de confidentialité </p>
+            <p>  © 2025 - Tous droits réservé • Politique de confidentialité </p>
         </div>
     </div>
     <div class="footer-list">
@@ -396,13 +425,14 @@
                 <li> Other Information</li>
             </ul>
         </div>
-            <ul class="footer-menu">
-                <li>Accueil</li>
-                <li>Boutique</li>
-                <li>Promotions</li>
-                <li>Nouveautés</li>
-                <li>À propos</li>
-            </ul>
-        </div>
+        <ul class="footer-menu">
+            <li>Accueil</li>
+            <li>Boutique</li>
+            <li>Promotions</li>
+            <li>Nouveautés</li>
+            <li>À propos</li>
+        </ul>
+    </div>
 </footer>
+</body>
 </html>
