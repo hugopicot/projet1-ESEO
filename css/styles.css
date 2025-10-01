@@ -214,7 +214,7 @@ p, span {
 
 .card-mechanism .card {
   flex: 0 0 calc(33.33% - 20px);
-  background-color: var(--UI-1);  
+  background-color: var(--UI-1);
   color: var(--blanc);
   border-radius: 25px;
   padding: 20px;
@@ -245,7 +245,7 @@ p, span {
   color: var(--primary);
   display: block;
   width: fit-content;
-  box-shadow: 
+  box-shadow:
     0 4px 8px rgba(140, 255, 46, 0.10),
     0 8px 16px rgba(140, 255, 46, 0.1),
     0 0 20px rgba(140, 255, 46, 0.08);
@@ -285,53 +285,64 @@ p, span {
 }
 
 
-/* Footer */
+/* --- Footer --- */
 footer {
-    padding: 50px;
-    background-color: var(--UI-1);
+    background-color: var(--noir); /* ou une couleur qui va bien avec ton site */
     color: var(--blanc);
-}
-
-footer img {
-    width: 200px;
-    height: auto;
-    margin-bottom: 24px;
-}
-
-footer>div {
-    width: 100%;
-    max-width: 1200px;
-    padding: 25px 0;
-    display: flex;
-    gap: 48px;
-}
-
-footer .bold-text {
-    margin-bottom: 16px;
-}
-
-.legal {
+    padding: 40px 60px;
     display: flex;
     justify-content: space-between;
-    padding: 25px 0 0 0;
+    align-items: flex-start;
+    flex-wrap: wrap;
 }
 
-.legal>ul {
+.footer-content {
     display: flex;
-    gap: 12px;
+    flex-direction: column;
+    gap: 15px;
 }
 
-footer h2, footer .bold-text {
+footer .logo {
+    max-width: 120px;
+}
+
+.footer-content .infos p {
+    font-size: 14px;
+    margin: 0;
     color: var(--blanc);
 }
 
-footer>div:not(:last-child) {
-    border-bottom: 1px solid var(--blanc);
+.footer-list {
+    display: flex;
+    gap: 60px;
 }
+
+.footer-list p {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.footer-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-menu li {
+    margin-bottom: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.footer-menu li:hover {
+    text-decoration: underline;
+}
+
+
 #question-1{
   background-color: var(--background);
   padding: 20px;
-  
+
 }
 .vos-questions{
   text-align: center;
@@ -372,7 +383,7 @@ footer>div:not(:last-child) {
   align-items: center;
   width: 100%;
   height: 40%;
-  
+
 }
 .continur h4{
   text-align: center;
@@ -441,7 +452,45 @@ input, textarea {
     border-radius: 5px;
 }
 
+.blog{
+  margin: 20px;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  left:0px ;
+  text-align: left;
+}
 
+.blog p{
+  font-size: 19px;
+  margin: 30px;
+  padding: 0px;
+}
+.img-1{
+  height: 500px;
+  width: 400px;
+  padding: 10px;
+  position: relative;
+  left: 100px;
+
+}
+
+.btm{
+  background-color: var(--primary);
+  color: var(--background);
+  padding: 12px 24px;
+  border: none;
+  border-radius: 23px;
+  font-size: 18px;
+  font-weight: 200;
+  cursor: pointer;
+  box-shadow: 0 12px 30px rgba(140, 255, 46, 0.3), 0 4px 15px rgba(140, 255, 46, 0.2);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow: hidden;
+    z-index: 1;
+
+}
 .top-title-pricing {
   font-size: 16px;
   font-weight: 600;
