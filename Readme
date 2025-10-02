@@ -135,48 +135,6 @@ projet1-ESEO/
 │   └── 📄 waitlist.html      # Page de la liste d'attente
 └── 📁 js/                    # Scripts JavaScript principaux
     └── 📄 script.js          # Logique principale de l'application
-```
-
-### Description des composants principaux
-
-#### 🏠 **Page principale (`index.html`)**
-- **Header** : Navigation avec logo, menu et boutons d'action
-- **Section Hero** : Présentation principale avec call-to-action
-- **Sections de contenu** : Fonctionnalités, témoignages, etc.
-- **Footer** : Informations de contact et liens utiles
-- **Popup de contact** : Formulaire modal intégré
-
-#### 📝 **Page liste d'attente (`html/waitlist.html`)**
-- **Formulaire d'inscription** : Collecte d'emails avec validation
-- **Design responsive** : Adaptation mobile et desktop
-- **Animations** : Effets visuels pour l'expérience utilisateur
-
-#### 🎨 **Styles CSS**
-- **`styles.css`** : Styles globaux, variables CSS, composants réutilisables
-- **`waitlist.css`** : Styles spécifiques à la page de liste d'attente
-- **Variables CSS** : Couleurs, typographie, espacements centralisés
-
-#### ⚡ **Scripts JavaScript**
-- **`script.js`** : Gestion des formulaires, animations, notifications
-- **Fonctionnalités** : Validation d'emails, système de popup, interactions utilisateur
-
-### Organisation du code source
-
-#### 🏗️ **Architecture CSS**
-```css
-:root {
-  /* Variables globales */
-  --primary-color: #8CFF2E;
-  --text-color: #333;
-  --font-family: 'Manrope', sans-serif;
-}
-```
-
-#### 🔧 **Structure JavaScript**
-- **Fonctions modulaires** : Chaque fonctionnalité dans sa propre fonction
-- **Event listeners** : Gestion centralisée des événements
-- **Validation** : Fonctions réutilisables pour les formulaires
-- **Notifications** : Système de feedback unifié
 
 ---
 
@@ -191,18 +149,6 @@ projet1-ESEO/
 
 ---
 
-## ✨ Fonctionnalités
-
-- ✅ **Design responsive** adaptatif
-- ✅ **Formulaires interactifs** avec validation
-- ✅ **Animations CSS** fluides
-- ✅ **Système de notifications** utilisateur
-- ✅ **Navigation intuitive** avec menu fixe
-- ✅ **Optimisation des performances** (images AVIF)
-- ✅ **Accessibilité** de base intégrée
-
----
-
 ## 🤝 Contribution
 
 Pour contribuer au projet :
@@ -212,11 +158,3 @@ Pour contribuer au projet :
 3. **Commiter** vos changements
 4. **Pousser** vers la branche
 5. **Créer** une Pull Request
-
----
-
-## 📞 Support
-
-Pour toute question ou problème :
-- **Email** : [votre-email@exemple.com]
-- **Issues** : Utiliser le système d'issues GitHub
