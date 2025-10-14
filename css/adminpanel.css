@@ -1,0 +1,49 @@
+body {
+    background-color: var(--background);
+    font-family: 'Manrope', sans-serif;
+    color: var(--blanc);
+}
+
+
+.sidebar {
+    width: 240px;
+    min-height: 100vh;
+    background-color: var(--background);
+    border-right: 1px solid var(--UI-3);
+    position: fixed;
+}
+
+.main {
+    margin-left: 260px;
+}
+
+.nav-link {
+    color: var(--blanc);
+    border-radius: 8px;
+    padding: 8px 12px;
+    transition: all 0.2s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background-color: var(--background);
+    color: var(--primary);
+}
+
+.stat-card {
+    background-color: var(--UI-1);
+    border: 1px solid var(--UI-2);
+    border-radius: 12px;
+    color: var(--blanc);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+
+.chart-placeholder {
+    background-color: var(--background);
+    border-radius: 10px;
+    text-align: center;
+    padding: 50px 0;
+    color: var(--UI-2);
+    border: 1px dashed var(--UI-3);
+}
