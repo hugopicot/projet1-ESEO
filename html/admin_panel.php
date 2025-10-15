@@ -12,11 +12,11 @@
 <div class="d-flex">
     <!-- Sidebar -->
     <div class="sidebar p-3">
-        <h5 class="fw-bold text-white mb-4">NOVA</h5>
+        <h5 class="fw-bold text-white mb-4"><img src="../asset/img/logo.png" alt="Nova" class="logo"></h5>
         <ul class="nav flex-column">
             <li class="nav-item mb-2"><a href="#" class="nav-link active">Dashboard</a></li>
             <li class="nav-item mb-2"><a href="#" class="nav-link">Marketplace</a></li>
-            <li class="nav-item mb-2"><a href="../index.html" class="nav-link">Accueil</a></li>
+            <li class="nav-item mb-2"><a href="../index.php" class="nav-link">Accueil</a></li>
             <li class="nav-item mb-2"><a href="#" class="nav-link">Clients</a></li>
             <li class="nav-item mb-2"><a href="#" class="nav-link">Remises</a></li>
             <hr class="border-secondary">
