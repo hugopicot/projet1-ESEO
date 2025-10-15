@@ -111,7 +111,7 @@ if (!isset($_SESSION['user_id'])) {
 
             <div class="sidebar-body">
                 <div class="sidebar-section">
-                    <a class="sidebar-item is-active" href="#">
+                    <a class="sidebar-item is-active" href="../index.php">
                         <img class="icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/home.svg" alt="" loading="lazy">
                         <span class="sidebar-label">Accueil</span>
                     </a>
@@ -185,7 +185,7 @@ if (!isset($_SESSION['user_id'])) {
                             <span class="dropdown-label">Partager un feedback</span>
                         </a>
                         <div class="dropdown-divider" role="none"></div>
-                        <a class="dropdown-item" href="#logout" role="menuitem">
+                        <a class="dropdown-item" href="./logout.php" role="menuitem">
                             <img class="dropdown-icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/arrow-right-start-on-rectangle.svg" alt="" loading="lazy">
                             <span class="dropdown-label">Se déconnecter </span>
                         </a>
