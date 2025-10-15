@@ -1,0 +1,19 @@
+DESTINER, 1N CONTACT, 0N USER
+CONTACT : id_contact, email contact, nom contact
+RANG, 1N ROLE, 11 COMPTE
+ROLE : id_role, type
+
+USER : email, prenom, nom, num_tel,
+POSSEDER, 1N USER, 11 COMPTE
+COMPTE : id_compte, libellé compte, exp, plan,
+CONTENIR, 1N PORTEFEUILLE, 01 COMPTE
+
+CONSENTEMENT : id_consentement, type consentement, granted_at, revoked_at
+:
+CHOISIR, 0N COMPTE, 0N ASSET : date_choix
+PORTEFEUILLE : id_portefeuille, nom portefeuille
+
+:
+:
+ASSET : id_asset, nom asset, type, symbole, devise
+AJOUTER, 0N PORTEFEUILLE, 0N ASSET : allocation_pct

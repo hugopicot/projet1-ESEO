@@ -1,14 +1,180 @@
-// Ouvre la fenêtre de contact (rend l'overlay visible)
+/* 
+   SCRIPT PRINCIPAL - Nova Landing Page
+   ===================================
+   Gestion des interactions utilisateur pour la page d'accueil Nova.
+   Fonctionnalités : popup de contact, formulaire waitlist, notifications.
+   Technologies : Vanilla JavaScript ES6+
+*/
+
+/* 
+   GESTION DU POPUP DE CONTACT
+   ===========================
+   Fonctions pour ouvrir/fermer le popup modal de contact
+*/
+
+// Fonction pour ouvrir le popup de contact
 function openPopup() {
-    document.getElementById("overlay").classList.add("active");
+    // Récupère l'élément popup par son ID
+    const popup = document.getElementById('contactPopup');
+    
+    // Affiche le popup en changeant le style display
+    popup.style.display = 'flex';
+    
+    // Ajoute une classe pour l'animation d'entrée (si définie en CSS)
+    popup.classList.add('show');
 }
 
-// Ferme la fenêtre de contact (clic overlay ou bouton)
-function closePopup(event) {
-    // Ferme si on clique sur l'overlay ou sur le bouton X
-    if (!event || event.target.id === "overlay") {
-        document.getElementById("overlay").classList.remove("active");
+// Fonction pour fermer le popup de contact
+function closePopup() {
+    // Récupère l'élément popup par son ID
+    const popup = document.getElementById('contactPopup');
+    
+    // Cache le popup en changeant le style display
+    popup.style.display = 'none';
+    
+    // Supprime la classe d'animation
+    popup.classList.remove('show');
+}
+
+/* 
+   GESTION DU FORMULAIRE WAITLIST
+   ==============================
+   Traitement de la soumission du formulaire d'inscription à la liste d'attente
+*/
+
+// Fonction de soumission du formulaire waitlist
+function submitWaitlist() {
+    // Récupère la valeur de l'input email et supprime les espaces
+    const email = document.getElementById('email').value.trim();
+    
+    /* 
+       VALIDATION EMAIL
+       ================
+       Vérifie que l'email est valide avec une regex
+    */
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    // Vérifie si l'email est vide
+    if (!email) {
+        showNotification('Veuillez entrer votre adresse email.', 'error');
+        return; // Arrête l'exécution si email vide
     }
+    
+    // Vérifie si l'email respecte le format attendu
+    if (!emailRegex.test(email)) {
+        showNotification('Veuillez entrer une adresse email valide.', 'error');
+        return; // Arrête l'exécution si email invalide
+    }
+
+    /* 
+       SIMULATION D'APPEL API
+       =====================
+       Simule l'envoi des données vers un serveur backend
+    */
+    
+    // Affiche un message de chargement pendant le traitement
+    showNotification('Inscription en cours...', 'info');
+    
+    // Simule un délai d'API avec setTimeout (2 secondes)
+    setTimeout(() => {
+        // Simule une réponse positive du serveur
+        showNotification('Merci ! Vous avez été ajouté à notre liste d\'attente.', 'success');
+        
+        // Réinitialise le champ email après succès
+        document.getElementById('email').value = '';
+    }, 2000); // Délai de 2000ms = 2 secondes
+}
+
+/* 
+   SYSTÈME DE NOTIFICATIONS
+   ========================
+   Affichage de messages temporaires à l'utilisateur
+*/
+
+// Fonction pour afficher une notification
+function showNotification(message, type) {
+    /* 
+       CRÉATION DYNAMIQUE DE LA NOTIFICATION
+       ====================================
+       Crée un élément div pour contenir le message
+    */
+    const notification = document.createElement('div');
+    
+    // Définit le contenu textuel de la notification
+    notification.textContent = message;
+    
+    // Ajoute les classes CSS de base pour le style
+    notification.className = `notification ${type}`;
+    
+    /* 
+       STYLES DYNAMIQUES SELON LE TYPE
+       ===============================
+       Applique des couleurs différentes selon le type de message
+    */
+    
+    // Styles de base communs à toutes les notifications
+    notification.style.cssText = `
+        position: fixed;           /* Position fixe par rapport à la fenêtre */
+        top: 20px;                /* Distance du haut de l'écran */
+        right: 20px;              /* Distance du bord droit */
+        padding: 15px 20px;       /* Espacement interne */
+        border-radius: 5px;       /* Coins arrondis */
+        color: white;             /* Texte blanc pour contraste */
+        font-weight: bold;        /* Texte en gras */
+        z-index: 10000;          /* Au-dessus de tous les autres éléments */
+        opacity: 0;              /* Invisible au départ pour animation */
+        transform: translateX(100%); /* Décalé vers la droite pour animation */
+        transition: all 0.3s ease;  /* Animation fluide */
+    `;
+    
+    // Couleurs spécifiques selon le type de notification
+    switch(type) {
+        case 'success':
+            notification.style.backgroundColor = '#28a745'; // Vert pour succès
+            break;
+        case 'error':
+            notification.style.backgroundColor = '#dc3545'; // Rouge pour erreur
+            break;
+        case 'info':
+            notification.style.backgroundColor = '#17a2b8'; // Bleu pour info
+            break;
+        default:
+            notification.style.backgroundColor = '#6c757d'; // Gris par défaut
+    }
+    
+    /* 
+       AFFICHAGE ET ANIMATION
+       =====================
+       Ajoute la notification au DOM et lance les animations
+    */
+    
+    // Ajoute la notification au body de la page
+    document.body.appendChild(notification);
+    
+    // Force le reflow pour que les styles soient appliqués
+    notification.offsetHeight;
+    
+    // Animation d'entrée : rend visible et repositionne
+    notification.style.opacity = '1';
+    notification.style.transform = 'translateX(0)';
+    
+    /* 
+       SUPPRESSION AUTOMATIQUE
+       ======================
+       Retire la notification après un délai
+    */
+    setTimeout(() => {
+        // Animation de sortie
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateX(100%)';
+        
+        // Supprime l'élément du DOM après l'animation
+        setTimeout(() => {
+            if (notification.parentNode) {
+                document.body.removeChild(notification);
+            }
+        }, 300); // Délai correspondant à la durée de transition CSS
+    }, 3000); // Affichage pendant 3 secondes
 }
 
 document.addEventListener('DOMContentLoaded', function() {

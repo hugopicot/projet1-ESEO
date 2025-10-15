@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova - Espace Authentification</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body>
+<main class="auth-layout">
+    <section class="auth-content">
+        <div class="auth-intro">
+            <img src="../asset/img/logo.png" alt="Nova" class="auth-logo">
+            <h1>Nova Platform</h1>
+            <p>Centralisez vos finances, automatisez vos flux et collaborez avec votre equipe depuis un environnement securise.</p>
+            <ul>
+                <li>Suivi des transactions en temps reel</li>
+                <li>Rappels intelligents et alertes securisees</li>
+                <li>Tableaux de bord partageables avec votre equipe</li>
+            </ul>
+        </div>
+
+        <div class="auth-card" role="region" aria-labelledby="auth-tabs">
+            <nav class="auth-tabs" id="auth-tabs" aria-label="Choix du formulaire">
+                <button type="button" class="auth-tab is-active" data-auth-tab="login">Connexion</button>
+                <button type="button" class="auth-tab" data-auth-tab="register">Inscription</button>
+                <button type="button" class="auth-tab" data-auth-tab="reset">Mot de passe</button>
+            </nav>
+
+            <form action="#" method="post" class="auth-form is-active" data-auth-panel="login" novalidate>
+                <div class="auth-form-header">
+                    <h2>Connectez-vous a votre compte</h2>
+                    <p>Entrez vos identifiants pour acceder a votre espace Nova.</p>
+                </div>
+                <div class="auth-field">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" name="email" autocomplete="email" required>
+                </div>
+                <div class="auth-field">
+                    <label for="login-password">Mot de passe</label>
+                    <input type="password" id="login-password" name="password" autocomplete="current-password" required>
+                </div>
+                <div class="auth-form-row">
+                    <label class="auth-checkbox">
+                        <input type="checkbox" name="remember">
+                        <span>Se souvenir de moi</span>
+                    </label>
+                    <button type="button" class="auth-link" data-switch-to="reset">Mot de passe oublie ?</button>
+                </div>
+                <button type="submit" class="auth-button">Se connecter</button>
+                <p class="auth-footer-text">
+                    Pas encore de compte ?
+                    <button type="button" class="auth-link" data-switch-to="register">Creer un compte</button>
+                </p>
+            </form>
+
+            <form action="#" method="post" class="auth-form" data-auth-panel="register" novalidate>
+                <div class="auth-form-header">
+                    <h2>Creer votre compte</h2>
+                    <p>Rejoignez Nova en quelques secondes et commencez a piloter vos finances.</p>
+                </div>
+                <div class="auth-field">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" name="email" autocomplete="email" required>
+                </div>
+                <div class="auth-field">
+                    <label for="register-name">Nom complet</label>
+                    <input type="text" id="register-name" name="name" autocomplete="name" required>
+                </div>
+                <div class="auth-field">
+                    <label for="register-password">Mot de passe</label>
+                    <input type="password" id="register-password" name="password" autocomplete="new-password" required>
+                </div>
+                <div class="auth-field">
+                    <label for="register-country">Pays</label>
+                    <select id="register-country" name="country" required>
+                        <option value="france">France</option>
+                        <option value="canada">Canada</option>
+                        <option value="belgique">Belgique</option>
+                        <option value="suisse">Suisse</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                </div>
+                <label class="auth-checkbox">
+                    <input type="checkbox" name="updates">
+                    <span>Recevoir les actualites produit et les alertes de securite.</span>
+                </label>
+                <button type="submit" class="auth-button">Creer un compte</button>
+                <p class="auth-footer-text">
+                    Deja membre ?
+                    <button type="button" class="auth-link" data-switch-to="login">Se connecter</button>
+                </p>
+            </form>
+
+            <form action="#" method="post" class="auth-form" data-auth-panel="reset" novalidate>
+                <div class="auth-form-header">
+                    <h2>Reinitialiser votre mot de passe</h2>
+                    <p>Saisissez votre email. Nous vous enverrons un lien de reinitialisation.</p>
+                </div>
+                <div class="auth-field">
+                    <label for="reset-email">Email</label>
+                    <input type="email" id="reset-email" name="email" autocomplete="email" required>
+                </div>
+                <button type="submit" class="auth-button">Envoyer le lien</button>
+                <p class="auth-footer-text">
+                    Besoin d'un compte ?
+                    <button type="button" class="auth-link" data-switch-to="register">Creer un compte</button>
+                </p>
+                <p class="auth-footer-text">
+                    Vous souvenez-vous de votre mot de passe ?
+                    <button type="button" class="auth-link" data-switch-to="login">Retour a la connexion</button>
+                </p>
+            </form>
+        </div>
+    </section>
+</main>
+
+<script src="../js/auth.js"></script>
+</body>
+</html>
