@@ -43,7 +43,7 @@
             <div class="col-12 col-md-3">
                 <div class="d-flex justify-content-center justify-content-md-end gap-3 flex-wrap">
                     <button class="btn1" onclick="openPopup()">Contact</button> <!-- Ouvre la popup de contact -->
-                    <a href="html/waitlist.html" class="btn">Liste d'attente</a> <!-- Redirection vers page waitlist -->
+                    <a href="html/auth.php" class="btn">Connexion</a> <!-- Redirection vers page waitlist -->
                 </div>
             </div>
         </div>
@@ -101,7 +101,7 @@
                     
                     <!-- Call-to-action principal -->
                     <div class="d-flex justify-content-center justify-content-lg-start">
-                        <button class="btn">Essayez maintenant</button> <!-- Bouton d'action principal -->
+                        <a href="html/auth.php" class="btn">Essayer maintenant</a>
                     </div>
                 </div>
                 

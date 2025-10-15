@@ -1,3 +1,69 @@
+<?php
+global $pdo;
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+session_start();
+require_once '../config/config.php'; // s'assure que $pdo est défini
+
+// --- LOGIN ---
+if (isset($_POST['login'])) {
+    $email = filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL);
+    $password = $_POST['password'] ?? '';
+
+    if (!$email) {
+        $_SESSION['error'] = "Email invalide.";
+    } else {
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->execute([$email]);
+        $user = $stmt->fetch();
+
+        if ($user && password_verify($password, $user['password'])) {
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'] ?? $user['email'];
+            header("Location: ./app.php");
+            exit;
+        } else {
+            $_SESSION['error'] = "Identifiants incorrects.";
+        }
+    }
+}
+
+// --- REGISTER ---
+if (isset($_POST['register'])) {
+    $name = htmlspecialchars(trim($_POST['name'] ?? ''));
+    $email = filter_var(trim($_POST['email'] ?? ''), FILTER_VALIDATE_EMAIL);
+    $password = $_POST['password'] ?? '';
+
+    if (!$email) {
+        $_SESSION['error'] = "Email invalide.";
+    } elseif (strlen($password) < 8) {
+        $_SESSION['error'] = "Mot de passe trop court (>= 8).";
+    } else {
+        // Vérifier doublon par email
+        $check = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+        $check->execute([$email]);
+
+        if ($check->rowCount() > 0) {
+            $_SESSION['error'] = "Email déjà utilisé.";
+        } else {
+            $hashed = password_hash($password, PASSWORD_DEFAULT);
+            $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+            try {
+                $stmt->execute([$name, $email, $hashed]);
+                $_SESSION['success'] = "Inscription réussie. Vous pouvez maintenant vous connecter.";
+                header("Location: auth.php");
+                exit;
+            } catch (PDOException $e) {
+                // en dev tu peux logger l'erreur
+                error_log("PDO insert error: " . $e->getMessage());
+                $_SESSION['error'] = "Erreur serveur lors de l'inscription.";
+            }
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -29,8 +95,13 @@
                 <button type="button" class="auth-tab" data-auth-tab="register">Inscription</button>
                 <button type="button" class="auth-tab" data-auth-tab="reset">Mot de passe</button>
             </nav>
-
-            <form action="#" method="post" class="auth-form is-active" data-auth-panel="login" novalidate>
+            <?php
+            if (isset($_SESSION['error'])) {
+                echo "<p class='error'>{$_SESSION['error']}</p>";
+                unset($_SESSION['error']);
+            }
+            ?>
+            <form action="auth.php" method="post" class="auth-form is-active" data-auth-panel="login" novalidate>
                 <div class="auth-form-header">
                     <h2>Connectez-vous a votre compte</h2>
                     <p>Entrez vos identifiants pour acceder a votre espace Nova.</p>
@@ -50,14 +121,13 @@
                     </label>
                     <button type="button" class="auth-link" data-switch-to="reset">Mot de passe oublie ?</button>
                 </div>
-                <button type="submit" class="auth-button">Se connecter</button>
+                <button type="submit" name="login" class="auth-button">Se connecter</button>
                 <p class="auth-footer-text">
                     Pas encore de compte ?
                     <button type="button" class="auth-link" data-switch-to="register">Creer un compte</button>
                 </p>
             </form>
-
-            <form action="#" method="post" class="auth-form" data-auth-panel="register" novalidate>
+            <form action="auth.php" method="post" class="auth-form" data-auth-panel="register" novalidate>
                 <div class="auth-form-header">
                     <h2>Creer votre compte</h2>
                     <p>Rejoignez Nova en quelques secondes et commencez a piloter vos finances.</p>
@@ -74,28 +144,18 @@
                     <label for="register-password">Mot de passe</label>
                     <input type="password" id="register-password" name="password" autocomplete="new-password" required>
                 </div>
-                <div class="auth-field">
-                    <label for="register-country">Pays</label>
-                    <select id="register-country" name="country" required>
-                        <option value="france">France</option>
-                        <option value="canada">Canada</option>
-                        <option value="belgique">Belgique</option>
-                        <option value="suisse">Suisse</option>
-                        <option value="autre">Autre</option>
-                    </select>
-                </div>
                 <label class="auth-checkbox">
                     <input type="checkbox" name="updates">
                     <span>Recevoir les actualites produit et les alertes de securite.</span>
                 </label>
-                <button type="submit" class="auth-button">Creer un compte</button>
+                <button type="submit" name="register" class="auth-button">Créer un compte</button>
                 <p class="auth-footer-text">
                     Deja membre ?
                     <button type="button" class="auth-link" data-switch-to="login">Se connecter</button>
                 </p>
             </form>
 
-            <form action="#" method="post" class="auth-form" data-auth-panel="reset" novalidate>
+            <form action="auth.php" method="post" class="auth-form" data-auth-panel="reset" novalidate>
                 <div class="auth-form-header">
                     <h2>Reinitialiser votre mot de passe</h2>
                     <p>Saisissez votre email. Nous vous enverrons un lien de reinitialisation.</p>

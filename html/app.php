@@ -1,4 +1,11 @@
-﻿
+﻿<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ./auth.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -153,8 +160,7 @@
                     <button class="sidebar-item sidebar-button" type="button" aria-haspopup="menu" aria-expanded="false" data-dropdown-toggle="profile-menu">
                         <span class="avatar avatar-square avatar-large" aria-hidden="true">ER</span>
                         <span class="sidebar-label sidebar-user">
-                            <span class="sidebar-user-name">Erica</span>
-                            <span class="sidebar-user-email">erica@example.com</span>
+                            <span class="sidebar-user-name"><?= htmlspecialchars($_SESSION['username']) ?></span>
                         </span>
                         <img class="icon icon-chevron" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/chevron-up.svg" alt="" loading="lazy">
                         <img class="icon icon-chevron icon-chevron-alt" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/chevron-down.svg" alt="" loading="lazy">
@@ -181,7 +187,7 @@
                         <div class="dropdown-divider" role="none"></div>
                         <a class="dropdown-item" href="#logout" role="menuitem">
                             <img class="dropdown-icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/arrow-right-start-on-rectangle.svg" alt="" loading="lazy">
-                            <span class="dropdown-label">Se déconnecter</span>
+                            <span class="dropdown-label">Se déconnecter </span>
                         </a>
                     </div>
                 </div>
@@ -283,6 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
 </script>
 </body>
 </html>

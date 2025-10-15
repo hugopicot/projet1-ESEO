@@ -383,3 +383,9 @@ main {
         width: 100%;
     }
 }
+
+.error {
+    color: red;
+    text-align: center;
+    margin-bottom: 10px;
+}
