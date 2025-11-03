@@ -49,14 +49,14 @@ if (isset($_POST['register'])) {
         $_SESSION['error'] = "Mot de passe trop court (>= 8).";
     } else {
         // Vérifier doublon par email
-        $check = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+        $check = $pdo->prepare("SELECT id FROM users WHERE email_user = ?");
         $check->execute([$email]);
 
         if ($check->rowCount() > 0) {
             $_SESSION['error'] = "Email déjà utilisé.";
         } else {
             $hashed = password_hash($password, PASSWORD_DEFAULT);
-            $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+            $stmt = $pdo->prepare("INSERT INTO users (username, email_user, password) VALUES (?, ?, ?)");
             try {
                 $stmt->execute([$name, $email, $hashed]);
                 $_SESSION['success'] = "Inscription réussie. Vous pouvez maintenant vous connecter.";

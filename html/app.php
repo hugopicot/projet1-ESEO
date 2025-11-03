@@ -1,8 +1,20 @@
 ﻿<?php
 session_start();
+require_once '../config/config.php';
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: ./auth.php");
+    exit;
+}
+
+// Vérifie l'abonnement
+$stmt = $pdo->prepare("SELECT subscription_plan, subscription_end FROM users WHERE id = ?");
+$stmt->execute([$_SESSION['user_id']]);
+$user = $stmt->fetch();
+
+if (!$user || $user['subscription_plan'] === 'none' || strtotime($user['subscription_end']) < time()) {
+    // Redirige vers une page d'abonnement
+    header("Location: subscription.php");
     exit;
 }
 
@@ -43,9 +55,9 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
         <div class="navbar-brand">
 
-            <img src="../asset/img/logo.png" alt="Nova" class="navbar-logo">
+            <a href="app.php" title="logo"> <img class="navbar-logo" src="../asset/img/logo.png" alt="Nova></a>
 
-            <span class="navbar-title">Nova Console</span>
+            <span class="navbar-title">Nova Console</a>
 
         </div>
 
@@ -78,7 +90,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
                 <div class="dropdown-menu bottom-end" id="navbar-user-menu" role="menu">
                     <a class="dropdown-item" href="./profil.php" role="menuitem">
 
-                    <a class="dropdown-item" href="#profil" role="menuitem">
+                    <a class="dropdown-item" href="update_profile.php" role="menuitem">
 
                         <img class="dropdown-icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/user.svg" alt="" loading="lazy">
 
@@ -96,7 +108,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                     <div class="dropdown-divider" role="none"></div>
 
-                    <a class="dropdown-item" href="#confidentialite" role="menuitem">
+                    <a class="dropdown-item" href="PDC.php" role="menuitem">
 
                         <img class="dropdown-icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/shield-check.svg" alt="" loading="lazy">
 
@@ -114,7 +126,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                     <div class="dropdown-divider" role="none"></div>
 
-                    <a class="dropdown-item" href="#logout" role="menuitem">
+                    <a class="dropdown-item" href="../index.php" role="menuitem">
 
                         <img class="dropdown-icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/arrow-right-start-on-rectangle.svg" alt="" loading="lazy">
 
@@ -237,7 +249,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                     <div class="dropdown-menu top-start" id="profile-menu" role="menu">
 
-                        <a class="dropdown-item" href="#profil" role="menuitem">
+                        <a class="dropdown-item" href="update_profile.php" role="menuitem">
 
                             <img class="dropdown-icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/user.svg" alt="" loading="lazy">
 
@@ -255,7 +267,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                         <div class="dropdown-divider" role="none"></div>
 
-                        <a class="dropdown-item" href="#confidentialite" role="menuitem">
+                        <a class="dropdown-item" href="PDC.php" role="menuitem">
 
                             <img class="dropdown-icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/shield-check.svg" alt="" loading="lazy">
 
@@ -272,7 +284,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
                         </a>
 
                         <div class="dropdown-divider" role="none"></div>
-                        <a class="dropdown-item" href="#logout" role="menuitem">
+                        <a class="dropdown-item" href="../index.php" role="menuitem">
                             <img class="dropdown-icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/arrow-right-start-on-rectangle.svg" alt="" loading="lazy">
                             <span class="dropdown-label">Se déconnecter</span>
                         </a>
