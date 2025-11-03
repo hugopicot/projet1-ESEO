@@ -1,3 +1,18 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ./auth.php");
+    exit;
+}
+
+$username = trim((string)($_SESSION['username'] ?? ''));
+if ($username === '') {
+    $username = 'Compte Nova';
+}
+
+$userEmail = trim((string)($_SESSION['user_email'] ?? ''));
+?>
 <!DOCTYPE html>
 
 <html lang="fr">
@@ -109,40 +124,6 @@
 
                 </div>
 
-                <div class="assets-section">
-                    <div class="assets-header">
-                        <div class="assets-header-text">
-                            <h2>Actifs</h2>
-                            <p>Suivez la repartition de votre patrimoine par classe d'actifs.</p>
-                        </div>
-                    </div>
-                    <div class="assets-layout">
-                        <div class="assets-table">
-                            <div class="assets-table-header">
-                                <span>Nom</span>
-                                <span>Repartition</span>
-                                <span>Valeur</span>
-                                <span>+/- value Tout</span>
-                            </div>
-                            <ul class="assets-rows" id="assets-list" aria-label="Repartition des actifs"></ul>
-                        </div>
-                        <div class="assets-chart-card">
-                            <div class="assets-chart-toolbar" role="group" aria-label="Filtres patrimoine">
-                                <button class="assets-filter-button is-active" type="button">Toutes les categories</button>
-                                <button class="assets-filter-button" type="button">Tout</button>
-                            </div>
-                            <div class="assets-donut-wrapper">
-                                <div class="assets-donut-ring" id="assets-donut-ring" role="img" aria-label="Diagramme des actifs"></div>
-                                <div class="assets-donut-center">
-                                    <span class="assets-donut-value" id="assets-total-value">--</span>
-                                    <span class="assets-donut-label">Total</span>
-                                </div>
-                            </div>
-                            <p class="assets-chart-note">Mise a jour selon vos positions synchronisees.</p>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
         </nav>
@@ -159,7 +140,7 @@
 
                 <div class="sidebar-section">
 
-                    <a class="sidebar-item is-active" href="#">
+                    <a class="sidebar-item" href="app.php">
 
                         <img class="icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/home.svg" alt="" loading="lazy">
 
@@ -167,7 +148,7 @@
 
                     </a>
 
-                    <a class="sidebar-item" href="#evenements">
+                    <a class="sidebar-item is-active" href="patrimoine.php" aria-current="page">
 
                         <img class="icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/square-2-stack.svg" alt="" loading="lazy">
 
@@ -175,7 +156,7 @@
 
                     </a>
 
-                    <a class="sidebar-item" href="#commandes">
+                    <a class="sidebar-item" href="analyse.php">
 
                         <img class="icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/ticket.svg" alt="" loading="lazy">
 
@@ -367,6 +348,42 @@
 
                 </div>
 
+            </section>
+
+            <section class="content-section">
+                <div class="assets-section">
+                    <div class="assets-header">
+                        <div class="assets-header-text">
+                            <h2>Actifs</h2>
+                            <p>Suivez la repartition de votre patrimoine par classe d'actifs.</p>
+                        </div>
+                    </div>
+                    <div class="assets-layout">
+                        <div class="assets-table">
+                            <div class="assets-table-header">
+                                <span>Nom</span>
+                                <span>Repartition</span>
+                                <span>Valeur</span>
+                                <span>+/- value Tout</span>
+                            </div>
+                            <ul class="assets-rows" id="assets-list" aria-label="Repartition des actifs"></ul>
+                        </div>
+                        <div class="assets-chart-card">
+                            <div class="assets-chart-toolbar" role="group" aria-label="Filtres patrimoine">
+                                <button class="assets-filter-button is-active" type="button">Toutes les categories</button>
+                                <button class="assets-filter-button" type="button">Tout</button>
+                            </div>
+                            <div class="assets-donut-wrapper">
+                                <div class="assets-donut-ring" id="assets-donut-ring" role="img" aria-label="Diagramme des actifs"></div>
+                                <div class="assets-donut-center">
+                                    <span class="assets-donut-value" id="assets-total-value">--</span>
+                                    <span class="assets-donut-label">Total</span>
+                                </div>
+                            </div>
+                            <p class="assets-chart-note">Mise a jour selon vos positions synchronisees.</p>
+                        </div>
+                    </div>
+                </div>
             </section>
 
         </main>
@@ -1751,14 +1768,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const assetsData = [
-            { name: 'Actions & Fonds', share: 39, value: 494132454, deltaValue: 493021204, deltaPercent: 44366.36, color: '#d946ef' },
-            { name: 'Crypto', share: 17, value: 213144176, deltaValue: 163006439, deltaPercent: 325.12, color: '#7c3aed' },
-            { name: 'Crowdlending', share: 17, value: 210000000, deltaValue: 0, deltaPercent: 0, color: '#22d3ee' },
-            { name: 'Autres actifs', share: 9, value: 111428913, deltaValue: 1303882, deltaPercent: 1.18, color: '#f97316' },
-            { name: 'Fonds euros', share: 9, value: 110000000, deltaValue: 0, deltaPercent: 0, color: '#f43f5e' },
-            { name: 'Comptes bancaires', share: 8, value: 100000000, deltaValue: 0, deltaPercent: 0, color: '#2dd4bf' },
-            { name: 'Metaux precieux', share: 0.92, value: 11495325, deltaValue: 10495325, deltaPercent: 1049.53, color: '#60a5fa' },
-            { name: 'Immobilier', share: 0.27, value: 3349044, deltaValue: 2348244, deltaPercent: 234.64, color: '#fb7185' },
+            { name: 'Actions & Fonds', share: 39, value: 538851384, deltaValue: 35740030, deltaPercent: 7.09, color: '#3b82f6' },
+            { name: 'Crypto', share: 18, value: 221197933, deltaValue: 171060186, deltaPercent: 341.6, color: '#8b5cf6' },
+            { name: 'Crowdlending', share: 15, value: 210000000, deltaValue: 0, deltaPercent: 0, color: '#06b6d4' },
         ];
 
         const numberFormatter = new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
@@ -1836,6 +1848,70 @@ document.addEventListener('DOMContentLoaded', () => {
     initAssetsSection();
 });
 
+</script>
+
+<script>
+// Navigation sidebar améliorée
+document.addEventListener('DOMContentLoaded', function() {
+    // Gestion des états actifs de la sidebar
+    const sidebarItems = document.querySelectorAll('.sidebar-item');
+    const currentPage = window.location.pathname.split('/').pop();
+    
+    // Mettre à jour l'état actif basé sur la page actuelle
+    sidebarItems.forEach(item => {
+        const href = item.getAttribute('href');
+        if (href && href.includes(currentPage)) {
+            // Retirer l'état actif de tous les éléments
+            sidebarItems.forEach(si => si.classList.remove('is-active'));
+            // Ajouter l'état actif à l'élément courant
+            item.classList.add('is-active');
+            item.setAttribute('aria-current', 'page');
+        }
+    });
+    
+    // Gestion des dropdowns
+    const dropdownToggles = document.querySelectorAll('[data-dropdown-toggle]');
+    dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('data-dropdown-toggle');
+            const dropdown = document.getElementById(targetId);
+            const isExpanded = this.getAttribute('aria-expanded') === 'true';
+            
+            // Fermer tous les autres dropdowns
+            dropdownToggles.forEach(t => {
+                if (t !== this) {
+                    t.setAttribute('aria-expanded', 'false');
+                    const otherId = t.getAttribute('data-dropdown-toggle');
+                    const otherDropdown = document.getElementById(otherId);
+                    if (otherDropdown) {
+                        otherDropdown.style.display = 'none';
+                    }
+                }
+            });
+            
+            // Toggle le dropdown courant
+            this.setAttribute('aria-expanded', !isExpanded);
+            if (dropdown) {
+                dropdown.style.display = isExpanded ? 'none' : 'block';
+            }
+        });
+    });
+    
+    // Fermer les dropdowns en cliquant ailleurs
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('[data-dropdown]')) {
+            dropdownToggles.forEach(toggle => {
+                toggle.setAttribute('aria-expanded', 'false');
+                const targetId = toggle.getAttribute('data-dropdown-toggle');
+                const dropdown = document.getElementById(targetId);
+                if (dropdown) {
+                    dropdown.style.display = 'none';
+                }
+            });
+        }
+    });
+});
 </script>
 
 </body>

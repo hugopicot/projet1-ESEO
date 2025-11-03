@@ -139,7 +139,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                 <div class="sidebar-section">
 
-                    <a class="sidebar-item is-active" href="app.html" aria-current="page">
+                    <a class="sidebar-item is-active" href="app.php" aria-current="page">
 
                         <img class="icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/home.svg" alt="" loading="lazy">
 
@@ -147,7 +147,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                     </a>
 
-                    <a class="sidebar-item" href="partimoine.html">
+                    <a class="sidebar-item" href="patrimoine.php">
 
                         <img class="icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/square-2-stack.svg" alt="" loading="lazy">
 
@@ -155,7 +155,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                     </a>
 
-                    <a class="sidebar-item" href="#commandes">
+                    <a class="sidebar-item" href="analyse.php">
 
                         <img class="icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/ticket.svg" alt="" loading="lazy">
 

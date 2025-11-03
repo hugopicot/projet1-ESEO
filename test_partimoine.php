@@ -1,0 +1,175 @@
+<?php
+session_start();
+
+// Simulation des données de session pour le test
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['user_id'] = 1;
+    $_SESSION['username'] = 'Test User';
+    $_SESSION['user_email'] = 'test@example.com';
+}
+
+$username = trim((string)($_SESSION['username'] ?? ''));
+if ($username === '') {
+    $username = 'Compte Nova';
+}
+
+$userEmail = trim((string)($_SESSION['user_email'] ?? ''));
+?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Patrimoine - Nova Console</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/patrimoine.css">
+</head>
+<body>
+    <div class="app-shell">
+        <main class="app-content" style="padding: 2rem;">
+            <h1>Test Section Actifs</h1>
+            
+            <section class="content-section">
+                <div class="assets-section">
+                    <div class="assets-header">
+                        <div class="assets-header-text">
+                            <h2>Actifs</h2>
+                            <p>Suivez la repartition de votre patrimoine par classe d'actifs.</p>
+                        </div>
+                    </div>
+                    <div class="assets-layout">
+                        <div class="assets-table">
+                            <div class="assets-table-header">
+                                <span>Nom</span>
+                                <span>Repartition</span>
+                                <span>Valeur</span>
+                                <span>+/- value Tout</span>
+                            </div>
+                            <ul class="assets-rows" id="assets-list" aria-label="Repartition des actifs"></ul>
+                        </div>
+                        <div class="assets-chart-card">
+                            <div class="assets-chart-toolbar" role="group" aria-label="Filtres patrimoine">
+                                <button class="assets-filter-button is-active" type="button">Toutes les categories</button>
+                                <button class="assets-filter-button" type="button">Tout</button>
+                            </div>
+                            <div class="assets-donut-wrapper">
+                                <div class="assets-donut-ring" id="assets-donut-ring" role="img" aria-label="Diagramme des actifs"></div>
+                                <div class="assets-donut-center">
+                                    <span class="assets-donut-value" id="assets-total-value">--</span>
+                                    <span class="assets-donut-label">Total</span>
+                                </div>
+                            </div>
+                            <p class="assets-chart-note">Mise a jour selon vos positions synchronisees.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const initAssetsSection = () => {
+            const list = document.getElementById('assets-list');
+            const donut = document.getElementById('assets-donut-ring');
+            const totalValueTarget = document.getElementById('assets-total-value');
+
+            if (!list || !donut || !totalValueTarget) {
+                console.error('Elements not found:', { list, donut, totalValueTarget });
+                return;
+            }
+
+            const assetsData = [
+                { name: 'Actions & Fonds', share: 39, value: 538851384, deltaValue: 35740030, deltaPercent: 7.09, color: '#3b82f6' },
+                { name: 'Crypto', share: 18, value: 221197933, deltaValue: 171060186, deltaPercent: 341.6, color: '#8b5cf6' },
+                { name: 'Crowdlending', share: 15, value: 210000000, deltaValue: 0, deltaPercent: 0, color: '#06b6d4' },
+            ];
+
+            console.log('Assets data:', assetsData);
+
+            const numberFormatter = new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+            const percentFormatter = new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+            const formatShare = (value) => value.toLocaleString('fr-FR', {
+                minimumFractionDigits: value < 1 ? 2 : 0,
+                maximumFractionDigits: value < 1 ? 2 : 0,
+            });
+
+            const formatCurrency = (value) => `${numberFormatter.format(value)} €`;
+
+            const formatSignedCurrency = (value) => {
+                if (!value) {
+                    return '—';
+                }
+                const sign = value >= 0 ? '+' : '−';
+                return `${sign}${numberFormatter.format(Math.abs(value))} €`;
+            };
+
+            const formatSignedPercent = (value) => {
+                if (!value) {
+                    return '—';
+                }
+                const sign = value >= 0 ? '+' : '−';
+                return `${sign}${percentFormatter.format(Math.abs(value))} %`;
+            };
+
+            const totalValue = assetsData.reduce((sum, asset) => sum + asset.value, 0);
+            totalValueTarget.textContent = formatCurrency(totalValue);
+            console.log('Total value:', formatCurrency(totalValue));
+
+            const fragment = document.createDocumentFragment();
+
+            assetsData.forEach(asset => {
+                const row = document.createElement('li');
+                row.className = 'assets-row';
+                const deltaClass = asset.deltaValue > 0 ? 'is-positive' : asset.deltaValue < 0 ? 'is-negative' : 'is-neutral';
+
+                row.innerHTML = `
+                    <div class="assets-row-name">
+                        <span class="assets-row-arrow" aria-hidden="true">
+                            <svg width="14" height="14" viewBox="0 0 24 24">
+                                <path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4" />
+                            </svg>
+                        </span>
+                        <span class="assets-row-dot" style="background:${asset.color};"></span>
+                        <span class="assets-row-label">${asset.name}</span>
+                    </div>
+                    <span class="assets-row-share">${formatShare(asset.share)} %</span>
+                    <span class="assets-row-value">${formatCurrency(asset.value)}</span>
+                    <span class="assets-row-delta">
+                        <span class="assets-delta-amount ${deltaClass}">${formatSignedCurrency(asset.deltaValue)}</span>
+                        <span class="assets-delta-percent ${deltaClass}">${formatSignedPercent(asset.deltaPercent)}</span>
+                    </span>
+                `;
+
+                fragment.appendChild(row);
+            });
+
+            list.appendChild(fragment);
+            console.log('Rows added to list');
+
+            // Création du graphique donut
+            const totalShare = assetsData.reduce((sum, asset) => sum + asset.share, 0);
+            let start = 0;
+            const gradientParts = assetsData.map(asset => {
+                const ratio = asset.share / totalShare;
+                const end = start + ratio;
+                const part = `${asset.color} ${start * 100}% ${end * 100}%`;
+                start = end;
+                return part;
+            });
+
+            const gradient = `conic-gradient(${gradientParts.join(', ')})`;
+            donut.style.background = gradient;
+            console.log('Donut gradient applied:', gradient);
+        };
+
+        console.log('DOM loaded, initializing assets section...');
+        initAssetsSection();
+    });
+    </script>
+</body>
+</html>
