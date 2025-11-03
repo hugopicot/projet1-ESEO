@@ -38,7 +38,7 @@ if (!isset($_SESSION['user_id'])) {
                     <span class="sr-only">Ouvrir le menu utilisateur</span>
                 </button>
                 <div class="dropdown-menu bottom-end" id="navbar-user-menu" role="menu">
-                    <a class="dropdown-item" href="#profil" role="menuitem">
+                    <a class="dropdown-item" href="./profil.php" role="menuitem">
                         <img class="dropdown-icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/user.svg" alt="" loading="lazy">
                         <span class="dropdown-label">Mon profil</span>
                     </a>

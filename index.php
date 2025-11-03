@@ -56,7 +56,7 @@
     Popup modale pour le formulaire de contact, cachée par défaut.
     Activée via JavaScript avec gestion des événements de fermeture.
 -->
-<div class="overlay" id="overlay" onclick="closePopup(event)"> <!-- Overlay sombre avec fermeture au clic -->
+<div class="overlay" id="contactPopup" onclick="closePopup(event)">
     <div class="popup" onclick="event.stopPropagation()"> <!-- Popup centrée, empêche la propagation du clic -->
         <button class="close-btn" onclick="closePopup()">Fermer</button> <!-- Bouton de fermeture explicite -->
         <h3>Contact</h3> <!-- Titre du formulaire -->
