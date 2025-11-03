@@ -59,16 +59,6 @@
     transition: opacity 0.3s ease;
 }
 
-.analysis-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--accent);
-}
-
-.analysis-card:hover::before {
-    opacity: 1;
-}
-
 /* Card Header */
 .analysis-card-header {
     display: flex;
@@ -109,11 +99,6 @@
 
 .analysis-badge.insuffisant {
     background: linear-gradient(135deg, #ef4444, #dc2626);
-    color: white;
-}
-
-.analysis-badge.plus {
-    background: linear-gradient(135deg, var(--accent), #3b82f6);
     color: white;
 }
 
@@ -319,11 +304,6 @@
     box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
 }
 
-.period-btn:hover:not(.active) {
-    background: var(--accent-soft);
-    color: var(--accent);
-}
-
 /* Update Button */
 .update-btn {
     width: 100%;
@@ -339,11 +319,6 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-top: 1rem;
-}
-
-.update-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
 /* Responsive Design */
@@ -397,6 +372,94 @@
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Monte Carlo Explanation */
+.monte-carlo-explanation {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+}
+
+.explanation-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.explanation-content p {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    margin: 0 0 1rem 0;
+}
+
+.explanation-content p:last-child {
+    margin-bottom: 0;
+}
+
+.scenario-explanation {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+}
+
+.scenario-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.scenario-item:last-child {
+    margin-bottom: 0;
+}
+
+.scenario-color {
+    width: 16px;
+    height: 3px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.scenario-color.conservative {
+    background: #4F46E5;
+}
+
+.scenario-color.moderate {
+    background: #7C3AED;
+}
+
+.scenario-color.aggressive {
+    background: #EC4899;
+}
+
+.scenario-text {
+    font-size: 0.875rem;
+    color: var(--text-primary);
+}
+
+.confidence-note {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0 !important;
+    color: #10b981 !important;
+}
+
+.inflation-note {
+    font-size: 0.8rem !important;
+    color: rgba(255, 255, 255, 0.5) !important;
+    font-style: italic;
 }
 
 /* SVG Gradients */

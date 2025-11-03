@@ -50,30 +50,31 @@
     </div>
 </header>
 
-<!-- 
+<!--
     POPUP DE CONTACT - Modal overlay
     ===============================
     Popup modale pour le formulaire de contact, cachée par défaut.
     Activée via JavaScript avec gestion des événements de fermeture.
 -->
-<div class="overlay" id="overlay" onclick="closePopup(event)"> <!-- Overlay sombre avec fermeture au clic -->
+<div class="overlay" id="contactPopup" onclick="closePopup(event)">
     <div class="popup" onclick="event.stopPropagation()"> <!-- Popup centrée, empêche la propagation du clic -->
         <button class="close-btn" onclick="closePopup()">Fermer</button> <!-- Bouton de fermeture explicite -->
         <h3>Contact</h3> <!-- Titre du formulaire -->
         
         <!-- Formulaire de contact avec champs obligatoires -->
-        <form>
-            <label for="nom">Nom :</label> <!-- Label associé pour l'accessibilité -->
-            <input type="text" id="nom" name="nom"> <!-- Champ texte pour le nom -->
+        <form action="html/contact_form.php" method="POST">
+            <label for="nom">Nom :</label>
+            <input type="text" id="nom" name="nom" required>
 
-            <label for="email">Email :</label> <!-- Label pour l'email -->
-            <input type="email" id="email" name="email"> <!-- Champ email avec validation HTML5 -->
+            <label for="email">Email :</label>
+            <input type="email" id="email" name="email" required>
 
-            <label for="message">Message :</label> <!-- Label pour le message -->
-            <textarea id="message" name="message"></textarea> <!-- Zone de texte multiligne -->
+            <label for="message">Message :</label>
+            <textarea id="message" name="message" required></textarea>
 
-            <button class="btn">Envoyer</button> <!-- Bouton de soumission du formulaire -->
+            <button type="submit" class="btn">Envoyer</button>
         </form>
+
     </div>
 </div>
 

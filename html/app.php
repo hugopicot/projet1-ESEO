@@ -76,6 +76,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
                 </button>
 
                 <div class="dropdown-menu bottom-end" id="navbar-user-menu" role="menu">
+                    <a class="dropdown-item" href="./profil.php" role="menuitem">
 
                     <a class="dropdown-item" href="#profil" role="menuitem">
 
