@@ -271,9 +271,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
                         </a>
 
                         <div class="dropdown-divider" role="none"></div>
-
                         <a class="dropdown-item" href="#logout" role="menuitem">
-
                             <img class="dropdown-icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/arrow-right-start-on-rectangle.svg" alt="" loading="lazy">
                             <span class="dropdown-label">Se déconnecter</span>
                         </a>

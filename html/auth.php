@@ -6,7 +6,6 @@ error_reporting(E_ALL);
 session_start();
 require_once '../config/config.php'; // s'assure que $pdo est défini
 
-// --- LOGIN ---
 if (isset($_POST['login'])) {
     $email = filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL);
     $password = $_POST['password'] ?? '';
@@ -20,15 +19,23 @@ if (isset($_POST['login'])) {
 
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'] ?? $user['email'];
-            $_SESSION['user_email'] = $user['email'];
-            header("Location: ./app.php");
-            exit;
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['role'] = $user['role'];
+
+            if ($user['role'] === 'Admin') {
+                header("Location: ./admin_panel.php");
+                exit;
+            } else {
+                header("Location: ./app.php");
+                exit;
+            }
         } else {
             $_SESSION['error'] = "Identifiants incorrects.";
         }
     }
 }
+
+
 
 // --- REGISTER ---
 if (isset($_POST['register'])) {
