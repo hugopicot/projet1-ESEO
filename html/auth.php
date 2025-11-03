@@ -13,7 +13,7 @@ if (isset($_POST['login'])) {
     if (!$email) {
         $_SESSION['error'] = "Email invalide.";
     } else {
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE email_user = ?");
         $stmt->execute([$email]);
         $user = $stmt->fetch();
 

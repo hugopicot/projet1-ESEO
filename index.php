@@ -24,7 +24,7 @@
             
             <!-- Logo de l'entreprise - Responsive : centré sur mobile, aligné à gauche sur desktop -->
             <div class="col-12 col-md-3 text-center text-md-start">
-                <img class="logo" src="asset/img/logo.png" alt="Logo Nova - Plateforme de gestion financière">
+                <a href="index.php" title="logo"> <img class="logo" src="asset/img/logo.png" alt="Logo Nova - Plateforme de gestion financière"></a>
             </div>
             
             <!-- Navigation principale - Menu horizontal avec ancres vers les sections -->
@@ -90,7 +90,7 @@
         Section d'introduction avec titre principal, description et call-to-action.
         Layout en deux colonnes : texte à gauche, image à droite sur desktop.
     -->
-    <section class="hero py-5"> <!-- Section hero avec padding vertical -->
+    <section id="accueil" class="hero py-5"> <!-- Section hero avec padding vertical -->
         <div class="container"> <!-- Container Bootstrap pour la largeur maximale -->
             <div class="row align-items-center justify-content-center gy-5"> <!-- Grille responsive avec espacement -->
                 
@@ -526,17 +526,17 @@
                 <div class="footer-content">
                     <img src="asset/img/logo.png" alt="Reservetel Logo" class="logo">
                     <div class="infos">
-                        <p> � 2025 - Tous droits reserves - Politique de confidentialite </p>
+                        <p> © 2025 - Tous droits reserves - Politique de confidentialite </p>
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-8">
-                <div class="row gy-4">
+                <div class="row gy-4 justify-content-end">
                     <div class="col-12 col-sm-6">
                         <div class="footer-links">
                             <p><strong>Information</strong></p>
                             <ul class="footer-menu">
-                                <li>Contact</li>
+                                <li onclick="openPopup()">Contact</li>
                                 <li>Service</li>
                                 <li>Privacy Policy</li>
                                 <li>Blog</li>
@@ -548,11 +548,11 @@
                         <div class="footer-links">
                             <p><strong>Navigation</strong></p>
                             <ul class="footer-menu">
-                                <li>Accueil</li>
-                                <li>Boutique</li>
-                                <li>Promotions</li>
-                                <li>Nouveautes</li>
-                                <li>A propos</li>
+                                <li><a href="#accueil" class="nav-link">Accueil</a></li>
+                                <li><a href="#section1" class="nav-link">Comment ca marche</a></li>
+                                <li><a href="#section2" class="nav-link">Fonctionnalites</a></li>
+                                <li><a href="#question-1" class="nav-link">FAQ</a></li> <!-- Lien vers section FAQ -->
+                                <li><a href="#section3" class="nav-link">Prix</a></li>
                             </ul>
                         </div>
                     </div>

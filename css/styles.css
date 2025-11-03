@@ -402,7 +402,7 @@ p, span {
 
 /* --- Footer --- */
 footer {
-    background-color: var(--noir); /* ou une couleur qui va bien avec ton site */
+    background-color: var(--noir);
     color: var(--blanc);
 }
 
@@ -448,7 +448,10 @@ footer .logo {
 .footer-menu li:hover {
     text-decoration: underline;
 }
-
+.col-md-8 > .row {
+    justify-content: flex-end; /* pousse les colonnes vers la droite */
+    display: flex;
+}
 
 #question-1{
   background-color: var(--background);
