@@ -167,8 +167,8 @@ if (!isset($_SESSION['user_id'])) {
                         <span class="sr-only">Ouvrir le menu profil</span>
                     </button>
                     <div class="dropdown-menu top-start" id="profile-menu" role="menu">
-                        <a class="dropdown-item" href="#profil" role="menuitem">
-                            <img class="dropdown-icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/user.svg" alt="" loading="lazy">
+                        <a class="dropdown-item" href="./profil.php" role="menuitem">
+                            <img class="dropdown-icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/user.svg" alt="">
                             <span class="dropdown-label">Mon profil</span>
                         </a>
                         <a class="dropdown-item" href="#parametres" role="menuitem">
