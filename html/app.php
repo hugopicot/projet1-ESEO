@@ -99,7 +99,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                     </a>
 
-                    <a class="dropdown-item" href="#parametres" role="menuitem">
+                    <a class="dropdown-item" href="settings.php" role="menuitem">
 
                         <img class="dropdown-icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/cog-8-tooth.svg" alt="" loading="lazy">
 
@@ -258,7 +258,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                         </a>
 
-                        <a class="dropdown-item" href="#parametres" role="menuitem">
+                        <a class="dropdown-item" href="./settings.php" role="menuitem">
 
                             <img class="dropdown-icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/cog-8-tooth.svg" alt="" loading="lazy">
 
