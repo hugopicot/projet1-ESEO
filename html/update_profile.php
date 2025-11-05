@@ -11,36 +11,35 @@ if (!isset($_SESSION['user_id'])) {
 
 $id = $_SESSION['user_id'];
 $username = trim($_POST['username'] ?? '');
-$email = filter_var(trim($_POST['email'] ?? ''), FILTER_VALIDATE_EMAIL);
+$email_user = filter_var(trim($_POST['email_user'] ?? ''), FILTER_VALIDATE_EMAIL);
 $password = trim($_POST['password'] ?? '');
 $country = trim($_POST['country'] ?? '');
 
 // Vérifications basiques
-if (!$username || !$email) {
+if (!$username || !$email_user) {
     $_SESSION['error'] = "Veuillez remplir tous les champs obligatoires.";
     header("Location: ./profil.php");
     exit;
 }
 
 try {
-    // Vérifie si un autre utilisateur a déjà cet e-mail
-    $check = $pdo->prepare("SELECT id FROM users WHERE email = ? AND id != ?");
-    $check->execute([$email, $id]);
+    // Vérifie si un autre utilisateur a déjà cet email
+    $check = $pdo->prepare("SELECT id FROM users WHERE email_user = ? AND id != ?");
+    $check->execute([$email_user, $id]);
     if ($check->rowCount() > 0) {
         $_SESSION['error'] = "Cet e-mail est déjà utilisé par un autre compte.";
         header("Location: ./profil.php");
         exit;
     }
 
-    // Prépare la requête selon que le mot de passe a été modifié ou non
+    // Mise à jour
     if (empty($password)) {
-        $stmt = $pdo->prepare("UPDATE users SET username = ?, email = ?, country = ? WHERE id = ?");
-        $stmt->execute([$username, $email, $country, $id]);
+        $stmt = $pdo->prepare("UPDATE users SET username = ?, email_user = ?, country = ? WHERE id = ?");
+        $stmt->execute([$username, $email_user, $country, $id]);
     } else {
-        // Hachage sécurisé du nouveau mot de passe
         $hashed = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $pdo->prepare("UPDATE users SET username = ?, email = ?, password = ?, country = ? WHERE id = ?");
-        $stmt->execute([$username, $email, $hashed, $country, $id]);
+        $stmt = $pdo->prepare("UPDATE users SET username = ?, email_user = ?, password = ?, country = ? WHERE id = ?");
+        $stmt->execute([$username, $email_user, $hashed, $country, $id]);
     }
 
     // Mise à jour de la session
