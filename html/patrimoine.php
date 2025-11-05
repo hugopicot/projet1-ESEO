@@ -66,65 +66,13 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
             </a>
 
-            <div class="dropdown" data-dropdown>
+            <a class="icon-button" href="add_assets.php" aria-label="Ajouter des actifs" title="Ajouter des actifs">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M12 5a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H6a1 1 0 110-2h5V6a1 1 0 011-1z" />
+                </svg>
+                <span class="sr-only">Ajouter des actifs</span>
+            </a>
 
-                <button class="icon-button avatar-button" type="button" aria-haspopup="menu" aria-expanded="false" data-dropdown-toggle="navbar-user-menu">
-
-                    <span class="avatar avatar-square" aria-hidden="true">ER</span>
-
-                    <span class="sr-only">Ouvrir le menu utilisateur</span>
-
-                </button>
-
-                <div class="dropdown-menu bottom-end" id="navbar-user-menu" role="menu">
-
-                    <a class="dropdown-item" href="#profil" role="menuitem">
-
-                        <img class="dropdown-icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/user.svg" alt="" loading="lazy">
-
-                        <span class="dropdown-label">Mon profil</span>
-
-                    </a>
-
-                    <a class="dropdown-item" href="#parametres" role="menuitem">
-
-                        <img class="dropdown-icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/cog-8-tooth.svg" alt="" loading="lazy">
-
-                        <span class="dropdown-label">Paramètres</span>
-
-                    </a>
-
-                    <div class="dropdown-divider" role="none"></div>
-
-                    <a class="dropdown-item" href="#confidentialite" role="menuitem">
-
-                        <img class="dropdown-icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/shield-check.svg" alt="" loading="lazy">
-
-                        <span class="dropdown-label">Politique de confidentialité</span>
-
-                    </a>
-
-                    <a class="dropdown-item" href="#feedback" role="menuitem">
-
-                        <img class="dropdown-icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/light-bulb.svg" alt="" loading="lazy">
-
-                        <span class="dropdown-label">Partager un feedback</span>
-
-                    </a>
-
-                    <div class="dropdown-divider" role="none"></div>
-
-                    <a class="dropdown-item" href="#logout" role="menuitem">
-
-                        <img class="dropdown-icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/arrow-right-start-on-rectangle.svg" alt="" loading="lazy">
-
-                        <span class="dropdown-label">Se déconnecter</span>
-
-                    </a>
-
-                </div>
-
-            </div>
 
         </nav>
 

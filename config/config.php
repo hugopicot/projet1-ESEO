@@ -21,10 +21,20 @@ if (!defined('STRIPE_WEBHOOK_SECRET')) {
     define('STRIPE_WEBHOOK_SECRET', getenv('STRIPE_WEBHOOK_SECRET') ?: '');
 }
 
-// Domaine local (utilisé pour les URLs de retour Stripe)
+// Domaine de base (utilisé pour les URLs de retour Stripe)
+// Détection automatique du schéma et de l'hôte (incluant le port) depuis la requête
 if (!defined('APP_DOMAIN')) {
-    define('APP_DOMAIN', 'http://localhost:8000');
+    $scheme = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'https' : 'http';
+    $host   = $_SERVER['HTTP_HOST'] ?? '';
+    if ($host !== '') {
+        define('APP_DOMAIN', $scheme . '://' . $host);
+    } else {
+        // Fallback si exécuté en contexte sans serveur HTTP (CLI)
+        define('APP_DOMAIN', 'http://localhost');
+    }
 }
+
+// Connexion base de données
 $host = 'localhost';
 $dbname = 'projet_site1'; // évite les espaces dans le nom de la base
 $user = 'root';
@@ -41,4 +51,16 @@ try {
     // Message d'erreur simplifié pour éviter de révéler des infos sensibles en prod
     die("Erreur de connexion à la base de données. Détails : " . htmlspecialchars($e->getMessage()));
 }
-?>
+
+// Moralis API configuration (Web3 data)
+if (!defined('MORALIS_API_BASE')) {
+    $moralisBase = getenv('MORALIS_API_BASE') ?: 'https://deep-index.moralis.io/api/v2.2';
+    define('MORALIS_API_BASE', $moralisBase);
+}
+if (!defined('MORALIS_API_KEY')) {
+    // Définissez la variable d’environnement MORALIS_API_KEY en local/production
+    define('MORALIS_API_KEY', getenv('MORALIS_API_KEY') ?: '');
+}
+
+// Remarque: Ce fichier ne doit produire aucune sortie HTML/texte.
+// Pas de tag de fermeture PHP pour éviter toute sortie involontaire.

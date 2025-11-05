@@ -13,7 +13,7 @@ if (!STRIPE_SECRET_KEY || strpos(STRIPE_SECRET_KEY, 'sk_test_') !== 0) {
     exit;
 }
 
-$successUrl = APP_DOMAIN . '/html/checkout_success.php?session_id={CHECKOUT_SESSION_ID}';
+$successUrl = APP_DOMAIN . '/html/app.php?session_id={CHECKOUT_SESSION_ID}';
 $cancelUrl  = APP_DOMAIN . '/html/checkout_cancel.php';
 
 try {

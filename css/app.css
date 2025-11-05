@@ -119,6 +119,39 @@ a {
     height: 44px;
 }
 
+/* Bouton primaire pour actions dans la barre de navigation */
+.primary-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 32px;
+    padding: 0 10px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.8125rem; /* ~13px */
+    text-decoration: none;
+    transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+}
+
+.primary-button:hover,
+.primary-button:focus-visible {
+    background: #1d4ed8; /* indigo-700 approx */
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    outline: none;
+}
+
+.primary-button:active {
+    transform: translateY(1px);
+}
+
+.primary-button .button-icon {
+    width: 16px;
+    height: 16px;
+}
+
 .icon {
     width: 20px;
     height: 20px;
