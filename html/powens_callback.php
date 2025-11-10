@@ -1,57 +1,22 @@
 <?php
-// Endpoint de redirection (callback) après connexion banque via le provider
-// Objectif: éviter le 404 et préparer l’intégration.
+// Callback simplifié: lit code/erreur, récupère return_to depuis la session et redirige.
+if (session_status() === PHP_SESSION_NONE) { session_start(); }
 
-// Démarrage session si nécessaire
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-// Réattacher la session utilisateur via le paramètre state si le cookie n'est pas présent
-$incomingState = isset($_GET['state']) ? (string)$_GET['state'] : '';
-if (!isset($_SESSION['user_id']) && $incomingState !== '') {
-    $stateFile = dirname(__DIR__) . '/bd/powens_states.json';
-    if (file_exists($stateFile)) {
-        $raw = @file_get_contents($stateFile);
-        $states = json_decode((string)$raw, true);
-        if (is_array($states) && isset($states[$incomingState]['user_id'])) {
-            $restoredUserId = (int)$states[$incomingState]['user_id'];
-            if ($restoredUserId > 0) {
-                @session_regenerate_id(true);
-                $_SESSION['user_id'] = $restoredUserId;
-            }
-        }
-    }
-}
-
-// Détection du domaine de l’app (http/https + host:port)
+// Domaine de base
 $scheme = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'https' : 'http';
 $host   = $_SERVER['HTTP_HOST'] ?? 'localhost';
 $APP_DOMAIN = $scheme . '://' . $host;
 
-// Récupération des paramètres renvoyés par le provider
+// Paramètres du provider
 $code          = isset($_GET['code']) ? $_GET['code'] : null;
 $connection_id = isset($_GET['connection_id']) ? $_GET['connection_id'] : null;
 $state         = isset($_GET['state']) ? $_GET['state'] : null;
 $error         = isset($_GET['error']) ? $_GET['error'] : null;
 
-// Déterminer la page de retour depuis le mapping state
-$returnToPath = '/html/add_assets.php';
-try {
-    $stateFile = dirname(__DIR__) . '/bd/powens_states.json';
-    if (file_exists($stateFile)) {
-        $raw = @file_get_contents($stateFile);
-        $states = json_decode((string)$raw, true);
-        if (is_array($states) && isset($states[$incomingState]['return_to'])) {
-            $rt = (string)$states[$incomingState]['return_to'];
-            if ($rt !== '') { $returnToPath = $rt; }
-        }
-    }
-} catch (Throwable $e) {
-    // fallback déjà défini
-}
+// Page de retour depuis la session (fallback défaut)
+$returnToPath = isset($_SESSION['powens_return_to']) ? (string)$_SESSION['powens_return_to'] : '/html/add_assets.php';
 
-// Stockage minimal en session (pour debug/local). En prod: échanger le code contre des tokens.
+// Stockage minimal (debug/local)
 $_SESSION['powens_callback'] = [
     'received_at'   => date('c'),
     'code'          => $code,
@@ -60,7 +25,7 @@ $_SESSION['powens_callback'] = [
     'error'         => $error,
 ];
 
-// Redirection vers la page précédemment visitée, enrichie avec le statut
+// Redirection vers la page d'origine
 if ($code && !$error) {
     $target = (strpos($returnToPath, 'http') === 0) ? $returnToPath : ($APP_DOMAIN . $returnToPath);
     $sep = (strpos($target, '?') !== false) ? '&' : '?';
@@ -80,7 +45,7 @@ if ($error) {
     exit;
 }
 
-// Sinon: afficher une page simple pour confirmer que l’endpoint fonctionne en local
+// Page simple si aucun paramètre utile reçu
 http_response_code(200);
 ?>
 <!doctype html>
@@ -125,7 +90,7 @@ http_response_code(200);
             <p>Erreur: <strong><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></strong></p>
         <?php else: ?>
             <p>Aucun code reçu. Cet endpoint est prêt et accessible en local.</p>
-            <p class="hint">Lorsque le provider redirige avec un <code>code</code>, vous serez renvoyé vers <code>/html/patrimoine.php</code>.</p>
+            <p class="hint">Lorsque le provider redirige avec un <code>code</code>, vous serez renvoyé vers la page où vous étiez.</p>
         <?php endif; ?>
 
         <div class="callback-grid">

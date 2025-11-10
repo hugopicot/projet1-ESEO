@@ -113,5 +113,15 @@
         "user_id": 12,
         "created_at": "2025-11-05T10:08:30+00:00",
         "return_to": "/html/category_bank.php"
+    },
+    "8bdf48d4c160ba952108ec854ca0a85e": {
+        "user_id": 13,
+        "created_at": "2025-11-05T10:46:21+00:00",
+        "return_to": "/html/category_actions.php"
+    },
+    "6db37f49df8213bab4548bb5ea1eb0f4": {
+        "user_id": 13,
+        "created_at": "2025-11-05T10:47:44+00:00",
+        "return_to": "/html/category_bank.php"
     }
 }

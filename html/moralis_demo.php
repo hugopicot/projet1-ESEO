@@ -40,15 +40,26 @@ $tokens  = null; // { result: [...] }
 $nfts    = null; // { result: [...] }
 
 if ($address !== '') {
-    try {
-        // Native balance (ETH/MATIC/etc.)
-        $native = moralis_get('/' . $address . '/balance', ['chain' => $chain]);
-        // Token balances avec prix
-        $tokens = moralis_get('/wallets/' . $address . '/tokens', ['chain' => $chain]);
-        // NFTs par wallet
-        $nfts   = moralis_get('/' . $address . '/nft', ['chain' => $chain]);
-    } catch (Throwable $e) {
-        $error = $e->getMessage();
+    if (!defined('MORALIS_API_KEY') || MORALIS_API_KEY === '') {
+        // Mode statique pour débutants: exemples sans requêtes HTTP
+        $native = ['balance' => '1000000000000000000']; // 1 ETH
+        $tokens = ['result' => [
+            ['token_address' => '0xtokenAAA', 'symbol' => 'AAA', 'name' => 'Token AAA', 'balance' => '123450000000000000', 'price' => ['usd' => 1.23]],
+            ['token_address' => '0xtokenBBB', 'symbol' => 'BBB', 'name' => 'Token BBB', 'balance' => '987650000000000000', 'price' => ['usd' => 0.45]],
+        ]];
+        $nfts = ['result' => []];
+        $error = '';
+    } else {
+        try {
+            // Native balance (ETH/MATIC/etc.)
+            $native = moralis_get('/' . $address . '/balance', ['chain' => $chain]);
+            // Token balances avec prix
+            $tokens = moralis_get('/wallets/' . $address . '/tokens', ['chain' => $chain]);
+            // NFTs par wallet
+            $nfts   = moralis_get('/' . $address . '/nft', ['chain' => $chain]);
+        } catch (Throwable $e) {
+            $error = $e->getMessage();
+        }
     }
 }
 ?>
