@@ -561,5 +561,15 @@
         </div>
     </div>
 </footer>
+<div id="cookie-popup" class="cookie-popup">
+    <div class="cookie-box">
+        <p>Ce site utilise des cookies pour améliorer votre expérience.</p>
+        <div class="d-flex gap-2 mt-3">
+            <button class="btn" id="acceptCookies">Accepter</button>
+            <button class="btn1" id="declineCookies">Refuser</button>
+        </div>
+    </div>
+</div>
+<script src="js/cookies.js"></script>
 </body>
 </html>

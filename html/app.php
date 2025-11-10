@@ -87,9 +87,10 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
         <div class="navbar-brand">
 
-            <a href="app.php" title="logo"> <img class="navbar-logo" src="../asset/img/logo.png" alt="Nova></a>
-
-            <span class="navbar-title">Nova Console</a>
+            <a href="app.php" title="logo">
+                <img class="navbar-logo" src="../asset/img/logo.png" alt="Nova">
+            </a>
+            <span class="navbar-title">Nova Console</span>
 
         </div>
 
@@ -428,7 +429,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                                 "noTimeScale": false,
 
-                                "colorTheme": "light",
+                                "colorTheme": "dark",
 
                                 "isTransparent": false,
 
@@ -472,7 +473,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                                 "noTimeScale": false,
 
-                                "colorTheme": "light",
+                                "colorTheme": "dark",
 
                                 "isTransparent": false,
 
@@ -516,7 +517,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                                 "noTimeScale": false,
 
-                                "colorTheme": "light",
+                                "colorTheme": "dark",
 
                                 "isTransparent": false,
 
@@ -560,7 +561,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                                 "noTimeScale": false,
 
-                                "colorTheme": "light",
+                                "colorTheme": "dark",
 
                                 "isTransparent": false,
 
@@ -604,7 +605,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                                 "noTimeScale": false,
 
-                                "colorTheme": "light",
+                                "colorTheme": "dark",
 
                                 "isTransparent": false,
 

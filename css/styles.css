@@ -802,3 +802,16 @@ input, textarea {
 .hidden {
   display: none;
 }
+
+.cookie-popup {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: var(--UI-1);
+    border-radius: 15px;
+    padding: 20px;
+    color: var(--blanc);
+    display: none;
+    z-index: 9999;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}

@@ -1,15 +1,3 @@
-:root {
-    --shell-bg: #f5f6fb;
-    --sidebar-bg: #f8fafc;
-    --surface-bg: #ffffff;
-    --border-color: #e2e8f0;
-    --text-primary: #0f172a;
-    --text-muted: #475569;
-    --accent: #2563eb;
-    --accent-soft: #eff6ff;
-    --shadow-md: 0 18px 30px rgba(15, 23, 42, 0.08);
-    --shadow-sm: 0 8px 16px rgba(15, 23, 42, 0.06);
-}
 
 * {
     box-sizing: border-box;
@@ -23,8 +11,8 @@ body {
 body {
     margin: 0;
     font-family: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: var(--shell-bg);
-    color: var(--text-primary);
+    background: var(--background);
+    color: var(--blanc);
 }
 
 a {
@@ -57,8 +45,8 @@ a {
     gap: 1rem;
     padding: 0 1.5rem;
     height: 64px;
-    background: var(--surface-bg);
-    border-bottom: 1px solid var(--border-color);
+    background: var(--background);
+    border-bottom: 1px solid var(--UI-3);
     backdrop-filter: blur(12px);
 }
 
@@ -106,9 +94,9 @@ a {
 
 .icon-button:hover,
 .icon-button:focus-visible {
-    background: var(--accent-soft);
-    border-color: rgba(37, 99, 235, 0.2);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    background: var(--background);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary);
     outline: none;
 }
 
@@ -172,9 +160,9 @@ a {
     position: absolute;
     min-width: 220px;
     border-radius: 14px;
-    border: 1px solid var(--border-color);
-    background: var(--surface-bg);
-    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--background);
+    background: var(--background);
+    box-shadow: var(--UI-3);
     padding: 0.5rem;
     display: none;
     z-index: 50;
@@ -206,7 +194,7 @@ a {
     gap: 0.75rem;
     padding: 0.65rem 0.75rem;
     border-radius: 10px;
-    color: var(--text-primary);
+    color: var(--blanc);
     text-decoration: none;
     font-size: 0.875rem;
     font-weight: 500;
@@ -215,15 +203,15 @@ a {
 
 .dropdown-item:hover,
 .dropdown-item:focus-visible {
-    background: var(--accent-soft);
-    color: var(--accent);
+    background: var(--background);
+    color: var(--primary);
     outline: none;
 }
 
 .dropdown-divider {
     height: 1px;
     margin: 0.5rem 0;
-    background: var(--border-color);
+    background: var(--background);
 }
 
 .avatar {
@@ -233,8 +221,8 @@ a {
     width: 32px;
     height: 32px;
     border-radius: 999px;
-    background: #1f2937;
-    color: #fff;
+    background: var(--UI-3);
+    color: var(--blanc);
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.02em;
@@ -257,14 +245,14 @@ a {
     width: 28px;
     height: 28px;
     border-radius: 999px;
-    background: #0ea5e9;
-    color: #fff;
+    background: var(--background);
+    color: var(--blanc);
     font-size: 0.75rem;
     font-weight: 600;
 }
 
 .avatar-pill.avatar-purple {
-    background: #7c3aed;
+    background: var(--primary);
 }
 
 .app-layout {
@@ -275,8 +263,8 @@ a {
 
 .app-sidebar {
     width: 320px;
-    background: var(--sidebar-bg);
-    border-right: 1px solid var(--border-color);
+    background: var(--background);
+    border-right: 1px solid var(--UI-3);
     display: flex;
     flex-direction: column;
     min-height: 0;
@@ -314,7 +302,7 @@ a {
     gap: 0.85rem;
     padding: 0.7rem 0.85rem;
     border-radius: 12px;
-    color: var(--text-primary);
+    color: var(--blanc);
     text-decoration: none;
     font-weight: 500;
     transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
@@ -322,15 +310,15 @@ a {
 
 .sidebar-item:hover,
 .sidebar-item:focus-visible {
-    background: rgba(37, 99, 235, 0.1);
-    color: var(--accent);
+    background: var(--background);
+    color: var(--primary);
     outline: none;
 }
 
 .sidebar-item.is-active {
-    background: var(--accent);
-    color: #fff;
-    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+    background: var(--primary);
+    color: var(--UI-2);
+    box-shadow: 0 8px 20px var(--primary);
 }
 
 .sidebar-button {
@@ -348,14 +336,14 @@ a {
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--text-muted);
+    color: var(--blanc);
     margin: 0 0 0.25rem;
 }
 
 .sidebar-link {
     display: block;
     padding: 0.45rem 0.5rem;
-    color: var(--text-muted);
+    color: var(--blanc);
     text-decoration: none;
     border-radius: 8px;
     transition: background 0.2s ease, color 0.2s ease;
@@ -363,8 +351,8 @@ a {
 
 .sidebar-link:hover,
 .sidebar-link:focus-visible {
-    background: rgba(37, 99, 235, 0.08);
-    color: var(--text-primary);
+    background: var(--background);
+    color: var(--primary);
     outline: none;
 }
 
@@ -385,7 +373,7 @@ a {
 
 .sidebar-user-email {
     font-size: 0.75rem;
-    color: var(--text-muted);
+    color: var(--blanc);
     word-break: break-all;
 }
 
@@ -406,7 +394,7 @@ a {
     min-height: 0;
     overflow-y: auto;
     padding: 2.5rem 3rem;
-    background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 55%), var(--shell-bg);
+    background: radial-gradient(circle at top left, var(--background), transparent 55%), var(--UI-2);
 }
 
 .content-section {
@@ -426,7 +414,7 @@ a {
 .content-section p {
     font-size: 1rem;
     margin: 0;
-    color: var(--text-muted);
+    color: var(--blanc);
     max-width: 720px;
 }
 
@@ -454,13 +442,13 @@ a {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
-    background: #ffffff;
-    color: #000000;
-    border: 1px solid rgba(59, 130, 246, 0.25);
+    background: var(--background);
+    color: var(--blanc);
+    border: 1px solid var(--UI-3);
 }
 
 .dashboard-grid .content-card--performance h2 {
-    color: #000000;
+    color: var(--blanc);
 }
 
 .performance-header {
@@ -482,8 +470,8 @@ a {
     justify-content: center;
     padding: 0.25rem 0.75rem;
     border-radius: 999px;
-    background: rgba(59, 130, 246, 0.12);
-    color: #81a4ce;
+    background: var(--background);
+    color: var(--blanc);
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.02em;
@@ -497,18 +485,18 @@ a {
     height: 32px;
     border-radius: 999px;
     border: none;
-    background: rgba(148, 163, 184, 0.16);
-    color: #000000;
+    background: var(--background);
+    color: var(--blanc);
     cursor: pointer;
     transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .performance-toggle:hover {
-    background: rgba(148, 163, 184, 0.28);
+    background: var(--background);
 }
 
 .performance-toggle:focus-visible {
-    outline: 2px solid rgba(59, 130, 246, 0.45);
+    outline: 2px solid var(--primary);
     outline-offset: 3px;
 }
 
@@ -519,7 +507,7 @@ a {
 }
 
 .performance-metric .metric-label {
-    color: #595959;
+    color: var(--blanc);
     font-size: 0.9rem;
 }
 
@@ -542,7 +530,7 @@ a {
 }
 
 .performance-description {
-    color: rgba(226, 232, 240, 0.75);
+    color: var(--blanc);
     font-size: 0.9rem;
     line-height: 1.45;
     margin: 0;
@@ -554,7 +542,7 @@ a {
     align-items: center;
     gap: 0.4rem;
     font-weight: 600;
-    color: #bfdbfe;
+    color: var(--blanc);
     text-decoration: none;
     transition: color 0.2s ease, transform 0.2s ease;
 }
@@ -565,7 +553,7 @@ a {
 }
 
 .performance-link:hover {
-    color: #f8fafc;
+    color: var(--blanc);
 }
 
 .performance-link:hover svg {
@@ -598,7 +586,7 @@ a {
 
 .widget-section-header p {
     margin: 0;
-    color: var(--text-muted);
+    color: var(--blanc);
     font-size: 0.95rem;
 }
 
@@ -609,10 +597,10 @@ a {
 }
 
 .widget-card {
-    background: var(--surface-bg);
+    background: var(--background);
     border-radius: 16px;
-    border: 1px solid rgba(226, 232, 240, 0.7);
-    box-shadow: var(--shadow-md);
+    border: 1px solid var(--UI-3);
+    box-shadow: var(--primary);
     padding: 0;
     min-height: 200px;
     overflow: hidden;
@@ -638,7 +626,7 @@ a {
     bottom: 8px;
     left: 16px;
     font-size: 0.75rem;
-    color: var(--text-muted);
+    color: var(--blanc);
 }
 
 @media (max-width: 1200px) {
@@ -695,9 +683,9 @@ a {
 }
 
 .content-card {
-    background: var(--surface-bg);
+    background: var(--background);
     border-radius: 16px;
-    border: 1px solid rgba(226, 232, 240, 0.7);
+    border: 1px solid var(--UI-3);
     box-shadow: var(--shadow-md);
     padding: 1.5rem;
     display: flex;
@@ -713,7 +701,7 @@ a {
 
 .content-card p {
     margin: 0;
-    color: var(--text-muted);
+    color: var(--blanc);
     font-size: 0.95rem;
     line-height: 1.55;
 }
@@ -753,7 +741,7 @@ a {
     .app-sidebar {
         width: 100%;
         border-right: none;
-        border-bottom: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--UI-2);
     }
 
     .sidebar-body {
