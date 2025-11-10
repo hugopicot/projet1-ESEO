@@ -1,88 +1,102 @@
+<?php
+global $pdo;
+session_start();
+require_once '../config/config.php';
+
+// Vérifie si l'utilisateur est admin
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../html/auth.php");
+    exit;
+}
+
+$stmt = $pdo->prepare("SELECT role FROM users WHERE id = ?");
+$stmt->execute([$_SESSION['user_id']]);
+$user = $stmt->fetch();
+
+if (!$user || $user['role'] !== 'Admin') {
+    header("Location: ../html/app.php");
+    exit;
+}
+
+// Statistiques simples
+$totalUsers = $pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();
+$totalStarter = $pdo->query("SELECT COUNT(*) FROM users WHERE subscription_plan = 'starter'")->fetchColumn();
+$totalPro = $pdo->query("SELECT COUNT(*) FROM users WHERE subscription_plan = 'pro'")->fetchColumn();
+
+// Liste des utilisateurs
+$users = $pdo->query("SELECT id, username, email_user, role, subscription_plan FROM users ORDER BY id DESC")->fetchAll();
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Panel Admin</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>Admin Panel - NOVA</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="../css/adminpanel.css">
+    <style>
+        body { background: #0d0d0d; color: white; }
+        .sidebar { width: 250px; background: #111; min-height: 100vh; padding: 20px; }
+        .sidebar a { color: #bbb; display: block; margin-bottom: 10px; }
+        .sidebar a.active, .sidebar a:hover { color: #8CFF2E; }
+        .main { padding: 20px; flex: 1; }
+        .card-stat { background: #161616; border-radius: 12px; padding: 20px; }
+        .table-dark { background: #111; }
+        .btn-sm { padding: 4px 8px; }
+    </style>
 </head>
 <body>
 
 <div class="d-flex">
+
     <!-- Sidebar -->
-    <div class="sidebar p-3">
-        <h5 class="fw-bold text-white mb-4"><img src="../asset/img/logo.png" alt="Nova" class="logo"></h5>
-        <ul class="nav flex-column">
-            <li class="nav-item mb-2"><a href="#" class="nav-link active">Dashboard</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link">Marketplace</a></li>
-            <li class="nav-item mb-2"><a href="../index.php" class="nav-link">Accueil</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link">Clients</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link">Remises</a></li>
-            <hr class="border-secondary">
-            <li class="nav-item mb-2"><a href="#" class="nav-link">Comptabilité</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link">Taxes</a></li>
-            <hr class="border-secondary">
-            <li class="nav-item mb-2"><a href="#" class="nav-link">Paramètres</a></li>
-        </ul>
-        <div class="mt-auto small text-secondary pt-4">
-            Siloé BOISSON<br><span class="text-muted">Admin Panel</span>
-        </div>
+    <div class="sidebar">
+        <h4 class="text-white mb-4">⚙️ NOVA ADMIN</h4>
+        <a href="panel_admin.php" class="active">Dashboard</a>
+        <a href="settings.php">Paramètres</a>
+        <a href="../index.php">Retour au site</a>
+        <hr style="border-color:#333;">
+        <p class="text-secondary small">Connecté en tant que : Admin</p>
     </div>
 
-    <!-- Main content -->
-    <div class="main p-4 flex-fill">
-        <h4 class="fw-bold text-white mb-4">Dashboard</h4>
+    <!-- Main -->
+    <div class="main">
 
-        <!-- Stats Cards -->
+        <h2 class="mb-4 fw-bold">Tableau de bord</h2>
+
         <div class="row g-3 mb-4">
-            <div class="col-md-3">
-                <div class="card p-3 stat-card">
-                    <div class="fw-semibold text-muted">Total clients</div>
-                    <h5 class="fw-bold text-white mt-2">567,899 <span class="text-success fs-6">▲ 2.5%</span></h5>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card p-3 stat-card">
-                    <div class="fw-semibold text-muted">Revenu total</div>
-                    <h5 class="fw-bold text-white mt-2">$3,465 M <span class="text-success fs-6">▲ 0.5%</span></h5>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card p-3 stat-card">
-                    <div class="fw-semibold text-muted">Commandes</div>
-                    <h5 class="fw-bold text-white mt-2">1,136 M <span class="text-danger fs-6">▼ 0.2%</span></h5>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card p-3 stat-card">
-                    <div class="fw-semibold text-muted">Retours</div>
-                    <h5 class="fw-bold text-white mt-2">1,789 <span class="text-success fs-6">▲ 0.12%</span></h5>
-                </div>
-            </div>
+            <div class="col-md-4"><div class="card-stat">Total utilisateurs : <b><?= $totalUsers ?></b></div></div>
+            <div class="col-md-4"><div class="card-stat">Starter : <b><?= $totalStarter ?></b></div></div>
+            <div class="col-md-4"><div class="card-stat">Pro : <b><?= $totalPro ?></b></div></div>
         </div>
 
-        <!-- Graph placeholders -->
-        <div class="card p-3 mb-4 stat-card">
-            <div class="fw-semibold text-white mb-3">Ventes produits</div>
-            <div class="chart-placeholder">[Graphique ventes]</div>
-        </div>
+        <h4 class="fw-bold mt-4 mb-3">Gestion des utilisateurs</h4>
 
-        <div class="row g-3">
-            <div class="col-md-6">
-                <div class="card p-3 stat-card">
-                    <div class="fw-semibold text-white mb-3">Ventes par catégorie</div>
-                    <div class="chart-placeholder">[Graphique catégories]</div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card p-3 stat-card">
-                    <div class="fw-semibold text-white mb-3">Ventes par pays</div>
-                    <div class="chart-placeholder">[Graphique pays]</div>
-                </div>
-            </div>
-        </div>
+        <table class="table table-dark table-hover table-bordered align-middle text-center">
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Rôle</th>
+                <th>Abonnement</th>
+                <th>Actions</th>
+            </tr>
+            <?php foreach ($users as $u): ?>
+                <tr>
+                    <td><?= $u['id'] ?></td>
+                    <td><?= $u['username'] ?></td>
+                    <td><?= $u['email_user'] ?></td>
+                    <td><?= $u['role'] ?></td>
+                    <td><?= $u['subscription_plan'] ?></td>
+                    <td>
+                        <a href="../config/update_role.php?id=<?= $u['id'] ?>" class="btn btn-warning btn-sm">Changer rôle</a>
+                        <a href="../config/delete_user.php?id=<?= $u['id'] ?>" onclick="return confirm('Supprimer ce compte ?')" class="btn btn-danger btn-sm">Supprimer</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+
     </div>
+
 </div>
 
 </body>
