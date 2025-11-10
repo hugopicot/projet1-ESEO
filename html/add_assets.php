@@ -106,7 +106,6 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
                     <button type="button" class="category-card" aria-label="Comptes bancaires" data-action="connect-powens">
                         <div class="category-content">
                             <h3 class="category-title">Comptes bancaires</h3>
-                            <p class="category-desc">Saisissez vos comptes courants et d’épargne.</p>
                         </div>
                         <div class="category-art" aria-hidden="true"></div>
                     </button>
@@ -114,7 +113,6 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
                     <button type="button" class="category-card" aria-label="Actions & Fonds" data-action="connect-powens-invest">
                         <div class="category-content">
                             <h3 class="category-title">Actions & Fonds</h3>
-                            <p class="category-desc">Ajoutez vos positions boursières et ETF.</p>
                         </div>
                         <div class="category-art" aria-hidden="true"></div>
                     </button>
@@ -122,7 +120,6 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
                     <button type="button" class="category-card" aria-label="Crypto" data-action="connect-crypto">
                         <div class="category-content">
                             <h3 class="category-title">Crypto</h3>
-                            <p class="category-desc">Indiquez vos montants en wallets ou plateformes.</p>
                         </div>
                         <div class="category-art" aria-hidden="true"></div>
                     </button>
@@ -130,7 +127,6 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
                     <button type="button" class="category-card" aria-label="Immobilier" data-action="connect-powens-real-estate">
                         <div class="category-content">
                             <h3 class="category-title">Immobilier</h3>
-                            <p class="category-desc">Ajoutez biens, parts et estimations.</p>
                         </div>
                         <div class="category-art" aria-hidden="true"></div>
                     </button>
@@ -138,7 +134,6 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
                     <button type="button" class="category-card" aria-label="Assurance vie" data-action="connect-powens-lifeinsurance">
                         <div class="category-content">
                             <h3 class="category-title">Assurance vie</h3>
-                            <p class="category-desc">Saisissez fonds euros et unités de compte.</p>
                         </div>
                         <div class="category-art" aria-hidden="true"></div>
                     </button>
@@ -146,7 +141,6 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
                     <button type="button" class="category-card" aria-label="Autre">
                         <div class="category-content">
                             <h3 class="category-title">Autre</h3>
-                            <p class="category-desc">Actifs hors catégories (or, collection, etc.).</p>
                         </div>
                         <div class="category-art" aria-hidden="true"></div>
                     </button>

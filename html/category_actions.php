@@ -32,7 +32,7 @@ if (session_status() === PHP_SESSION_NONE) { session_start(); }
       <div class="card">
         <h2>Synchronisation automatique</h2>
         <p>Connexion sécurisée et mise à jour automatique de vos positions et transactions.</p>
-        <a class="btn-link" href="connect_powens.php?connector_capabilities=bankwealth&account_types=madelin,market,pea,pee,per,perco,perp">Continuer</a>
+        <a class="btn-link" href="connect_powens.php?connector_capabilities=bankwealth&account_types=madelin,market,pea,pee,per,perco,perp&return_to=/html/category_actions.php">Continuer</a>
       </div>
       <div class="card">
         <h2>Ajout manuel</h2>

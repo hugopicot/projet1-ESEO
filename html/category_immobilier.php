@@ -32,7 +32,7 @@ if (session_status() === PHP_SESSION_NONE) { session_start(); }
       <div class="card">
         <h2>Immobilier physique</h2>
         <p>Résidence principale, secondaire, immobilier locatif, locaux commerciaux, parking.</p>
-        <a class="btn-link" href="connect_powens.php?connector_capabilities=bankwealth&account_types=real_estate">Continuer</a>
+        <a class="btn-link" href="connect_powens.php?connector_capabilities=bankwealth&account_types=real_estate&return_to=/html/category_immobilier.php">Continuer</a>
       </div>
       <div class="card">
         <h2>SCPI</h2>

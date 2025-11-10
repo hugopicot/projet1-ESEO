@@ -34,6 +34,29 @@ $accountTypes   = isset($_GET['account_types']) ? (string)$_GET['account_types']
 $accountType    = isset($_GET['account_type']) ? (string)$_GET['account_type'] : '';
 $staticLinkGet  = isset($_GET['static_link']) ? (string)$_GET['static_link'] : '';
 $debugRequested = isset($_GET['debug']) ? (string)$_GET['debug'] : '';
+$returnToGet    = isset($_GET['return_to']) ? (string)$_GET['return_to'] : '';
+
+// Capture et mémorisation de la page d'origine pour redirection post-callback
+$returnTo = $returnToGet;
+if ($returnTo === '') {
+    $ref = $_SERVER['HTTP_REFERER'] ?? '';
+    if ($ref !== '') {
+        $path = parse_url($ref, PHP_URL_PATH);
+        if (is_string($path) && $path !== '') { $returnTo = $path; }
+    }
+}
+if ($returnTo === '') { $returnTo = '/html/add_assets.php'; }
+
+// Mettre à jour le mapping state -> user avec return_to
+$rawStates = @file_get_contents($stateFile);
+$statesUpd = json_decode((string)$rawStates, true);
+if (!is_array($statesUpd)) { $statesUpd = []; }
+$statesUpd[$state] = [
+    'user_id'    => $userId,
+    'created_at' => date('c'),
+    'return_to'  => $returnTo,
+];
+@file_put_contents($stateFile, json_encode($statesUpd, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
 // Base et constantes (respecter strictement redirect_uri en local)
 $baseUrl      = 'https://webview.powens.com/fr/connect';

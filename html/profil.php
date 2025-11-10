@@ -51,7 +51,7 @@ if (!$user) {
 
         <div class="mb-3">
             <label for="email" class="form-label text-secondary">Adresse e-mail</label>
-            <input type="email" class="form-control input-dark" id="email" name="email" value="<?= htmlspecialchars($user['email_user']); ?>" required>
+            <input type="email" class="form-control input-dark" id="email" name="email_user" value="<?= htmlspecialchars($user['email_user']); ?>" required>
         </div>
 
         <div class="mb-3">

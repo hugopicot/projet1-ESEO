@@ -35,6 +35,22 @@ $connection_id = isset($_GET['connection_id']) ? $_GET['connection_id'] : null;
 $state         = isset($_GET['state']) ? $_GET['state'] : null;
 $error         = isset($_GET['error']) ? $_GET['error'] : null;
 
+// Déterminer la page de retour depuis le mapping state
+$returnToPath = '/html/add_assets.php';
+try {
+    $stateFile = dirname(__DIR__) . '/bd/powens_states.json';
+    if (file_exists($stateFile)) {
+        $raw = @file_get_contents($stateFile);
+        $states = json_decode((string)$raw, true);
+        if (is_array($states) && isset($states[$incomingState]['return_to'])) {
+            $rt = (string)$states[$incomingState]['return_to'];
+            if ($rt !== '') { $returnToPath = $rt; }
+        }
+    }
+} catch (Throwable $e) {
+    // fallback déjà défini
+}
+
 // Stockage minimal en session (pour debug/local). En prod: échanger le code contre des tokens.
 $_SESSION['powens_callback'] = [
     'received_at'   => date('c'),
@@ -44,9 +60,22 @@ $_SESSION['powens_callback'] = [
     'error'         => $error,
 ];
 
-// Si un code est présent et pas d’erreur, on peut rediriger vers la page de portefeuille
+// Redirection vers la page précédemment visitée, enrichie avec le statut
 if ($code && !$error) {
-    $target = $APP_DOMAIN . '/html/patrimoine.php?powens_status=success&connection_id=' . urlencode((string)$connection_id);
+    $target = (strpos($returnToPath, 'http') === 0) ? $returnToPath : ($APP_DOMAIN . $returnToPath);
+    $sep = (strpos($target, '?') !== false) ? '&' : '?';
+    $target .= $sep . 'powens_status=success';
+    if ($connection_id) { $target .= '&connection_id=' . urlencode((string)$connection_id); }
+    if ($state) { $target .= '&state=' . urlencode((string)$state); }
+    header('Location: ' . $target, true, 302);
+    exit;
+}
+
+if ($error) {
+    $target = (strpos($returnToPath, 'http') === 0) ? $returnToPath : ($APP_DOMAIN . $returnToPath);
+    $sep = (strpos($target, '?') !== false) ? '&' : '?';
+    $target .= $sep . 'powens_status=error&error=' . urlencode((string)$error);
+    if ($state) { $target .= '&state=' . urlencode((string)$state); }
     header('Location: ' . $target, true, 302);
     exit;
 }

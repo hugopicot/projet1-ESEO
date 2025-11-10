@@ -32,7 +32,7 @@ if (session_status() === PHP_SESSION_NONE) { session_start(); }
       <div class="card">
         <h2>Synchronisation automatique</h2>
         <p>Connexion sécurisée et mise à jour automatique de vos soldes.</p>
-        <a class="btn-link" href="connect_powens.php">Continuer</a>
+        <a class="btn-link" href="connect_powens.php?return_to=/html/category_bank.php">Continuer</a>
       </div>
       <div class="card">
         <h2>Ajout manuel</h2>

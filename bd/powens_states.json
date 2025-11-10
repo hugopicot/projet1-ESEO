@@ -82,5 +82,36 @@
     "34541a84b62261c6e9c8d6477dddf636": {
         "user_id": 9,
         "created_at": "2025-11-05T09:34:03+00:00"
+    },
+    "bfba30825572681bc9368107ed6b02af": {
+        "user_id": 9,
+        "created_at": "2025-11-05T09:36:33+00:00"
+    },
+    "03936ada667472f27ed0ef0745546ac1": {
+        "user_id": 9,
+        "created_at": "2025-11-05T09:36:41+00:00"
+    },
+    "172636a65b2bc382e6c56ab5774a533a": {
+        "user_id": 9,
+        "created_at": "2025-11-05T09:44:44+00:00"
+    },
+    "acf13081e1f5deec93ea06cd59c89994": {
+        "user_id": 9,
+        "created_at": "2025-11-05T09:47:32+00:00"
+    },
+    "0a9bdd1f074fe7fe3e2ee65e465a95b8": {
+        "user_id": 9,
+        "created_at": "2025-11-05T10:02:49+00:00",
+        "return_to": "/html/category_crypto.php"
+    },
+    "063bf17bd6701f2f9f5513d505c9acc2": {
+        "user_id": 12,
+        "created_at": "2025-11-05T10:07:55+00:00",
+        "return_to": "/html/category_bank.php"
+    },
+    "40061b38e5d38402bee7cf6b25ec3f4a": {
+        "user_id": 12,
+        "created_at": "2025-11-05T10:08:30+00:00",
+        "return_to": "/html/category_bank.php"
     }
 }

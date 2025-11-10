@@ -32,7 +32,7 @@ if (session_status() === PHP_SESSION_NONE) { session_start(); }
       <div class="card">
         <h2>Exchange</h2>
         <p>Connexion sécurisée et mise à jour automatique de vos comptes d’échange.</p>
-        <a class="btn-link" href="connect_powens.php?connector_capabilities=bankwealth">Continuer</a>
+        <a class="btn-link" href="connect_powens.php?connector_capabilities=bankwealth&return_to=/html/category_crypto.php">Continuer</a>
       </div>
       <div class="card">
         <h2>Wallet crypto</h2>
