@@ -32,8 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     echo "Message envoyé avec succès.";
 }
 
-header("Status: 301 Moved Permanently", false, 301);
-header("Location: http://projet1/index.php");
+header("Location: ../index.php");
 exit;
 
 

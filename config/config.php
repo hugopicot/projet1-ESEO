@@ -1,4 +1,40 @@
 <?php
+// Configuration globale du projet
+
+// Lecture des clés Stripe en priorité via variables d'environnement
+// Définissez STRIPE_SECRET_KEY et STRIPE_PUBLISHABLE_KEY dans votre environnement si possible.
+$envStripeSecret = getenv('STRIPE_SECRET_KEY') ?: '';
+$envStripePublishable = getenv('STRIPE_PUBLISHABLE_KEY') ?: '';
+
+// Fallback: clés de test à compléter (NE JAMAIS mettre des clés live ici)
+if (!defined('STRIPE_SECRET_KEY')) {
+    // Fallback local (test) si variable d’environnement non définie
+    define('STRIPE_SECRET_KEY', $envStripeSecret ?: 'sk_test_51SPOJp7eOcswKrFeMA4bLu97didfxphLLrHwBTsEyyRoP1kGYIzxpIN1Dqmc7ifVGfXJhpc4Po8rOMrJvlz3hWON00DNd9xx5p');
+}
+if (!defined('STRIPE_PUBLISHABLE_KEY')) {
+    // Fallback local (test) si variable d’environnement non définie
+    define('STRIPE_PUBLISHABLE_KEY', $envStripePublishable ?: 'pk_test_51SPOJp7eOcswKrFerYc4mS1mSppZ4ZSrEnFmx9aYAO03DQ6Jdpv7nv5DtKguo4IJitZTcHxhOcAi1xdXvlj1mSM700tkiYEOpL');
+}
+
+// Secret webhook (facultatif en local). Vous pouvez le définir via env STRIPE_WEBHOOK_SECRET.
+if (!defined('STRIPE_WEBHOOK_SECRET')) {
+    define('STRIPE_WEBHOOK_SECRET', getenv('STRIPE_WEBHOOK_SECRET') ?: '');
+}
+
+// Domaine de base (utilisé pour les URLs de retour Stripe)
+// Détection automatique du schéma et de l'hôte (incluant le port) depuis la requête
+if (!defined('APP_DOMAIN')) {
+    $scheme = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'https' : 'http';
+    $host   = $_SERVER['HTTP_HOST'] ?? '';
+    if ($host !== '') {
+        define('APP_DOMAIN', $scheme . '://' . $host);
+    } else {
+        // Fallback si exécuté en contexte sans serveur HTTP (CLI)
+        define('APP_DOMAIN', 'http://localhost');
+    }
+}
+
+// Connexion base de données
 $host = 'localhost';
 $dbname = 'projet_site1'; // évite les espaces dans le nom de la base
 $user = 'root';
@@ -15,4 +51,16 @@ try {
     // Message d'erreur simplifié pour éviter de révéler des infos sensibles en prod
     die("Erreur de connexion à la base de données. Détails : " . htmlspecialchars($e->getMessage()));
 }
-?>
+
+// Moralis API configuration (Web3 data)
+if (!defined('MORALIS_API_BASE')) {
+    $moralisBase = getenv('MORALIS_API_BASE') ?: 'https://deep-index.moralis.io/api/v2.2';
+    define('MORALIS_API_BASE', $moralisBase);
+}
+if (!defined('MORALIS_API_KEY')) {
+    // Définissez la variable d’environnement MORALIS_API_KEY en local/production
+    define('MORALIS_API_KEY', getenv('MORALIS_API_KEY') ?: '');
+}
+
+// Remarque: Ce fichier ne doit produire aucune sortie HTML/texte.
+// Pas de tag de fermeture PHP pour éviter toute sortie involontaire.

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 global $pdo;
 session_start();
 require_once '../config/config.php';
@@ -8,12 +8,43 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// Vérifie l'abonnement
-$stmt = $pdo->prepare("SELECT subscription_plan, subscription_end FROM users WHERE id = ?");
-$stmt->execute([$_SESSION['user_id']]);
-$user = $stmt->fetch();
+// Activation abonnement après retour Stripe (success_url)
+// Si on arrive avec un session_id Stripe (et éventuellement ?plan=starter|pro),
+// on provisionne les colonnes si besoin et on active l'abonnement avec 30 jours d'essai.
+// En production, préférez le webhook checkout.session.completed.
+$stripeSessionId = isset($_GET['session_id']) ? trim((string)$_GET['session_id']) : '';
+$planParam = isset($_GET['plan']) ? trim((string)$_GET['plan']) : '';
+if ($stripeSessionId !== '') {
+    $plan = in_array($planParam, ['starter', 'pro'], true) ? $planParam : 'starter';
+    $now = date('Y-m-d H:i:s');
+    $end = date('Y-m-d H:i:s', strtotime('+30 days'));
 
-if (!$user || $user['subscription_plan'] === 'none' || strtotime($user['subscription_end']) < time()) {
+    // Provisionner les colonnes si elles n'existent pas
+    try { $pdo->exec("ALTER TABLE users ADD COLUMN subscription_plan VARCHAR(50) NOT NULL DEFAULT 'none'"); } catch (Throwable $e) {}
+    try { $pdo->exec("ALTER TABLE users ADD COLUMN subscription_start DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00'"); } catch (Throwable $e) {}
+    try { $pdo->exec("ALTER TABLE users ADD COLUMN subscription_end DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00'"); } catch (Throwable $e) {}
+
+    try {
+        $stmt = $pdo->prepare("UPDATE users SET subscription_plan = ?, subscription_start = ?, subscription_end = ? WHERE id = ?");
+        $stmt->execute([$plan, $now, $end, $_SESSION['user_id']]);
+        $_SESSION['subscription_activated'] = true;
+    } catch (Throwable $e) {
+        // Ne pas bloquer l'accès si l'UPDATE échoue; l'utilisateur pourra réessayer
+    }
+}
+
+// Vérifie l'abonnement (robuste même si les colonnes n'existent pas encore)
+$user = null;
+try {
+    $stmt = $pdo->prepare("SELECT subscription_plan, subscription_end FROM users WHERE id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $user = $stmt->fetch();
+} catch (PDOException $e) {
+    // Fallback si la colonne n'existe pas : forcer la souscription
+    $user = ['subscription_plan' => 'none', 'subscription_end' => '1970-01-01'];
+}
+
+if (!$user || ($user['subscription_plan'] ?? 'none') === 'none' || strtotime($user['subscription_end'] ?? '1970-01-01') < time()) {
     // Redirige vers une page d'abonnement
     header("Location: subscription.php");
     exit;
@@ -99,7 +130,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                     </a>
 
-                    <a class="dropdown-item" href="settings.php" role="menuitem">
+                    <a class="dropdown-item" href="#parametres" role="menuitem">
 
                         <img class="dropdown-icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/cog-8-tooth.svg" alt="" loading="lazy">
 
@@ -1977,6 +2008,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </script>
 
+<script>
+  // Fallback pour icônes externes (GitHub) : si le chargement échoue, on injecte une icône SVG générique
+  (function() {
+    function svgData(color) {
+      // Icône générique : cercle
+      var c = encodeURIComponent(color || '#9CA3AF');
+      return 'data:image/svg+xml;utf8,' +
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="' + c + '">' +
+        '<circle cx="12" cy="12" r="8"/></svg>';
+    }
+    var imgs = document.querySelectorAll('img.icon');
+    imgs.forEach(function(img){
+      img.addEventListener('error', function(){
+        // Utilise une couleur discrète pour s’intégrer au thème
+        img.src = svgData('#9CA3AF');
+      }, { once: true });
+    });
+  })();
+</script>
 </body>
 
 </html>
