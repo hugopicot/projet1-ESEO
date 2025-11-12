@@ -67,20 +67,53 @@ try {
         UNIQUE KEY uniq_user_cat_external (user_id, categorie, external_id)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 
-    $stmt = $pdo->prepare("INSERT INTO positions_manual (user_id, categorie, external_id, name, quantity, purchase_price, currency, data_source)
-                           VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                           ON DUPLICATE KEY UPDATE
-                             name = VALUES(name),
-                             quantity = quantity + VALUES(quantity),
-                             purchase_price = CASE
-                               WHEN VALUES(purchase_price) IS NULL OR VALUES(purchase_price) <= 0 THEN purchase_price
-                               WHEN purchase_price IS NULL OR purchase_price <= 0 THEN VALUES(purchase_price)
-                               ELSE (purchase_price * quantity + VALUES(purchase_price) * VALUES(quantity)) / (quantity + VALUES(quantity))
-                             END,
-                             currency = VALUES(currency),
-                             data_source = VALUES(data_source),
-                             updated_at = NOW()");
-    $stmt->execute([$_SESSION['user_id'], $category, $external, $name, $quantity, $purchase, $currency, $dataSource]);
+    $pdo->exec("CREATE TABLE IF NOT EXISTS compte (
+        id_compte INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL,
+        source VARCHAR(32) NOT NULL,
+        external_id VARCHAR(128) NOT NULL,
+        categorie ENUM('actions_fonds','crypto','immobilier','assurance_vie','autres') NOT NULL,
+        subtype VARCHAR(64) DEFAULT NULL,
+        libelle VARCHAR(255) DEFAULT NULL,
+        devise CHAR(3) NOT NULL DEFAULT 'EUR',
+        balance DECIMAL(20,8) NOT NULL DEFAULT 0,
+        balance_eur DECIMAL(20,8) NOT NULL DEFAULT 0,
+        status ENUM('active','closed') NOT NULL DEFAULT 'active',
+        created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        UNIQUE KEY uniq_user_source_external (user_id, source, external_id),
+        KEY idx_user_source_status (user_id, source, status),
+        KEY idx_user_external (user_id, external_id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+    // Upsert positions_manual sans VALUES(), compatible MySQL/MariaDB
+    $stmtIns = $pdo->prepare("INSERT INTO positions_manual (user_id, categorie, external_id, name, quantity, purchase_price, currency, data_source)
+                              VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    try {
+        $stmtIns->execute([$_SESSION['user_id'], $category, $external, $name, $quantity, $purchase, $currency, $dataSource]);
+    } catch (PDOException $ex) {
+        $sqlState = $ex->getCode();
+        $sqlErrNo = isset($ex->errorInfo[1]) ? (int)$ex->errorInfo[1] : null;
+        if ($sqlErrNo === 1062 || $sqlState === '23000') {
+            $pmSel = $pdo->prepare("SELECT quantity, purchase_price FROM positions_manual WHERE user_id = ? AND categorie = ? AND external_id = ? LIMIT 1");
+            $pmSel->execute([$_SESSION['user_id'], $category, $external]);
+            $existing = $pmSel->fetch(PDO::FETCH_ASSOC) ?: ['quantity' => 0.0, 'purchase_price' => null];
+            $existingQty = isset($existing['quantity']) ? (float)$existing['quantity'] : 0.0;
+            $existingPP  = isset($existing['purchase_price']) ? (float)$existing['purchase_price'] : null;
+            $newQty = $existingQty + $quantity;
+            if ($purchase === null || $purchase <= 0) {
+                $newPP = $existingPP;
+            } elseif ($existingPP === null || $existingPP <= 0) {
+                $newPP = $purchase;
+            } else {
+                $newPP = (($existingPP * $existingQty) + ($purchase * $quantity)) / max($newQty, 1e-9);
+            }
+            $pmUpd = $pdo->prepare("UPDATE positions_manual SET name = ?, quantity = ?, purchase_price = ?, currency = ?, data_source = ?, updated_at = NOW() WHERE user_id = ? AND categorie = ? AND external_id = ?");
+            $pmUpd->execute([$name, $newQty, $newPP, $currency, $dataSource, $_SESSION['user_id'], $category, $external]);
+        } else {
+            throw $ex;
+        }
+    }
 
     $pm = $pdo->prepare("SELECT quantity, purchase_price FROM positions_manual WHERE user_id = ? AND categorie = ? AND external_id = ? LIMIT 1");
     $pm->execute([$_SESSION['user_id'], $category, $external]);
@@ -106,11 +139,22 @@ try {
         }
     }
 
-    $stmt2 = $pdo->prepare("INSERT INTO compte (user_id, source, external_id, categorie, subtype, libelle, devise, balance, balance_eur, status, created_at, updated_at)
-                            VALUES (?, 'manual', ?, ?, ?, ?, ?, ?, ?, 'active', NOW(), NOW())
-                            ON DUPLICATE KEY UPDATE categorie = VALUES(categorie), subtype = VALUES(subtype), libelle = VALUES(libelle), devise = VALUES(devise), balance = VALUES(balance), balance_eur = VALUES(balance_eur), status = 'active', updated_at = NOW()");
+    // Upsert compte sans VALUES(), compatible MySQL/MariaDB
     $subtype = 'crypto';
-    $stmt2->execute([$_SESSION['user_id'], $external, $category, $subtype, $name, $currency, $immediate_eur, $immediate_eur]);
+    try {
+        $stmt2Ins = $pdo->prepare("INSERT INTO compte (user_id, source, external_id, categorie, subtype, libelle, devise, balance, balance_eur, status, created_at, updated_at)
+                                   VALUES (?, 'manual', ?, ?, ?, ?, ?, ?, ?, 'active', NOW(), NOW())");
+        $stmt2Ins->execute([$_SESSION['user_id'], $external, $category, $subtype, $name, $currency, $immediate_eur, $immediate_eur]);
+    } catch (PDOException $ex) {
+        $sqlState = $ex->getCode();
+        $sqlErrNo = isset($ex->errorInfo[1]) ? (int)$ex->errorInfo[1] : null;
+        if ($sqlErrNo === 1062 || $sqlState === '23000') {
+            $stmt2Upd = $pdo->prepare("UPDATE compte SET categorie = ?, subtype = ?, libelle = ?, devise = ?, balance = ?, balance_eur = ?, status = 'active', updated_at = NOW() WHERE user_id = ? AND source = 'manual' AND external_id = ?");
+            $stmt2Upd->execute([$category, $subtype, $name, $currency, $immediate_eur, $immediate_eur, $_SESSION['user_id'], $external]);
+        } else {
+            throw $ex;
+        }
+    }
 
     try { refresh_manual_assets($pdo, (int)$_SESSION['user_id']); } catch (Throwable $e) { /* ignore */ }
 
