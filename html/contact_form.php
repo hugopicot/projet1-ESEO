@@ -8,19 +8,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = trim($_POST['email']);
     $message = trim($_POST['message']);
 
-    // Vérifie que tous les champs sont remplis
     if (empty($nom) || empty($email) || empty($message)) {
-        echo "Veuillez remplir tous les champs.";
+        $_SESSION['error'] = "Veuillez remplir tous les champs.";
+        header("Location: ../index.php");
         exit;
     }
 
-    // Vérifie le format de l'email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "Adresse email invalide.";
+        $_SESSION['error'] = "Adresse email invalide.";
+        header("Location: ../index.php");
         exit;
     }
 
-    // Prépare et exécute l’insertion
     $sql = "INSERT INTO messages (nom, email, message) VALUES (:nom, :email, :message)";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
@@ -29,11 +28,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         ':message' => $message
     ]);
 
-    echo "Message envoyé avec succès.";
+    $_SESSION['success'] = "Message envoyé avec succès.";
+    header("Location: ../index.php");
+    exit;
 }
 
 header("Location: ../index.php");
 exit;
-
 
 ?>

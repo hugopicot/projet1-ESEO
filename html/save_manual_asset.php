@@ -8,7 +8,6 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// Support JSON body or form-encoded
 $input = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $raw = (string)file_get_contents('php://input');
@@ -17,8 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     else { $input = $_POST; }
 } else { $input = $_GET; }
 
-$category = trim((string)($input['category'] ?? ''));
-$type     = trim((string)($input['type'] ?? 'equity')); // 'equity' | 'crypto'
+$category = 'crypto';
+$type     = 'crypto';
 $external = trim((string)($input['external_id'] ?? ''));
 $name     = trim((string)($input['name'] ?? ''));
 $quantity = (float)($input['quantity'] ?? 0);
@@ -30,19 +29,13 @@ if ($category === '' || $external === '' || $quantity <= 0) {
     exit;
 }
 
-// Obtenir le prix courant
 $price = null; $currency = 'EUR'; $dataSource = null;
-if ($type === 'crypto') {
+{
     $q = crypto_price_aggregator($external, '', 'eur');
     if (!empty($q['ok'])) { $price = (float)$q['price']; $currency = strtoupper((string)($q['currency'] ?? 'EUR')); $dataSource = (string)($q['provider'] ?? 'aggregator'); }
-} else {
-    $q = yahoo_quote($external);
-    if ($q['ok']) { $price = (float)$q['price']; $currency = (string)$q['currency']; $name = $name ?: (string)$q['name']; $dataSource = 'yahoo'; }
 }
-// Si le prix courant est indisponible, ne pas échouer: utiliser une valorisation provisoire
 $noteFallback = null;
 if ($price === null) {
-    // Valorisation provisoire basée sur le prix d'achat si fourni, sinon 0
     $currency = 'EUR';
     $dataSource = $dataSource ?: 'manual';
     $noteFallback = ($purchase !== null && $purchase > 0)
@@ -50,22 +43,15 @@ if ($price === null) {
         : "Prix courant indisponible; actif ajouté, valorisation mise à jour automatiquement.";
 }
 
-// Calcule la valorisation
 $valuation_eur = null;
 if ($price !== null) {
     $valuation = $price * $quantity; // devise native
-    $valuation_eur = $valuation;
-    if ($type !== 'crypto' && strtoupper($currency) !== 'EUR') {
-        // Convertit en EUR si nécessaire (crypto est déjà en EUR)
-        $valuation_eur = fx_convert_amount($valuation, strtoupper($currency), 'EUR');
-    }
+    $valuation_eur = (strtoupper($currency) === 'EUR') ? $valuation : fx_convert_amount($valuation, strtoupper($currency), 'EUR');
 } else {
-    // Fallback: prix d'achat en EUR si disponible, sinon 0
     $valuation_eur = ($purchase !== null && $purchase > 0) ? ($purchase * $quantity) : 0.0;
 }
 
 try {
-    // positions_manual upsert
     $pdo->exec("CREATE TABLE IF NOT EXISTS positions_manual (
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
@@ -96,24 +82,17 @@ try {
                              updated_at = NOW()");
     $stmt->execute([$_SESSION['user_id'], $category, $external, $name, $quantity, $purchase, $currency, $dataSource]);
 
-    // Récupère la quantité totale et le prix d'achat moyen après cumul
     $pm = $pdo->prepare("SELECT quantity, purchase_price FROM positions_manual WHERE user_id = ? AND categorie = ? AND external_id = ? LIMIT 1");
     $pm->execute([$_SESSION['user_id'], $category, $external]);
     $pos = $pm->fetch(PDO::FETCH_ASSOC) ?: ['quantity' => $quantity, 'purchase_price' => $purchase];
     $totalQty = isset($pos['quantity']) ? (float)$pos['quantity'] : $quantity;
     $avgPurchase = isset($pos['purchase_price']) ? (float)$pos['purchase_price'] : ($purchase ?? 0.0);
 
-    // Essaie d'estimer une valorisation "immédiate" correcte pour le compte
     $immediate_eur = 0.0;
     if ($price !== null) {
-        // Prix courant disponible: calcule à partir de la quantité totale
         $valNative = $price * $totalQty;
-        $immediate_eur = $valNative;
-        if ($type !== 'crypto' && strtoupper($currency) !== 'EUR') {
-            $immediate_eur = fx_convert_amount($valNative, strtoupper($currency), 'EUR');
-        }
+        $immediate_eur = (strtoupper($currency) === 'EUR') ? $valNative : fx_convert_amount($valNative, strtoupper($currency), 'EUR');
     } else {
-        // Fallback: utilise dernier prix unitaire connu si disponible, sinon prix d'achat moyen
         $prev = $pdo->prepare("SELECT balance_eur FROM compte WHERE user_id = ? AND source = 'manual' AND external_id = ? LIMIT 1");
         $prev->execute([$_SESSION['user_id'], $external]);
         $prevBal = $prev->fetch(PDO::FETCH_ASSOC);
@@ -127,14 +106,12 @@ try {
         }
     }
 
-    // compte upsert
     $stmt2 = $pdo->prepare("INSERT INTO compte (user_id, source, external_id, powens_account_pk, categorie, subtype, libelle, devise, balance, balance_eur, status, created_at, updated_at)
                             VALUES (?, 'manual', ?, NULL, ?, ?, ?, ?, ?, ?, 'active', NOW(), NOW())
                             ON DUPLICATE KEY UPDATE categorie = VALUES(categorie), subtype = VALUES(subtype), libelle = VALUES(libelle), devise = VALUES(devise), balance = VALUES(balance), balance_eur = VALUES(balance_eur), status = 'active', updated_at = NOW()");
-    $subtype = ($type === 'crypto') ? 'crypto' : 'equity';
+    $subtype = 'crypto';
     $stmt2->execute([$_SESSION['user_id'], $external, $category, $subtype, $name, $currency, $immediate_eur, $immediate_eur]);
 
-    // Recalcule immédiatement les valorisations pour refléter les ajouts côté portefeuille
     try { refresh_manual_assets($pdo, (int)$_SESSION['user_id']); } catch (Throwable $e) { /* ignore */ }
 
     $_SESSION['success'] = $noteFallback ? ('Actif ajouté. ' . $noteFallback) : 'Actif ajouté avec succès.';

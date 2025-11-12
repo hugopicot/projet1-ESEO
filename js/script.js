@@ -1,4 +1,4 @@
-/* 
+﻿/*
    SCRIPT PRINCIPAL - Nova Landing Page
    ===================================
    Gestion des interactions utilisateur pour la page d'accueil Nova.
@@ -12,7 +12,6 @@
    Fonctions pour ouvrir/fermer le popup modal de contact
 */
 
-// Fonction pour ouvrir le popup de contact
 function openPopup() {
     const popup = document.getElementById('contactPopup');
     if (!popup) return;
@@ -20,7 +19,6 @@ function openPopup() {
     popup.classList.add('show');
 }
 
-// Fonction pour fermer le popup de contact
 function closePopup() {
     const popup = document.getElementById('contactPopup');
     if (!popup) return;
@@ -73,13 +71,11 @@ function toggleFaqItem(id) {
         const isExpanded = button.getAttribute('aria-expanded') === 'true';
 
         if (isExpanded) {
-            // Fermer
             content.style.maxHeight = '0';
             button.setAttribute('aria-expanded', 'false');
             iconPlus.classList.remove('hidden');
             iconMinus.classList.add('hidden');
         } else {
-            // Ouvrir
             content.style.maxHeight = content.scrollHeight + 'px';
             button.setAttribute('aria-expanded', 'true');
             iconPlus.classList.add('hidden');

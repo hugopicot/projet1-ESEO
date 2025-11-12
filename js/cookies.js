@@ -1,10 +1,9 @@
-document.addEventListener("DOMContentLoaded", () => {
+﻿document.addEventListener("DOMContentLoaded", () => {
     if (!localStorage.getItem("cookieConsent")) {
         document.getElementById("cookie-popup").style.display = "block";
     }
     function saveConsent(type) {
         localStorage.setItem("cookieConsent", type);
-        // Enregistre anonymement en base
         fetch("../config/save_consent.php", {
             method: "POST",
             headers: {"Content-Type": "application/x-www-form-urlencoded"},

@@ -13,7 +13,6 @@ if ($address === '' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     $address = trim((string)($json['address'] ?? ''));
 }
 
-// Validation simple EVM address
 $isHex = preg_match('/^0x[a-fA-F0-9]{40}$/', $address) === 1;
 if (!$isHex) {
     $_SESSION['error'] = "Adresse EVM invalide.";
@@ -21,10 +20,8 @@ if (!$isHex) {
     exit;
 }
 
-// Ajouter colonne wallet_address si manquante (robuste)
 try { $pdo->exec("ALTER TABLE users ADD COLUMN wallet_address VARCHAR(64) NOT NULL DEFAULT ''"); } catch (Throwable $e) {}
 
-// Enregistrer l’adresse sur le compte
 try {
     $stmt = $pdo->prepare("UPDATE users SET wallet_address = ? WHERE id = ?");
     $stmt->execute([$address, $_SESSION['user_id']]);
@@ -36,7 +33,6 @@ try {
     exit;
 }
 
-// Rediriger vers la démo Moralis (ETH par défaut)
 $chain = 'eth';
 header('Location: ./moralis_demo.php?address=' . urlencode($address) . '&chain=' . urlencode($chain));
 exit;

@@ -1,4 +1,4 @@
-/* Analyse Page - Modern Clean Design */
+﻿/* Analyse Page - Modern Clean Design */
 
 /* Page Layout */
 .app-content {
@@ -15,6 +15,8 @@
 .section-title {
     font-size: 1.75rem;
     font-weight: 700;
+    /* Fallback IE */
+    color: #0f172a;
     color: var(--text-primary);
     margin: 0 0 0.5rem 0;
     letter-spacing: -0.025em;
@@ -22,28 +24,43 @@
 
 .section-subtitle {
     font-size: 1rem;
+    /* Fallback IE */
+    color: #475569;
     color: var(--text-muted);
     margin: 0;
     font-weight: 400;
 }
 
 /* Analysis Cards Grid */
+/* Fallback IE: flex au lieu de grid */
+.analysis-cards-grid {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+}
+/* Version moderne (écrase le fallback quand supportée) */
 .analysis-cards-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 1.5rem;
-    margin-bottom: 3rem;
 }
 
 /* Analysis Card - Modern Design */
 .analysis-card {
+    /* Fallback IE */
+    background: #ffffff;
     background: var(--surface-bg);
+    border: 1px solid #e2e8f0;
     border: 1px solid var(--border-color);
     border-radius: 16px;
     padding: 1.75rem;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    /* Fallback shadow */
+    box-shadow: 0 8px 16px rgba(15, 23, 42, 0.06);
     box-shadow: var(--shadow-sm);
 }
 
@@ -54,6 +71,8 @@
     left: 0;
     right: 0;
     height: 3px;
+    /* Fallback IE simple */
+    background: #2563eb;
     background: linear-gradient(90deg, var(--accent), #3b82f6);
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -70,6 +89,8 @@
 .analysis-card-header h3 {
     font-size: 1rem;
     font-weight: 600;
+    /* Fallback IE */
+    color: #0f172a;
     color: var(--text-primary);
     margin: 0;
     line-height: 1.4;
@@ -120,6 +141,8 @@
 .analysis-value-main {
     font-size: 2.25rem;
     font-weight: 800;
+    /* Fallback IE */
+    color: #0f172a;
     color: var(--text-primary);
     margin: 0;
     line-height: 1;
@@ -128,6 +151,8 @@
 
 .analysis-value-label {
     font-size: 0.875rem;
+    /* Fallback IE */
+    color: #475569;
     color: var(--text-muted);
     margin: 0.5rem 0 0 0;
     font-weight: 500;
@@ -135,10 +160,15 @@
 
 /* Wealth Simulator Section */
 .wealth-simulator {
+    /* Fallback IE */
+    background: #ffffff;
     background: var(--surface-bg);
+    border: 1px solid #e2e8f0;
     border: 1px solid var(--border-color);
     border-radius: 20px;
     padding: 2rem;
+    /* Fallback shadow */
+    box-shadow: 0 8px 16px rgba(15, 23, 42, 0.06);
     box-shadow: var(--shadow-sm);
     margin-top: 2rem;
 }
@@ -149,12 +179,16 @@
     justify-content: space-between;
     margin-bottom: 2rem;
     padding-bottom: 1rem;
+    /* Fallback IE */
+    border-bottom: 1px solid #e2e8f0;
     border-bottom: 1px solid var(--border-color);
 }
 
 .simulator-title {
     font-size: 1.5rem;
     font-weight: 700;
+    /* Fallback IE */
+    color: #0f172a;
     color: var(--text-primary);
     margin: 0;
     display: flex;
@@ -213,18 +247,24 @@
     padding: 1rem;
     background: white;
     border-radius: 12px;
+    /* Fallback IE */
+    border: 1px solid #e2e8f0;
     border: 1px solid var(--border-color);
 }
 
 .metric-value {
     font-size: 1.25rem;
     font-weight: 700;
+    /* Fallback IE */
+    color: #0f172a;
     color: var(--text-primary);
     margin: 0;
 }
 
 .metric-label {
     font-size: 0.875rem;
+    /* Fallback IE */
+    color: #475569;
     color: var(--text-muted);
     margin: 0.25rem 0 0 0;
     font-weight: 500;
@@ -327,7 +367,7 @@
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
-    
+
     .analysis-cards-grid {
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 1rem;
@@ -338,19 +378,19 @@
     .app-content {
         padding: 1rem;
     }
-    
+
     .analysis-cards-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .chart-metrics {
         grid-template-columns: 1fr;
     }
-    
+
     .period-buttons {
         flex-direction: column;
     }
-    
+
     .simulator-header {
         flex-direction: column;
         align-items: flex-start;
@@ -381,12 +421,16 @@
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
+    /* Fallback IE: pas de blur */
+    background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(10px);
 }
 
 .explanation-title {
     font-size: 1.1rem;
     font-weight: 600;
+    /* Fallback IE */
+    color: #0f172a;
     color: var(--text-primary);
     margin: 0 0 1rem 0;
     display: flex;
@@ -397,6 +441,8 @@
 .explanation-content p {
     font-size: 0.875rem;
     line-height: 1.6;
+    /* Fallback IE */
+    color: #475569;
     color: var(--text-muted);
     margin: 0 0 1rem 0;
 }
@@ -468,4 +514,88 @@
     width: 0;
     height: 0;
     pointer-events: none;
+}
+
+/* --- Minimal badges & pro blur --- */
+.plan-badge {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 8px;
+    font-size: 11px;
+    border-radius: 12px;
+    background: #212529;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.pro-card { position: relative; }
+.is-blurred { filter: blur(3px); }
+.pro-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10, 26, 56, 0.38);
+    backdrop-filter: blur(1.5px);
+    cursor: pointer;
+    border-radius: 12px;
+}
+.pro-button {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: #fff;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    box-shadow: 0 10px 24px rgba(29, 78, 216, 0.35);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+    display: inline-block;
+    text-decoration: none;
+}
+.pro-button:hover {
+    filter: brightness(1.06);
+    transform: translateY(-1px);
+    box-shadow: 0 14px 28px rgba(29, 78, 216, 0.45);
+}
+/* Flou ciblé sur la valeur */
+.blur-value { filter: blur(3.2px); }
+
+/* Cartes Pro d’aujourd’hui (Top picks) */
+.full-width { grid-column: 1 / -1; }
+.pick-list { display: -ms-flexbox; display: flex; -ms-flex-direction: column; flex-direction: column; gap: 8px; }
+/* Fallback IE: pas de gap sur flex */
+.pick-list .pick-item + .pick-item { margin-top: 8px; }
+.pick-item { display: -ms-flexbox; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; border: 1px solid #e2e8f0; border: 1px solid var(--border-color); border-radius: 10px; background: #ffffff; background: var(--surface-bg); }
+.pick-name { font-weight: 600; color: #0f172a; color: var(--text-primary); }
+.pick-price { font-size: 0.92rem; color: #475569; color: var(--text-muted); }
+.pick-change { font-weight: 800; font-size: 1rem; }
+.pick-change.up { color: #10b981; }
+.pick-change.down { color: #ef4444; }
+
+/* Heatmap simple pleine largeur */
+.heat-grid { display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; margin: -6px; }
+.heat-cell { width: calc(25% - 12px); margin: 6px; }
+/* Version moderne (écrase le fallback quand supportée) */
+.heat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin: 0;
+}
+.heat-grid .heat-cell { width: auto; margin: 0; }
+.heat-cell { display: -ms-flexbox; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px; border: 1px solid #e2e8f0; border: 1px solid var(--border-color); border-radius: 12px; }
+.heat-cell.up { border-color: rgba(16,185,129,0.35); background: #f0fdf4; background: linear-gradient(145deg, rgba(16,185,129,0.08), rgba(16,185,129,0.02)); box-shadow: 0 4px 16px rgba(16,185,129,0.12); }
+.heat-cell.down { border-color: rgba(239,68,68,0.35); background: #fee2e2; background: linear-gradient(145deg, rgba(239,68,68,0.08), rgba(239,68,68,0.02)); box-shadow: 0 4px 16px rgba(239,68,68,0.12); }
+.heat-symbol { font-weight: 800; color: #0f172a; color: var(--text-primary); letter-spacing: 0.2px; }
+.heat-change { font-weight: 900; }
+/* Empêcher le débordement des tickers (USDT, etc.) dans les cellules */
+.heat-cell { min-width: 0; }
+.heat-symbol {
+  min-width: 0;
+  max-width: 70%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

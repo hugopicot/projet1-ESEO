@@ -1,19 +1,19 @@
-:root {
+﻿:root {
   /* Palette de couleurs principales - Thème naturel */
   --beige: #F1F1D3;           /* Couleur douce pour les backgrounds secondaires */
   --vert-beige: #E3EBD0;      /* Transition entre beige et vert */
   --vert-clair: #C7DDC5;      /* Vert pastel pour les éléments subtils */
   --vert: #9FCDA8;            /* Vert principal pour les accents */
   --turquoise: #7DC2A5;       /* Couleur complémentaire pour la diversité */
-  
+
   /* Couleurs système */
   --blanc: #ffffff;           /* Blanc pur pour les textes et backgrounds */
   --noir: #000000;            /* Noir pour les textes principaux */
-  
+
   /* Couleurs fonctionnelles */
   --primary: #8CFF2E;         /* Couleur primaire - Vert fluo pour les CTA */
   --background: #050505;      /* Background principal - Noir profond */
-  
+
   /* Interface utilisateur - Niveaux de gris */
   --UI-1: #0D0D0D;           /* Background le plus sombre */
   --UI-2: #171717;           /* Background intermédiaire */
@@ -21,7 +21,7 @@
   --Border: #F8F8FA;         /* Couleur des bordures */
 }
 
-/* 
+/*
    RESET CSS - Normalisation des styles par défaut
    ===============================================
    Supprime les marges/paddings par défaut et définit box-sizing
@@ -38,7 +38,7 @@ html, body {
   padding: 0;
 }
 
-/* 
+/*
    HEADER - Navigation principale
    =============================
    Styles pour le header sticky avec effet de transparence et blur.
@@ -60,7 +60,7 @@ header {
     height: 50px;                  /* Hauteur fixe pour cohérence */
 }
 
-/* 
+/*
    NAVIGATION - Menu principal
    ==========================
    Styles pour la liste de navigation horizontale
@@ -86,7 +86,7 @@ header {
     color: var(--primary);         /* Change vers la couleur primaire au survol */
 }
 
-/* 
+/*
    STYLES DE BASE - Body et typographie
    ===================================
    Définit l'apparence générale de la page et la hiérarchie typographique
@@ -101,7 +101,7 @@ h1, h2, h3, h4, p {
   padding: 0;                      /* Supprime les paddings par défaut */
 }
 
-/* 
+/*
    HIÉRARCHIE TYPOGRAPHIQUE
    ========================
    Définit les styles pour chaque niveau de titre selon l'importance
@@ -154,7 +154,6 @@ p, span {
   color: var(--blanc);
 }
 
-
 .hero {
   background-color: var(--background);
   color: var(--blanc);
@@ -179,7 +178,6 @@ p, span {
     0 0 20px rgba(140, 255, 46, 0.08);
 }
 
-
 .hero-title {
   font-size: 64px;
   font-weight: 400;
@@ -191,7 +189,6 @@ p, span {
   font-weight: lighter;
   margin-bottom: 40px;
 }
-
 
 .btn {
   background-color: var(--primary);
@@ -507,8 +504,6 @@ footer .logo {
   padding: 0px;
 }
 
-
-
 .overlay {
     position: fixed;
     top: 0; left: 0;
@@ -634,7 +629,6 @@ input, textarea {
   align-items: center;
   gap: 20px;
 }
-
 
 .plan-pro {
   background-color: var(--UI-1);

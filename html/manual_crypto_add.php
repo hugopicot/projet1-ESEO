@@ -9,11 +9,9 @@ $symbol = isset($_GET['symbol']) ? trim((string)$_GET['symbol']) : '';
 $info = coingecko_coin_info($id);
 $name = $info['ok'] ? (string)$info['name'] : ucfirst($id);
 $image = $info['ok'] ? (string)$info['image'] : '';
-// Normalise et ignore les valeurs invalides (undefined/null)
 if ($symbol !== '' && in_array(strtolower($symbol), ['undefined','null','none'], true)) { $symbol = ''; }
 if ($symbol === '' && !empty($info['symbol'])) { $symbol = (string)$info['symbol']; }
 $quoteAgg = crypto_price_aggregator($id, $symbol, 'eur');
-// Fallback côté serveur: dernier prix unitaire connu (approx) si l'API est indisponible
 $lastUnit = null;
 if (isset($_SESSION['user_id'])) {
     try {
@@ -32,7 +30,7 @@ if (isset($_SESSION['user_id'])) {
             if ($qty > 0 && $bal > 0) { $lastUnit = $bal / $qty; }
             elseif ($pp > 0) { $lastUnit = $pp; }
         }
-    } catch (Throwable $e) { /* ignore fallback */ }
+    } catch (Throwable $e) {  }
 }
 ?>
 <!doctype html>
@@ -60,7 +58,7 @@ if (isset($_SESSION['user_id'])) {
     .quote { color:#9aa0a6; margin-top:8px; }
   </style>
 </head>
-<body>
+<body data-crypto-id="<?= htmlspecialchars($id, ENT_QUOTES, 'UTF-8') ?>" data-crypto-name="<?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8') ?>">
   <main class="wrap">
     <div class="header">
       <a class="back" href="manual_crypto.php">← Retour</a>
@@ -101,18 +99,16 @@ if (isset($_SESSION['user_id'])) {
       </div>
     </form>
   </main>
-  <script>
+  <script type="text/plain" data-disabled="true">
     document.addEventListener('DOMContentLoaded', async () => {
       const id = <?= json_encode($id) ?>;
       const name = <?= json_encode($name) ?>;
       const avatarEl = document.querySelector('.avatar');
-      // Fallback avatar: première lettre
       if (avatarEl && avatarEl.childElementCount === 0) {
         const letter = (name || id).charAt(0).toUpperCase();
         avatarEl.textContent = letter;
       }
 
-      // Toujours tenter d'obtenir/mettre à jour le cours courant côté client
       try {
         const r = await fetch(`api_market_quote.php?type=crypto&id=${encodeURIComponent(id)}&symbol=${encodeURIComponent(<?= json_encode(strtoupper($symbol)) ?>)}&currency=EUR`, { cache: 'no-store' });
         const j = await r.json();
@@ -131,7 +127,6 @@ if (isset($_SESSION['user_id'])) {
           }
         }
       } catch (e) {
-        // Optionnel: tenter un appel direct CoinGecko si le serveur est indisponible
         try {
           const r2 = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${encodeURIComponent(id)}&vs_currencies=eur`);
           const j2 = await r2.json();
@@ -153,5 +148,6 @@ if (isset($_SESSION['user_id'])) {
       }
     });
   </script>
+  <script src="../js/pages/manual_crypto_add.js"></script>
 </body>
 </html>

@@ -3,13 +3,11 @@ global $pdo;
 session_start();
 require_once '../config/config.php';
 
-// Vérifie si l'utilisateur est connecté
 if (!isset($_SESSION['user_id'])) {
     header("Location: ./auth.php");
     exit;
 }
 
-// Récupère les infos depuis la BDD
 $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch();
@@ -34,7 +32,6 @@ if (!$user) {
 <div class="container-fluid">
     <div class="row flex-nowrap">
 
-        <!-- SIDEBAR -->
         <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 sidebar">
             <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-3 text-white min-vh-100">
                 <a href="#" class="d-flex align-items-center mb-3 text-white text-decoration-none">
@@ -61,20 +58,17 @@ if (!$user) {
             </div>
         </div>
 
-        <!-- CONTENU PRINCIPAL (Met ton formulaire ici) -->
         <div class="col py-5 px-4 main-content">
-            <!-- Ton contenu Profil -->
+
 <div class="profile-card p-4">
     <h3 class="text-white mb-4 fw-bold text-center">Mon Profil</h3>
 
-    <!-- Messages de confirmation ou d'erreur -->
     <?php if (isset($_SESSION['success'])): ?>
         <div class="alert alert-success"><?= htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?></div>
     <?php elseif (isset($_SESSION['error'])): ?>
         <div class="alert alert-danger"><?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></div>
     <?php endif; ?>
 
-    <!-- Formulaire -->
     <form action="update_profile.php" method="POST">
         <div class="mb-3">
             <label for="name" class="form-label text-secondary">Nom complet</label>
@@ -120,7 +114,6 @@ if (!$user) {
     </div>
 </div>
 
-
-
 </body>
 </html>
+

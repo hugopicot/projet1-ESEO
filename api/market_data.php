@@ -1,5 +1,4 @@
 <?php
-// Fonctions marché: recherche et cotations pour actions/ETF (Yahoo) et crypto (CoinGecko)
 if (!function_exists('http_json')) {
     function http_json(string $url, int $timeout = 10): array {
         $ch = curl_init();
@@ -8,7 +7,6 @@ if (!function_exists('http_json')) {
         curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_USERAGENT, 'NovaMarketData/1.0');
-        // SSL config
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
         if (defined('CURL_SSLVERSION_TLSv1_2')) {
@@ -26,7 +24,6 @@ if (!function_exists('http_json')) {
     }
 }
 
-// HTTP avec retries exponentiels légers pour fiabiliser les appels externes
 if (!function_exists('http_json_retry')) {
     function http_json_retry(string $url, int $timeout = 10, int $attempts = 3, int $initialDelayMs = 200): array {
         $last = ['status' => 0, 'error' => 'retry_not_attempted', 'data' => null, 'raw' => null];
@@ -37,7 +34,6 @@ if (!function_exists('http_json_retry')) {
             if ($res['status'] >= 200 && $res['status'] < 300 && (isset($res['data']) || isset($res['raw']))) {
                 break;
             }
-            // petit backoff
             if ($i < $attempts - 1) { usleep($delay * 1000); $delay = min($delay * 2, 1500); }
         }
         return $last;
@@ -45,7 +41,7 @@ if (!function_exists('http_json_retry')) {
 }
 
 function yahoo_search(string $q, string $lang = 'fr', string $region = 'FR'): array {
-    // Primary Yahoo search
+    return ['ok' => false, 'items' => [], 'status' => 501, 'error' => 'disabled'];
     $url = 'https://query1.finance.yahoo.com/v1/finance/search?lang=' . urlencode($lang) . '&region=' . urlencode($region) . '&quotesCount=20&newsCount=0&enableFuzzyQuery=false&query=' . urlencode($q);
     $res = http_json($url, 10);
     $out = [];
@@ -60,7 +56,6 @@ function yahoo_search(string $q, string $lang = 'fr', string $region = 'FR'): ar
         }
     }
 
-    // Fallback to EN/US if nothing found
     if (empty($out)) {
         $url2 = 'https://query1.finance.yahoo.com/v1/finance/search?lang=en&region=US&quotesCount=20&newsCount=0&enableFuzzyQuery=false&query=' . urlencode($q);
         $res2 = http_json($url2, 10);
@@ -76,7 +71,6 @@ function yahoo_search(string $q, string $lang = 'fr', string $region = 'FR'): ar
         }
     }
 
-    // Autocomplete fallback to broaden coverage (e.g., "Tesla")
     if (empty($out)) {
         $autoUrl = 'https://autoc.finance.yahoo.com/autoc?query=' . urlencode($q) . '&lang=en&region=US';
         $auto = http_json($autoUrl, 10);
@@ -96,6 +90,7 @@ function yahoo_search(string $q, string $lang = 'fr', string $region = 'FR'): ar
 }
 
 function yahoo_quote(string $symbol): array {
+    return ['ok' => false, 'symbol' => $symbol];
     $url = 'https://query1.finance.yahoo.com/v7/finance/quote?symbols=' . urlencode($symbol);
     $res = http_json($url, 10);
     if ($res['status'] >= 200 && $res['status'] < 300 && isset($res['data']['quoteResponse']['result'][0])) {
@@ -108,7 +103,6 @@ function yahoo_quote(string $symbol): array {
     return ['ok' => false, 'symbol' => $symbol];
 }
 
-// FX helpers: convert to EUR using exchangerate.host (no API key)
 function fx_rate(string $from, string $to = 'EUR'): array {
     $from = strtoupper($from); $to = strtoupper($to);
     if ($from === '' || $to === '') { return ['ok' => false, 'error' => 'invalid_currency']; }
@@ -145,17 +139,16 @@ function coingecko_search(string $q): array {
 
 function coingecko_price(string $id, string $vs = 'eur'): array {
     $url = 'https://api.coingecko.com/api/v3/simple/price?ids=' . urlencode($id) . '&vs_currencies=' . urlencode($vs);
-    $res = http_json_retry($url, 10, 3, 200);
+    $res = http_json($url, 10);
     if ($res['status'] >= 200 && $res['status'] < 300 && is_array($res['data']) && isset($res['data'][$id][$vs])) {
         return ['ok' => true, 'id' => $id, 'price' => (float)$res['data'][$id][$vs], 'currency' => strtoupper($vs)];
     }
     return ['ok' => false, 'id' => $id];
 }
 
-// Détails d'un coin (nom, images)
 function coingecko_coin_info(string $id): array {
     $url = 'https://api.coingecko.com/api/v3/coins/' . urlencode($id) . '?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false&sparkline=false';
-    $res = http_json_retry($url, 10, 3, 200);
+    $res = http_json($url, 10);
     if ($res['status'] >= 200 && $res['status'] < 300 && isset($res['data']['id'])) {
         $name = (string)($res['data']['name'] ?? '');
         $image = (string)($res['data']['image']['small'] ?? $res['data']['image']['thumb'] ?? '');
@@ -165,7 +158,6 @@ function coingecko_coin_info(string $id): array {
     return ['ok' => false, 'id' => $id];
 }
 
-// CryptoCompare (fallback par symbole)
 function cryptocompare_price(string $fsym, string $tsym = 'EUR'): array {
     $fsym = strtoupper(trim($fsym)); $tsym = strtoupper(trim($tsym));
     if ($fsym === '' || $tsym === '') { return ['ok' => false, 'error' => 'invalid_symbol']; }
@@ -177,7 +169,6 @@ function cryptocompare_price(string $fsym, string $tsym = 'EUR'): array {
     return ['ok' => false, 'fsym' => $fsym];
 }
 
-// Binance: ticker spot par paire (ex: BTCUSDT, BTCEUR). Convertit en EUR si nécessaire.
 function binance_pair_price(string $base, string $quote = 'EUR'): array {
     $base = strtoupper(trim($base)); $quote = strtoupper(trim($quote));
     if ($base === '' || $quote === '') { return ['ok' => false, 'error' => 'invalid_pair']; }
@@ -187,7 +178,6 @@ function binance_pair_price(string $base, string $quote = 'EUR'): array {
     if ($res['status'] >= 200 && $res['status'] < 300 && is_array($res['data']) && isset($res['data']['price'])) {
         return ['ok' => true, 'pair' => $pair, 'price' => (float)$res['data']['price'], 'currency' => $quote, 'provider' => 'binance'];
     }
-    // Fallback USDT puis USD
     foreach (['USDT','USD'] as $altQuote) {
         $pair2 = $base . $altQuote;
         $url2 = 'https://api.binance.com/api/v3/ticker/price?symbol=' . urlencode($pair2);
@@ -195,51 +185,31 @@ function binance_pair_price(string $base, string $quote = 'EUR'): array {
         if ($res2['status'] >= 200 && $res2['status'] < 300 && is_array($res2['data']) && isset($res2['data']['price'])) {
             $p = (float)$res2['data']['price'];
             $eur = ($altQuote === 'USD') ? fx_convert_amount($p, 'USD', 'EUR') : fx_convert_amount($p, 'USD', 'EUR');
-            // Pour USDT on approxime 1 USDT ≈ 1 USD → conversion via USD
             return ['ok' => true, 'pair' => $pair2, 'price' => (float)$eur, 'currency' => 'EUR', 'provider' => 'binance'];
         }
     }
     return ['ok' => false, 'pair' => $pair];
 }
 
-// Agrégateur crypto: CoinGecko → CryptoCompare → Binance
 function crypto_price_aggregator(string $id, string $symbol = '', string $vs = 'eur'): array {
-    $vs = strtolower(trim($vs)); $symbol = strtoupper(trim($symbol));
-    // 1) CoinGecko par id
+    $vs = strtolower(trim($vs));
     $cg = coingecko_price($id, $vs);
-    if (!empty($cg['ok'])) { return ['ok' => true, 'id' => $id, 'price' => (float)$cg['price'], 'currency' => strtoupper($vs), 'provider' => 'coingecko']; }
-
-    // 2) CryptoCompare par symbole
-    if ($symbol === '') {
-        $info = coingecko_coin_info($id);
-        if (!empty($info['ok']) && !empty($info['symbol'])) { $symbol = strtoupper((string)$info['symbol']); }
+    if (!empty($cg['ok'])) {
+        return ['ok' => true, 'id' => $id, 'price' => (float)$cg['price'], 'currency' => strtoupper($vs), 'provider' => 'coingecko'];
     }
-    if ($symbol !== '') {
-        $cc = cryptocompare_price($symbol, strtoupper($vs));
-        if (!empty($cc['ok'])) { return ['ok' => true, 'id' => $id, 'price' => (float)$cc['price'], 'currency' => strtoupper($vs), 'provider' => 'cryptocompare']; }
-    }
-
-    // 3) Binance par paire (EUR/USDT/USD) + conversion vers EUR
-    if ($symbol !== '') {
-        $bn = binance_pair_price($symbol, 'EUR');
-        if (!empty($bn['ok'])) { return ['ok' => true, 'id' => $id, 'price' => (float)$bn['price'], 'currency' => 'EUR', 'provider' => 'binance']; }
-    }
-
     return ['ok' => false, 'id' => $id];
 }
 
-// Stooq CSV simple (fallback actions)
 function stooq_quote(string $symbol): array {
+    return ['ok' => false, 'symbol' => strtoupper($symbol)];
     $s = strtolower(trim($symbol));
     if ($s === '') { return ['ok' => false]; }
     $url = 'https://stooq.com/q/l/?s=' . urlencode($s) . '&i=d';
     $res = http_json_retry($url, 8, 3, 200);
-    // http_json décode JSON; ici, c'est du CSV dans 'raw'
     $raw = (string)($res['raw'] ?? '');
     $lines = explode("\n", trim($raw));
     if (!empty($lines)) {
         $parts = str_getcsv($lines[0]);
-        // format: SYMBOL,PRICE,DATE,TIME,OPEN,HIGH,LOW,VOLUME
         if (count($parts) >= 2 && is_numeric($parts[1])) {
             return ['ok' => true, 'symbol' => strtoupper($symbol), 'price' => (float)$parts[1], 'currency' => 'USD', 'provider' => 'stooq'];
         }
@@ -247,18 +217,11 @@ function stooq_quote(string $symbol): array {
     return ['ok' => false, 'symbol' => strtoupper($symbol)];
 }
 
-// Agrégateur actions: Yahoo → Stooq
 function equity_quote_aggregator(string $symbol): array {
-    $yq = yahoo_quote($symbol);
-    if (!empty($yq['ok'])) { return ['ok' => true, 'symbol' => $symbol, 'price' => (float)$yq['price'], 'currency' => (string)($yq['currency'] ?? 'USD'), 'provider' => 'yahoo']; }
-    $sq = stooq_quote($symbol);
-    if (!empty($sq['ok'])) { return ['ok' => true, 'symbol' => $symbol, 'price' => (float)$sq['price'], 'currency' => (string)($sq['currency'] ?? 'USD'), 'provider' => 'stooq']; }
     return ['ok' => false, 'symbol' => $symbol];
 }
 
-// Rafraîchit les valorisations des actifs manuels (actions_fonds via Yahoo, crypto via CoinGecko)
 function refresh_manual_assets(PDO $pdo, int $userId, int $ttlSeconds = 300): void {
-    // Jointure avec positions pour connaître la quantité et récupérer la dernière mise à jour
     $sql = "SELECT c.id_compte, c.categorie, c.external_id, c.updated_at, c.balance_eur, pm.quantity
             FROM compte c
             LEFT JOIN positions_manual pm
@@ -268,7 +231,6 @@ function refresh_manual_assets(PDO $pdo, int $userId, int $ttlSeconds = 300): vo
     $stmt->execute([$userId]);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
 
-    // Historique de valorisation (création de table si manquante)
     try {
         $pdo->exec("CREATE TABLE IF NOT EXISTS valuations_history (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -288,22 +250,12 @@ function refresh_manual_assets(PDO $pdo, int $userId, int $ttlSeconds = 300): vo
         $qty = isset($r['quantity']) ? (float)$r['quantity'] : 1.0;
         $eurVal = null;
 
-        // TTL pour limiter les appels externes
         $lastUpdated = isset($r['updated_at']) ? strtotime((string)$r['updated_at']) : 0;
         $nowTs = time();
         $isStale = ($nowTs - $lastUpdated) > max(60, (int)$ttlSeconds);
 
         if ($isStale) {
-            if ($cat === 'actions_fonds' && $ext !== '') {
-                // Agrégateur actions pour fiabilité
-                $q = equity_quote_aggregator($ext);
-                if (!empty($q['ok'])) {
-                    $nativeVal = (float)$q['price'] * $qty; // quoted currency
-                    $cur = strtoupper((string)($q['currency'] ?? 'USD'));
-                    $eurVal = fx_convert_amount($nativeVal, $cur, 'EUR');
-                }
-            } elseif ($cat === 'crypto' && $ext !== '') {
-                // Agrégateur crypto pour fiabilité
+            if ($cat === 'crypto' && $ext !== '') {
                 $q = crypto_price_aggregator($ext, '', 'eur');
                 if (!empty($q['ok'])) { $eurVal = (float)$q['price'] * $qty; }
             }
@@ -311,15 +263,12 @@ function refresh_manual_assets(PDO $pdo, int $userId, int $ttlSeconds = 300): vo
                 $upd = $pdo->prepare("UPDATE compte SET balance = ?, balance_eur = ?, updated_at = NOW() WHERE id_compte = ?");
                 $upd->execute([$eurVal, $eurVal, $id]);
             } else {
-                // Pas de mise à jour possible: conserver l'ancienne valeur
                 $eurVal = isset($r['balance_eur']) ? (float)$r['balance_eur'] : null;
             }
         } else {
-            // Trop récent: réutiliser la dernière valorisation
             $eurVal = isset($r['balance_eur']) ? (float)$r['balance_eur'] : null;
         }
 
-        // Insère un point d'historique si le dernier est trop ancien
         if ($eurVal !== null) {
             try {
                 $cutoff = date('Y-m-d H:i:s', $nowTs - max(60, (int)$ttlSeconds));

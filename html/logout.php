@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Si l'utilisateur a confirmé la déconnexion
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     session_unset(); // Supprime toutes les variables de session
     session_destroy(); // Détruit la session

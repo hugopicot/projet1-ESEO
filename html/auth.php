@@ -22,7 +22,6 @@ if (isset($_POST['login'])) {
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
 
-            // Se souvenir de moi: stocke l'email pendant 30 jours si coché
             if (!empty($_POST['remember'])) {
                 setcookie('remember_email', $email, time() + 60*60*24*30, '/');
             } else {
@@ -44,9 +43,6 @@ if (isset($_POST['login'])) {
     }
 }
 
-
-
-// --- REGISTER ---
 if (isset($_POST['register'])) {
     $name = htmlspecialchars(trim($_POST['name'] ?? ''));
     $email = filter_var(trim($_POST['email'] ?? ''), FILTER_VALIDATE_EMAIL);
@@ -57,7 +53,6 @@ if (isset($_POST['register'])) {
     } elseif (strlen($password) < 8) {
         $_SESSION['error'] = "Mot de passe trop court (>= 8).";
     } else {
-        // Vérifier doublon par email
         $check = $pdo->prepare("SELECT id FROM users WHERE email_user = ?");
         $check->execute([$email]);
 
@@ -72,7 +67,6 @@ if (isset($_POST['register'])) {
                 header("Location: auth.php");
                 exit;
             } catch (PDOException $e) {
-                // en dev tu peux logger l'erreur
                 error_log("PDO insert error: " . $e->getMessage());
                 $_SESSION['error'] = "Erreur serveur lors de l'inscription.";
             }

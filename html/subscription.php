@@ -9,14 +9,12 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// Assure la présence des colonnes d’abonnement dans la table `users`
 function columnExists(PDO $pdo, string $table, string $column): bool {
     try {
         $stmt = $pdo->prepare("SHOW COLUMNS FROM `{$table}` LIKE ?");
         $stmt->execute([$column]);
         return (bool)$stmt->fetch();
     } catch (PDOException $e) {
-        // Si SHOW COLUMNS échoue, on considère que la colonne n’existe pas
         return false;
     }
 }
@@ -33,7 +31,6 @@ function ensureSubscriptionColumns(PDO $pdo): void {
             $pdo->exec("ALTER TABLE `users` ADD COLUMN `subscription_end` DATE DEFAULT NULL");
         }
     } catch (PDOException $e) {
-        // En cas d’échec de migration, on ne bloque pas mais on remontera l’erreur à l’update
         error_log('Migration abonnements échouée: ' . $e->getMessage());
     }
 }
@@ -46,7 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Plan invalide.");
     }
 
-    // Simulation de paiement réussi
     $start = date('Y-m-d');
     $end = date('Y-m-d', strtotime('+1 month'));
 
@@ -69,21 +65,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body class="bg-gray-900 min-h-screen">
     <div class="relative isolate bg-gray-900 px-6 py-24 sm:py-32 lg:px-8">
-        <!-- Background decoration -->
+
         <div aria-hidden="true" class="absolute inset-x-0 -top-3 -z-10 transform-gpu overflow-hidden px-36 blur-3xl">
             <div style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)" class="mx-auto aspect-[1155/678] w-[72.1875rem] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-20"></div>
         </div>
-        
-        <!-- Header -->
+
         <div class="mx-auto max-w-4xl text-center">
             <h2 class="text-base/7 font-semibold text-indigo-400">Abonnement</h2>
             <p class="mt-2 text-5xl font-semibold tracking-tight text-balance text-white sm:text-6xl">Choisissez votre plan</p>
         </div>
         <p class="mx-auto mt-6 max-w-2xl text-center text-lg font-medium text-pretty text-gray-400 sm:text-xl/8">Essai gratuit de 30 jours sur tous les plans. Choisissez le plan qui correspond le mieux à vos besoins.</p>
-        
-        <!-- Pricing cards -->
+
         <div class="mx-auto mt-16 grid max-w-lg grid-cols-1 items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2">
-            <!-- Starter Plan -->
+
             <div class="rounded-3xl rounded-t-3xl bg-white/5 p-8 ring-1 ring-white/10 sm:mx-8 sm:rounded-b-none sm:p-10 lg:mx-0 lg:rounded-tr-none lg:rounded-bl-3xl">
                 <h3 id="tier-starter" class="text-base/7 font-semibold text-indigo-400">Starter</h3>
                 <p class="mt-4 flex items-baseline gap-x-2">
@@ -130,8 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </button>
                 </div>
             </div>
-            
-            <!-- Pro Plan -->
+
             <div class="relative rounded-3xl bg-gray-800 p-8 ring-1 ring-white/10 sm:p-10">
                 <h3 id="tier-pro" class="text-base/7 font-semibold text-indigo-400">Pro</h3>
                 <p class="mt-4 flex items-baseline gap-x-2">
@@ -193,26 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <script>
-        async function startCheckout(plan) {
-            try {
-                const res = await fetch('/html/create_subscription_session.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: new URLSearchParams({ plan }),
-                });
-                const data = await res.json();
-                if (!res.ok || !data.url) {
-                    alert('Erreur Stripe: ' + (data.error || 'Réponse invalide'));
-                    return;
-                }
-                window.location.href = data.url;
-            } catch (e) {
-                alert('Erreur réseau: ' + e.message);
-            }
-        }
-        document.getElementById('checkout-starter')?.addEventListener('click', () => startCheckout('starter'));
-        document.getElementById('checkout-pro')?.addEventListener('click', () => startCheckout('pro'));
-    </script>
+    <script src="../js/pages/subscription.js"></script>
 </body>
 </html>
+

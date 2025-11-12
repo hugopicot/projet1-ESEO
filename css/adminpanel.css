@@ -1,9 +1,8 @@
-body {
+﻿body {
     background-color: var(--background);
     font-family: 'Manrope', sans-serif;
     color: var(--blanc);
 }
-
 
 .sidebar {
     width: 240px;
@@ -12,9 +11,6 @@ body {
     border-right: 1px solid var(--UI-3);
     position: fixed;
 }
-
-
-
 
 .main {
     margin-left: 260px;
@@ -40,7 +36,6 @@ body {
     color: var(--blanc);
     transition: transform 0.2s, box-shadow 0.2s;
 }
-
 
 .chart-placeholder {
     background-color: var(--background);

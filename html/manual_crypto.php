@@ -1,5 +1,4 @@
 <?php
-// Page dédiée: Ajout manuel Crypto (liste + recherche + ajout)
 if (session_status() === PHP_SESSION_NONE) { session_start(); }
 require_once __DIR__ . '/../config/config.php';
 ?>
@@ -35,7 +34,7 @@ require_once __DIR__ . '/../config/config.php';
 <body>
   <main class="wrap">
     <div class="header">
-      <a class="back" href="add_assets.php">← Retour</a>
+      <a class="back" href="patrimoine.php">← Retour</a>
       <h1>Ajouter crypto</h1>
     </div>
 
@@ -45,17 +44,13 @@ require_once __DIR__ . '/../config/config.php';
       <button id="clear" class="clear-btn" type="button" aria-label="Effacer" hidden>×</button>
     </div>
 
-    <!-- Section "Les plus populaires" supprimée: la page se concentre sur la recherche -->
     <div class="list" id="results-list" aria-label="Résultats" hidden></div>
   </main>
 
-  <script>
-    // Liste "populaires" supprimée
+  <script type="text/plain" data-disabled="true">
     const resultsList = document.getElementById('results-list');
     const searchEl = document.getElementById('search');
     const clearBtn = document.getElementById('clear');
-    // const popularTitle = document.querySelector('.section-title');
-    
 
     function renderList(root, items){
       root.innerHTML = '';
@@ -75,8 +70,6 @@ require_once __DIR__ . '/../config/config.php';
     async function selectInstrument(id, displayName){
       window.location.href = `manual_crypto_add.php?id=${encodeURIComponent(id)}`;
     }
-
-    // Pas de rendu par défaut: on attend une recherche
 
     let timer;
     searchEl.addEventListener('input', () => {
@@ -105,5 +98,7 @@ require_once __DIR__ . '/../config/config.php';
       searchEl.focus();
     });
   </script>
+  <script src="../js/pages/manual_crypto.js"></script>
 </body>
 </html>
+

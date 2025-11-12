@@ -12,56 +12,41 @@
     <script src="js/script.js"></script>
 </head>
 <body>
-<!-- 
-    HEADER - Navigation principale sticky
-    ====================================
-    Header fixe en haut de page contenant le logo, la navigation principale
-    et les boutons d'action. Utilise Bootstrap pour le responsive design.
--->
-<header class="py-3"> <!-- Padding vertical pour l'espacement, classe sticky définie en CSS -->
-    <div class="container"> <!-- Container Bootstrap pour centrer le contenu -->
-        <div class="row align-items-center gy-3"> <!-- Grille responsive avec alignement vertical centré -->
-            
-            <!-- Logo de l'entreprise - Responsive : centré sur mobile, aligné à gauche sur desktop -->
+
+<header class="py-3">
+    <div class="container">
+        <div class="row align-items-center gy-3">
+
             <div class="col-12 col-md-3 text-center text-md-start">
                 <a href="index.php" title="logo"> <img class="logo" src="asset/img/logo.png" alt="Logo Nova - Plateforme de gestion financière"></a>
             </div>
-            
-            <!-- Navigation principale - Menu horizontal avec ancres vers les sections -->
+
             <div class="col-12 col-md-6">
-                <nav> <!-- Élément sémantique pour la navigation -->
+                <nav>
                     <ul class="menu d-flex flex-wrap justify-content-center gap-3 mb-0">
-                        <li><a href="#section1" class="nav-link">Comment ca marche</a></li> <!-- Lien vers section mécanisme -->
-                        <li><a href="#section2" class="nav-link">Fonctionnalites</a></li> <!-- Lien vers section features -->
-                        <li><a href="#question-1" class="nav-link">FAQ</a></li> <!-- Lien vers section FAQ -->
-                        <li><a href="#section3" class="nav-link">Prix</a></li> <!-- Lien vers section pricing -->
+                        <li><a href="#section1" class="nav-link">Comment ca marche</a></li>
+                        <li><a href="#section2" class="nav-link">Fonctionnalites</a></li>
+                        <li><a href="#question-1" class="nav-link">FAQ</a></li>
+                        <li><a href="#section3" class="nav-link">Prix</a></li>
                     </ul>
                 </nav>
             </div>
-            
-            <!-- Boutons d'action - Contact et inscription à la liste d'attente -->
+
             <div class="col-12 col-md-3">
                 <div class="d-flex justify-content-center justify-content-md-end gap-3 flex-wrap">
-                    <button class="btn1" onclick="openPopup()">Contact</button> <!-- Ouvre la popup de contact -->
-                    <a href="html/auth.php" class="btn">Connexion</a> <!-- Redirection vers page waitlist -->
+                    <button class="btn1" onclick="openPopup()">Contact</button>
+                    <a href="html/auth.php" class="btn">Connexion</a>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<!--
-    POPUP DE CONTACT - Modal overlay
-    ===============================
-    Popup modale pour le formulaire de contact, cachée par défaut.
-    Activée via JavaScript avec gestion des événements de fermeture.
--->
 <div class="overlay" id="contactPopup" onclick="closePopup(event)">
-    <div class="popup" onclick="event.stopPropagation()"> <!-- Popup centrée, empêche la propagation du clic -->
-        <button class="close-btn" onclick="closePopup()">Fermer</button> <!-- Bouton de fermeture explicite -->
-        <h3>Contact</h3> <!-- Titre du formulaire -->
-        
-        <!-- Formulaire de contact avec champs obligatoires -->
+    <div class="popup" onclick="event.stopPropagation()">
+        <button class="close-btn" onclick="closePopup()">Fermer</button>
+        <h3>Contact</h3>
+
         <form action="html/contact_form.php" method="POST">
             <label for="nom">Nom :</label>
             <input type="text" id="nom" name="nom" required>
@@ -78,71 +63,49 @@
     </div>
 </div>
 
-<!-- 
-    CONTENU PRINCIPAL - Main content
-    ===============================
-    Contient toutes les sections principales de la page d'accueil
--->
 <main>
-    <!-- 
-        SECTION HERO - Bannière d'accueil
-        =================================
-        Section d'introduction avec titre principal, description et call-to-action.
-        Layout en deux colonnes : texte à gauche, image à droite sur desktop.
-    -->
-    <section id="accueil" class="hero py-5"> <!-- Section hero avec padding vertical -->
-        <div class="container"> <!-- Container Bootstrap pour la largeur maximale -->
-            <div class="row align-items-center justify-content-center gy-5"> <!-- Grille responsive avec espacement -->
-                
-                <!-- Colonne de contenu textuel - Priorité sur mobile -->
+
+    <section id="accueil" class="hero py-5">
+        <div class="container">
+            <div class="row align-items-center justify-content-center gy-5">
+
                 <div class="col-12 col-lg-6 text-center text-lg-start">
-                    <p class="hero-tag">All-in-One Finance Toolkit</p> <!-- Tag descriptif du produit -->
-                    <h1 class="hero-title">Prenez le controle de vos finances avec clarte</h1> <!-- Titre principal H1 pour SEO -->
-                    <p class="hero-text">Toutes vos informations financieres, enfin reunies en un seul endroit : suivez vos revenus, vos depenses et atteignez vos objectifs en toute simplicite.</p> <!-- Description détaillée -->
-                    
-                    <!-- Call-to-action principal -->
+                    <p class="hero-tag">All-in-One Finance Toolkit</p>
+                    <h1 class="hero-title">Prenez le controle de vos finances avec clarte</h1>
+                    <p class="hero-text">Toutes vos informations financieres, enfin reunies en un seul endroit : suivez vos revenus, vos depenses et atteignez vos objectifs en toute simplicite.</p>
+
                     <div class="d-flex justify-content-center justify-content-lg-start">
                         <a href="html/auth.php" class="btn">Essayer maintenant</a>
                     </div>
                 </div>
-                
-                <!-- Colonne d'illustration - Image hero -->
+
                 <div class="col-12 col-lg-6 text-center">
-                    <img id="anim1" class="hero-img img-fluid" src="asset/img/hero.avif" alt="Interface de gestion financière Nova"> <!-- Image responsive avec ID pour animation -->
+                    <img id="anim1" class="hero-img img-fluid" src="asset/img/hero.avif" alt="Interface de gestion financière Nova">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 
-        SECTION MÉCANISME - Comment ça marche
-        ====================================
-        Présentation du processus en 3 étapes avec cards Bootstrap.
-        Grille responsive qui s'adapte selon la taille d'écran.
-    -->
-    <section id="section1" class="py-5"> <!-- Section avec ancre pour navigation -->
+    <section id="section1" class="py-5">
         <div class="container">
-            <!-- Titre de section centré -->
+
             <div class="row justify-content-center text-center mb-4">
                 <div class="col-12 col-lg-6">
-                    <h2 class="mechanisme-title">Comment ca marche</h2> <!-- Titre H2 pour hiérarchie SEO -->
+                    <h2 class="mechanisme-title">Comment ca marche</h2>
                 </div>
             </div>
-            
-            <!-- Grille de cards explicatives - 3 étapes du processus -->
-            <div class="row g-4 align-items-stretch card-mechanism"> <!-- Espacement uniforme entre cards -->
-                
-                <!-- Card Étape 1 -->
-                <div class="col-12 col-sm-6 col-md-4"> <!-- Responsive : 1 colonne mobile, 2 tablet, 3 desktop -->
-                    <div class="card h-100"> <!-- Hauteur égale pour alignement -->
-                        <img src="asset/img/card.avif" alt="Étape 1 - Configuration initiale"> <!-- Image illustrative -->
-                        <p class="card-step">Etape 1</p> <!-- Numéro d'étape -->
-                        <h3 class="card-title">Titre</h3> <!-- Titre de l'étape -->
-                        <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p> <!-- Description -->
+
+            <div class="row g-4 align-items-stretch card-mechanism">
+
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="card h-100">
+                        <img src="asset/img/card.avif" alt="Étape 1 - Configuration initiale">
+                        <p class="card-step">Etape 1</p>
+                        <h3 class="card-title">Titre</h3>
+                        <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>
                     </div>
                 </div>
-                
-                <!-- Card Étape 2 -->
+
                 <div class="col-12 col-sm-6 col-md-4">
                     <div class="card h-100">
                         <img src="asset/img/card2.avif" alt="Étape 2 - Utilisation de la plateforme">
@@ -151,8 +114,7 @@
                         <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>
                     </div>
                 </div>
-                
-                <!-- Card Étape 3 -->
+
                 <div class="col-12 col-sm-6 col-md-4">
                     <div class="card h-100">
                         <img src="asset/img/card3.avif" alt="Étape 3 - Résultats et suivi">
@@ -550,7 +512,7 @@
                                 <li><a href="#accueil" class="nav-link">Accueil</a></li>
                                 <li><a href="#section1" class="nav-link">Comment ca marche</a></li>
                                 <li><a href="#section2" class="nav-link">Fonctionnalites</a></li>
-                                <li><a href="#question-1" class="nav-link">FAQ</a></li> <!-- Lien vers section FAQ -->
+                                <li><a href="#question-1" class="nav-link">FAQ</a></li>
                                 <li><a href="#section3" class="nav-link">Prix</a></li>
                             </ul>
                         </div>
@@ -572,3 +534,4 @@
 <script src="js/cookies.js"></script>
 </body>
 </html>
+
