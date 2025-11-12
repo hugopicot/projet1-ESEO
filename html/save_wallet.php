@@ -16,7 +16,7 @@ if ($address === '' && $_SERVER['REQUEST_METHOD'] === 'POST') {
 $isHex = preg_match('/^0x[a-fA-F0-9]{40}$/', $address) === 1;
 if (!$isHex) {
     $_SESSION['error'] = "Adresse EVM invalide.";
-    header('Location: ./connect_wallet.php');
+    header('Location: ./patrimoine.php');
     exit;
 }
 
@@ -29,10 +29,9 @@ try {
     $_SESSION['success'] = 'Wallet connecté avec succès.';
 } catch (Throwable $e) {
     $_SESSION['error'] = "Impossible d'enregistrer l'adresse.";
-    header('Location: ./connect_wallet.php');
+    header('Location: ./patrimoine.php');
     exit;
 }
 
-$chain = 'eth';
-header('Location: ./moralis_demo.php?address=' . urlencode($address) . '&chain=' . urlencode($chain));
+header('Location: ./patrimoine.php');
 exit;

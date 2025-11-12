@@ -333,7 +333,7 @@ $heatItems = $mt['heat'];
 
             </a>
 
-    <a class="icon-button" href="http://hugo:8090/html/manual_crypto.php" aria-label="Ajouter des actifs" title="Ajouter des actifs">
+    <a class="icon-button" href="manual_crypto.php" aria-label="Ajouter des actifs" title="Ajouter des actifs">
                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                     <path d="M12 5a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H6a1 1 0 110-2h5V6a1 1 0 011-1z" />
                 </svg>
@@ -632,7 +632,7 @@ window.upgradePro = function(){
     try {
         const form = document.createElement('form');
         form.method = 'POST';
-        form.action = 'http://hugo:8090/html/subscription.php';
+        form.action = 'subscription.php';
         const planInput = document.createElement('input');
         planInput.type = 'hidden';
         planInput.name = 'plan';
@@ -641,7 +641,7 @@ window.upgradePro = function(){
         document.body.appendChild(form);
         form.submit();
     } catch (e) {
-        window.location.href = 'http://hugo:8090/html/subscription.php?plan=pro';
+        window.location.href = 'subscription.php?plan=pro';
     }
 };
 

@@ -12,21 +12,6 @@ try { refresh_manual_assets($pdo, (int)$_SESSION['user_id'], 300); } catch (Thro
 
 header('Content-Type: text/html; charset=UTF-8');
 
-$totalPowens = 0.0;
-try {
-    $stmt = $pdo->prepare("SELECT COALESCE(SUM(balance_eur), 0) AS total FROM compte WHERE user_id = ? AND status = 'active'");
-    $stmt->execute([$_SESSION['user_id']]);
-    $val = $stmt->fetchColumn();
-    if ($val !== false && $val !== null) { $totalPowens = (float)$val; }
-} catch (Throwable $e) {
-    try {
-        $stmt2 = $pdo->prepare("SELECT COALESCE(SUM(balance), 0) AS total FROM powens_accounts WHERE user_id = ?");
-        $stmt2->execute([$_SESSION['user_id']]);
-        $val2 = $stmt2->fetchColumn();
-        if ($val2 !== false && $val2 !== null) { $totalPowens = (float)$val2; }
-    } catch (Throwable $e2) {  }
-}
-
 $username = trim((string)($_SESSION['username'] ?? ''));
 if ($username === '') {
     $username = 'Compte Nova';

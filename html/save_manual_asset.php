@@ -106,8 +106,8 @@ try {
         }
     }
 
-    $stmt2 = $pdo->prepare("INSERT INTO compte (user_id, source, external_id, powens_account_pk, categorie, subtype, libelle, devise, balance, balance_eur, status, created_at, updated_at)
-                            VALUES (?, 'manual', ?, NULL, ?, ?, ?, ?, ?, ?, 'active', NOW(), NOW())
+    $stmt2 = $pdo->prepare("INSERT INTO compte (user_id, source, external_id, categorie, subtype, libelle, devise, balance, balance_eur, status, created_at, updated_at)
+                            VALUES (?, 'manual', ?, ?, ?, ?, ?, ?, ?, 'active', NOW(), NOW())
                             ON DUPLICATE KEY UPDATE categorie = VALUES(categorie), subtype = VALUES(subtype), libelle = VALUES(libelle), devise = VALUES(devise), balance = VALUES(balance), balance_eur = VALUES(balance_eur), status = 'active', updated_at = NOW()");
     $subtype = 'crypto';
     $stmt2->execute([$_SESSION['user_id'], $external, $category, $subtype, $name, $currency, $immediate_eur, $immediate_eur]);
