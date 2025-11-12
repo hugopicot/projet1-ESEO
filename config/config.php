@@ -1,6 +1,11 @@
 <?php
 // Configuration globale du projet
 
+// Overrides locaux optionnels (non versionnés) si présents
+// Vous pouvez créer config/local.php pour définir des constantes comme POWENS_CLIENT_SECRET
+// sans dépendre des variables d’environnement ou des services Windows.
+@include __DIR__ . '/local.php';
+
 // Lecture des clés Stripe en priorité via variables d'environnement
 // Définissez STRIPE_SECRET_KEY et STRIPE_PUBLISHABLE_KEY dans votre environnement si possible.
 $envStripeSecret = getenv('STRIPE_SECRET_KEY') ?: '';
@@ -21,17 +26,79 @@ if (!defined('STRIPE_WEBHOOK_SECRET')) {
     define('STRIPE_WEBHOOK_SECRET', getenv('STRIPE_WEBHOOK_SECRET') ?: '');
 }
 
-// Domaine de base (utilisé pour les URLs de retour Stripe)
-// Détection automatique du schéma et de l'hôte (incluant le port) depuis la requête
+// Domaine de base (utilisé pour les URLs de retour Stripe/Powens)
+// 1) Priorité à la variable d'environnement APP_DOMAIN si définie
+// 2) Sinon, détection automatique du schéma et de l'hôte (incluant le port)
 if (!defined('APP_DOMAIN')) {
-    $scheme = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'https' : 'http';
-    $host   = $_SERVER['HTTP_HOST'] ?? '';
-    if ($host !== '') {
-        define('APP_DOMAIN', $scheme . '://' . $host);
+    $envAppDomain = getenv('APP_DOMAIN') ?: '';
+    if ($envAppDomain !== '') {
+        // Normalise en retirant un éventuel slash final
+        $envAppDomain = rtrim($envAppDomain, '/');
+        define('APP_DOMAIN', $envAppDomain);
     } else {
-        // Fallback si exécuté en contexte sans serveur HTTP (CLI)
-        define('APP_DOMAIN', 'http://localhost');
+        $scheme = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'https' : 'http';
+        $host   = $_SERVER['HTTP_HOST'] ?? '';
+        if ($host !== '') {
+            define('APP_DOMAIN', $scheme . '://' . $host);
+        } else {
+            // Fallback si exécuté en contexte sans serveur HTTP (CLI)
+            define('APP_DOMAIN', 'http://localhost');
+        }
     }
+}
+
+// Base de redirection Powens (permet d'éviter les erreurs d'invalidation redirect_uri)
+// Priorité à la variable d'environnement POWENS_REDIRECT_BASE, sinon APP_DOMAIN
+if (!defined('POWENS_REDIRECT_BASE')) {
+    // Support des variables de tunnel communes (ngrok/xgrok)
+    $powensBase = getenv('POWENS_REDIRECT_BASE') ?: '';
+    $ngrokUrl   = getenv('NGROK_URL') ?: getenv('NGROK_HOST') ?: '';
+    $xgrokUrl   = getenv('XGROK_URL') ?: getenv('XGROK_HOST') ?: '';
+    if ($powensBase !== '') {
+        define('POWENS_REDIRECT_BASE', rtrim($powensBase, '/'));
+    } elseif ($ngrokUrl !== '') {
+        define('POWENS_REDIRECT_BASE', rtrim($ngrokUrl, '/'));
+    } elseif ($xgrokUrl !== '') {
+        define('POWENS_REDIRECT_BASE', rtrim($xgrokUrl, '/'));
+    } else {
+        // Fallback intelligent: en local, forcer la base sur localhost:8000
+        $appHost = parse_url(APP_DOMAIN, PHP_URL_HOST) ?: '';
+        if ($appHost === 'localhost' || $appHost === '127.0.0.1') {
+            define('POWENS_REDIRECT_BASE', 'http://localhost:8000');
+        } else {
+            define('POWENS_REDIRECT_BASE', APP_DOMAIN);
+        }
+    }
+}
+
+// Page de redirection après connexion Powens (chemin ou URL complète)
+// Par défaut: renvoie vers la page patrimoine
+if (!defined('POWENS_POST_REDIRECT')) {
+    $postRedirect = getenv('POWENS_POST_REDIRECT') ?: '/html/patrimoine.php';
+    // Normalise les doubles slash accidentels
+    if ($postRedirect !== '' && $postRedirect[0] !== '/') {
+        // Autorise URLs absolues; sinon force un chemin relatif racine
+        if (strpos($postRedirect, 'http') !== 0) {
+            $postRedirect = '/' . ltrim($postRedirect, '/');
+        }
+    }
+    define('POWENS_POST_REDIRECT', $postRedirect);
+}
+
+// Identifiants Powens (via env de préférence)
+if (!defined('POWENS_CLIENT_ID')) {
+    define('POWENS_CLIENT_ID', getenv('POWENS_CLIENT_ID') ?: '9941084');
+}
+if (!defined('POWENS_CLIENT_SECRET')) {
+    // Doit être défini dans l'environnement pour la synchro réelle
+    define('POWENS_CLIENT_SECRET', getenv('POWENS_CLIENT_SECRET') ?: '');
+}
+if (!defined('POWENS_DOMAIN')) {
+    define('POWENS_DOMAIN', getenv('POWENS_DOMAIN') ?: 'nova-sandbox.biapi.pro');
+}
+if (!defined('POWENS_API_BASE')) {
+    // Par défaut API publique; vous pouvez override via env POWENS_API_BASE
+    define('POWENS_API_BASE', getenv('POWENS_API_BASE') ?: 'https://api.powens.com');
 }
 
 // Connexion base de données

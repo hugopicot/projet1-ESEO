@@ -123,5 +123,115 @@
         "user_id": 13,
         "created_at": "2025-11-05T10:47:44+00:00",
         "return_to": "/html/category_bank.php"
+    },
+    "0": {
+        "built_at": "2025-11-10T20:33:22+00:00",
+        "client_id": "9941084",
+        "domain": "nova-sandbox.biapi.pro",
+        "redirect_uri": "http://hugo:8090/html/powens_callback.php",
+        "capabilities": "",
+        "account_types": "",
+        "return_to": "/html/category_bank.php",
+        "target": "https://webview.powens.com/fr/connect?domain=nova-sandbox.biapi.pro&client_id=9941084&redirect_uri=http%3A%2F%2Fhugo%3A8090%2Fhtml%2Fpowens_callback.php&state=eyJpZCI6InN0XzY5MTI0YzEyYjdmNTQxLjQ5MDkzMzg3IiwidHMiOjE3NjI4MDY4MDIsInJldHVybl90byI6IlwvaHRtbFwvY2F0ZWdvcnlfYmFuay5waHAiLCJvcmlnaW4iOiJodHRwOlwvXC9odWdvOjgwOTAifQ%3D%3D"
+    },
+    "1": {
+        "built_at": "2025-11-10T20:33:35+00:00",
+        "client_id": "9941084",
+        "domain": "nova-sandbox.biapi.pro",
+        "redirect_uri": "http://hugo:8090/html/powens_callback.php",
+        "capabilities": "",
+        "account_types": "",
+        "return_to": "/html/category_bank.php",
+        "target": "https://webview.powens.com/fr/connect?domain=nova-sandbox.biapi.pro&client_id=9941084&redirect_uri=http%3A%2F%2Fhugo%3A8090%2Fhtml%2Fpowens_callback.php&state=eyJpZCI6InN0XzY5MTI0YzFmNTA2NzI1LjEzNjUxNTQ3IiwidHMiOjE3NjI4MDY4MTUsInJldHVybl90byI6IlwvaHRtbFwvY2F0ZWdvcnlfYmFuay5waHAiLCJvcmlnaW4iOiJodHRwOlwvXC9odWdvOjgwOTAifQ%3D%3D"
+    },
+    "2": {
+        "built_at": "2025-11-10T20:33:38+00:00",
+        "client_id": "9941084",
+        "domain": "nova-sandbox.biapi.pro",
+        "redirect_uri": "http://hugo:8090/html/powens_callback.php",
+        "capabilities": "bankwealth",
+        "account_types": "madelin,market,pea,pee,per,perco,perp",
+        "return_to": "/html/category_actions.php",
+        "target": "https://webview.powens.com/fr/connect?domain=nova-sandbox.biapi.pro&client_id=9941084&redirect_uri=http%3A%2F%2Fhugo%3A8090%2Fhtml%2Fpowens_callback.php&connector_capabilities=bankwealth&usecase=wealth&account_types=madelin%2Cmarket%2Cpea%2Cpee%2Cper%2Cperco%2Cperp&state=eyJpZCI6InN0XzY5MTI0YzIyMGNjMDk4Ljg5MjUzMzM2IiwidHMiOjE3NjI4MDY4MTgsInJldHVybl90byI6IlwvaHRtbFwvY2F0ZWdvcnlfYWN0aW9ucy5waHAiLCJvcmlnaW4iOiJodHRwOlwvXC9odWdvOjgwOTAifQ%3D%3D"
+    },
+    "3": {
+        "built_at": "2025-11-10T20:33:40+00:00",
+        "client_id": "9941084",
+        "domain": "nova-sandbox.biapi.pro",
+        "redirect_uri": "http://hugo:8090/html/powens_callback.php",
+        "capabilities": "bankwealth",
+        "account_types": "real_estate",
+        "return_to": "/html/category_immobilier.php",
+        "target": "https://webview.powens.com/fr/connect?domain=nova-sandbox.biapi.pro&client_id=9941084&redirect_uri=http%3A%2F%2Fhugo%3A8090%2Fhtml%2Fpowens_callback.php&connector_capabilities=bankwealth&usecase=wealth&account_types=real_estate&state=eyJpZCI6InN0XzY5MTI0YzI0Y2E2YzIwLjQzOTI2NTQxIiwidHMiOjE3NjI4MDY4MjAsInJldHVybl90byI6IlwvaHRtbFwvY2F0ZWdvcnlfaW1tb2JpbGllci5waHAiLCJvcmlnaW4iOiJodHRwOlwvXC9odWdvOjgwOTAifQ%3D%3D"
+    },
+    "4": {
+        "built_at": "2025-11-10T20:41:07+00:00",
+        "client_id": "9941084",
+        "domain": "nova-sandbox.biapi.pro",
+        "redirect_uri": "http://hugo:8090/html/powens_callback.php",
+        "capabilities": "",
+        "account_types": "",
+        "return_to": "/html/category_bank.php",
+        "target": "https://webview.powens.com/fr/connect?domain=nova-sandbox.biapi.pro&client_id=9941084&redirect_uri=http%3A%2F%2Fhugo%3A8090%2Fhtml%2Fpowens_callback.php&state=eyJpZCI6InN0XzY5MTI0ZGUzMTUzZDAyLjcxMzk3NjYwIiwidHMiOjE3NjI4MDcyNjcsInJldHVybl90byI6IlwvaHRtbFwvY2F0ZWdvcnlfYmFuay5waHAiLCJvcmlnaW4iOiJodHRwOlwvXC9odWdvOjgwOTAifQ%3D%3D"
+    },
+    "5": {
+        "built_at": "2025-11-10T20:43:30+00:00",
+        "client_id": "9941084",
+        "domain": "nova-sandbox.biapi.pro",
+        "redirect_uri": "http://hugo:8090/html/powens_callback.php",
+        "capabilities": "",
+        "account_types": "",
+        "return_to": "/html/category_bank.php",
+        "target": "https://webview.powens.com/fr/connect?domain=nova-sandbox.biapi.pro&client_id=9941084&redirect_uri=http%3A%2F%2Fhugo%3A8090%2Fhtml%2Fpowens_callback.php&state=eyJpZCI6InN0XzY5MTI0ZTcyOGZjMjkyLjc4MzA0Mzc2IiwidHMiOjE3NjI4MDc0MTAsInJldHVybl90byI6IlwvaHRtbFwvY2F0ZWdvcnlfYmFuay5waHAiLCJvcmlnaW4iOiJodHRwOlwvXC9odWdvOjgwOTAifQ%3D%3D"
+    },
+    "6": {
+        "built_at": "2025-11-10T20:43:35+00:00",
+        "client_id": "9941084",
+        "domain": "nova-sandbox.biapi.pro",
+        "redirect_uri": "http://hugo:8090/html/powens_callback.php",
+        "capabilities": "bankwealth",
+        "account_types": "madelin,market,pea,pee,per,perco,perp",
+        "return_to": "/html/category_actions.php",
+        "target": "https://webview.powens.com/fr/connect?domain=nova-sandbox.biapi.pro&client_id=9941084&redirect_uri=http%3A%2F%2Fhugo%3A8090%2Fhtml%2Fpowens_callback.php&connector_capabilities=bankwealth&usecase=wealth&account_types=madelin%2Cmarket%2Cpea%2Cpee%2Cper%2Cperco%2Cperp&state=eyJpZCI6InN0XzY5MTI0ZTc3YWZhZjYwLjQ2NjY3MDM5IiwidHMiOjE3NjI4MDc0MTUsInJldHVybl90byI6IlwvaHRtbFwvY2F0ZWdvcnlfYWN0aW9ucy5waHAiLCJvcmlnaW4iOiJodHRwOlwvXC9odWdvOjgwOTAifQ%3D%3D"
+    },
+    "7": {
+        "built_at": "2025-11-10T20:55:29+00:00",
+        "client_id": "9941084",
+        "domain": "nova-sandbox.biapi.pro",
+        "redirect_uri": "http://hugo:8090/html/powens_callback.php",
+        "capabilities": "",
+        "account_types": "",
+        "return_to": "/html/category_bank.php",
+        "target": "https://webview.powens.com/fr/connect?domain=nova-sandbox.biapi.pro&client_id=9941084&redirect_uri=http%3A%2F%2Fhugo%3A8090%2Fhtml%2Fpowens_callback.php&state=eyJpZCI6InN0XzY5MTI1MTQxNDJhMjc3LjgxNjc2MTE3IiwidHMiOjE3NjI4MDgxMjksInJldHVybl90byI6IlwvaHRtbFwvY2F0ZWdvcnlfYmFuay5waHAiLCJvcmlnaW4iOiJodHRwOlwvXC9odWdvOjgwOTAifQ%3D%3D"
+    },
+    "8": {
+        "built_at": "2025-11-10T20:55:32+00:00",
+        "client_id": "9941084",
+        "domain": "nova-sandbox.biapi.pro",
+        "redirect_uri": "http://hugo:8090/html/powens_callback.php",
+        "capabilities": "bankwealth",
+        "account_types": "madelin,market,pea,pee,per,perco,perp",
+        "return_to": "/html/category_actions.php",
+        "target": "https://webview.powens.com/fr/connect?domain=nova-sandbox.biapi.pro&client_id=9941084&redirect_uri=http%3A%2F%2Fhugo%3A8090%2Fhtml%2Fpowens_callback.php&connector_capabilities=bankwealth&usecase=wealth&account_types=madelin%2Cmarket%2Cpea%2Cpee%2Cper%2Cperco%2Cperp&state=eyJpZCI6InN0XzY5MTI1MTQ0ZWQ0ZDAzLjAyOTI0NzM2IiwidHMiOjE3NjI4MDgxMzIsInJldHVybl90byI6IlwvaHRtbFwvY2F0ZWdvcnlfYWN0aW9ucy5waHAiLCJvcmlnaW4iOiJodHRwOlwvXC9odWdvOjgwOTAifQ%3D%3D"
+    },
+    "9": {
+        "built_at": "2025-11-10T20:58:58+00:00",
+        "client_id": "9941084",
+        "domain": "nova-sandbox.biapi.pro",
+        "redirect_uri": "http://hugo:8090/html/powens_callback.php",
+        "capabilities": "",
+        "account_types": "",
+        "return_to": "/html/category_bank.php",
+        "target": "https://webview.powens.com/fr/connect?domain=nova-sandbox.biapi.pro&client_id=9941084&redirect_uri=http%3A%2F%2Fhugo%3A8090%2Fhtml%2Fpowens_callback.php&state=eyJpZCI6InN0XzY5MTI1MjEyZWM1ODY2Ljg1NTM3NTU5IiwidHMiOjE3NjI4MDgzMzgsInJldHVybl90byI6IlwvaHRtbFwvY2F0ZWdvcnlfYmFuay5waHAiLCJvcmlnaW4iOiJodHRwOlwvXC9odWdvOjgwOTAifQ%3D%3D"
+    },
+    "10": {
+        "built_at": "2025-11-10T21:00:00+00:00",
+        "client_id": "9941084",
+        "domain": "nova-sandbox.biapi.pro",
+        "redirect_uri": "http://hugo:8090/html/powens_callback.php",
+        "capabilities": "",
+        "account_types": "",
+        "return_to": "/html/category_bank.php",
+        "target": "https://webview.powens.com/fr/connect?domain=nova-sandbox.biapi.pro&client_id=9941084&redirect_uri=http%3A%2F%2Fhugo%3A8090%2Fhtml%2Fpowens_callback.php&state=eyJpZCI6InN0XzY5MTI1MjUwNjg0YzM0LjY5MjI2MzA2IiwidHMiOjE3NjI4MDg0MDAsInJldHVybl90byI6IlwvaHRtbFwvY2F0ZWdvcnlfYmFuay5waHAiLCJvcmlnaW4iOiJodHRwOlwvXC9odWdvOjgwOTAifQ%3D%3D"
     }
 }

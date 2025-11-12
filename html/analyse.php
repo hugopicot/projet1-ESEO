@@ -158,7 +158,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
             </a>
 
-            <a class="icon-button" href="add_assets.php" aria-label="Ajouter des actifs" title="Ajouter des actifs">
+    <a class="icon-button" href="http://hugo:8090/html/manual_crypto.php" aria-label="Ajouter des actifs" title="Ajouter des actifs">
                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                     <path d="M12 5a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H6a1 1 0 110-2h5V6a1 1 0 011-1z" />
                 </svg>
@@ -204,21 +204,9 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                     </a>
 
-                    <a class="sidebar-item" href="#reglages">
+                    
 
-                        <img class="icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/cog-6-tooth.svg" alt="" loading="lazy">
-
-                        <span class="sidebar-label">Réglages</span>
-
-                    </a>
-
-                    <a class="sidebar-item" href="#diffusions">
-
-                        <img class="icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/megaphone.svg" alt="" loading="lazy">
-
-                        <span class="sidebar-label">Diffusions</span>
-
-                    </a>
+                    
 
                 </div>
 
@@ -230,21 +218,9 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                 <div class="sidebar-section">
 
-                    <a class="sidebar-item" href="#support">
+                    
 
-                        <img class="icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/question-mark-circle.svg" alt="" loading="lazy">
-
-                        <span class="sidebar-label">Support</span>
-
-                    </a>
-
-                    <a class="sidebar-item" href="#changelog">
-
-                        <img class="icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/sparkles.svg" alt="" loading="lazy">
-
-                        <span class="sidebar-label">Changelog</span>
-
-                    </a>
+                    
 
                 </div>
 
@@ -262,9 +238,9 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                         <span class="sidebar-label sidebar-user">
 
-                            <span class="sidebar-user-name">Erica</span>
+                            <span class="sidebar-user-name"><?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?></span>
 
-                            <span class="sidebar-user-email">erica@example.com</span>
+                            <span class="sidebar-user-email"><?= htmlspecialchars($userEmail, ENT_QUOTES, 'UTF-8') ?></span>
 
                         </span>
 

@@ -537,7 +537,6 @@
                             <p><strong>Information</strong></p>
                             <ul class="footer-menu">
                                 <li onclick="openPopup()">Contact</li>
-                                <li>caca</li>
                                 <li><a href="html/PDC.php" style="color: #ffffff">Politique de Confidentialité</a> </li>
                                 <li>Blog</li>
                                 <li>Other Information</li>

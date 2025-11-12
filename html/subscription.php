@@ -118,11 +118,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </li>
                 </ul>
                 <div class="mt-8 space-y-3 sm:mt-10">
+                    <?php if (isset($_GET['debug']) && $_GET['debug'] === '1'): ?>
                     <form method="POST" class="w-full">
                         <button name="plan" value="starter" type="submit" class="w-full rounded-md bg-white/10 px-3.5 py-2.5 text-center text-sm font-semibold text-white ring-1 ring-inset ring-white/5 hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/75">
                             Activer (simulation locale)
                         </button>
                     </form>
+                    <?php endif; ?>
                     <button type="button" id="checkout-starter" class="w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                         Checkout Stripe
                     </button>
@@ -176,11 +178,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </li>
                 </ul>
                 <div class="mt-8 space-y-3 sm:mt-10">
+                    <?php if (isset($_GET['debug']) && $_GET['debug'] === '1'): ?>
                     <form method="POST" class="w-full">
                         <button name="plan" value="pro" type="submit" class="w-full rounded-md bg-white/10 px-3.5 py-2.5 text-center text-sm font-semibold text-white ring-1 ring-inset ring-white/5 hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/75">
                             Activer (simulation locale)
                         </button>
                     </form>
+                    <?php endif; ?>
                     <button type="button" id="checkout-pro" class="w-full rounded-md bg-indigo-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
                         Checkout Stripe
                     </button>

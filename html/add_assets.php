@@ -103,12 +103,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
                 </div>
 
                 <div class="category-grid" role="group" aria-label="Toutes les catégories" id="category-grid">
-                    <button type="button" class="category-card" aria-label="Comptes bancaires" data-action="connect-powens">
-                        <div class="category-content">
-                            <h3 class="category-title">Comptes bancaires</h3>
-                        </div>
-                        <div class="category-art" aria-hidden="true"></div>
-                    </button>
+                    
 
                     <button type="button" class="category-card" aria-label="Actions & Fonds" data-action="connect-powens-invest">
                         <div class="category-content">
@@ -201,13 +196,7 @@ document.addEventListener('DOMContentLoaded', function() {
         searchInput.addEventListener('input', (e) => filter(e.target.value));
     }
 
-    // Action: page intermédiaire "Comptes bancaires"
-    const bankButton = document.querySelector('.category-card[data-action="connect-powens"]');
-    if (bankButton) {
-        bankButton.addEventListener('click', function() {
-            window.location.href = 'category_bank.php';
-        });
-    }
+    // Catégorie "Comptes bancaires" retirée selon préférence utilisateur
 
     // Action: page intermédiaire "Crypto"
     const cryptoButton = document.querySelector('.category-card[data-action="connect-crypto"]');

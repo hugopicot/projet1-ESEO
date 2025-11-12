@@ -2,6 +2,7 @@
 global $pdo;
 session_start();
 require_once '../config/config.php';
+require_once __DIR__ . '/../api/market_data.php';
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: ./auth.php");
@@ -56,6 +57,31 @@ if ($username === '') {
 }
 
 $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
+// Actualise les valorisations des actifs manuels pour accélérer l’affichage
+try { refresh_manual_assets($pdo, (int)$_SESSION['user_id'], 300); } catch (Throwable $e) { /* ignore */ }
+
+// Calcul de la plus-value globale (investi vs valorisation actuelle)
+$portfolioInvestedEur = 0.0; $portfolioCurrentEur = 0.0; $portfolioGainEur = 0.0; $portfolioGainPct = 0.0;
+try {
+    $ps = $pdo->prepare("SELECT quantity, purchase_price, currency FROM positions_manual WHERE user_id = ?");
+    $ps->execute([$_SESSION['user_id']]);
+    $posRows = $ps->fetchAll(PDO::FETCH_ASSOC) ?: [];
+    foreach ($posRows as $p) {
+        $qty = isset($p['quantity']) ? (float)$p['quantity'] : 0.0;
+        $buyUnit = isset($p['purchase_price']) ? (float)$p['purchase_price'] : 0.0;
+        $cur = strtoupper((string)($p['currency'] ?? 'EUR'));
+        if ($qty > 0 && $buyUnit > 0) {
+            $native = $qty * $buyUnit;
+            $portfolioInvestedEur += ($cur === 'EUR') ? $native : fx_convert_amount($native, $cur, 'EUR');
+        }
+    }
+    $cs = $pdo->prepare("SELECT COALESCE(SUM(balance_eur),0) FROM compte WHERE user_id = ? AND source='manual' AND status='active'");
+    $cs->execute([$_SESSION['user_id']]);
+    $portfolioCurrentEur = (float)($cs->fetchColumn() ?: 0.0);
+} catch (Throwable $e) { /* ignore */ }
+$portfolioGainEur = $portfolioCurrentEur - $portfolioInvestedEur;
+$portfolioGainPct = ($portfolioInvestedEur > 0) ? round(($portfolioGainEur / $portfolioInvestedEur) * 100, 2) : 0.0;
+
 ?>
 <!DOCTYPE html>
 
@@ -76,6 +102,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="../css/app.css">
+    <link rel="stylesheet" href="../css/patrimoine.css">
 
 </head>
 
@@ -108,6 +135,12 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                 <img class="icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/inbox.svg" alt="" loading="lazy">
 
+            </a>
+            <a class="icon-button" href="http://hugo:8090/html/manual_crypto.php" aria-label="Ajouter des actifs" title="Ajouter des actifs">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M12 5a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H6a1 1 0 110-2h5V6a1 1 0 011-1z" />
+                </svg>
+                <span class="sr-only">Ajouter des actifs</span>
             </a>
 
             <div class="dropdown" data-dropdown>
@@ -209,21 +242,9 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                     </a>
 
-                    <a class="sidebar-item" href="#reglages">
+                    
 
-                        <img class="icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/cog-6-tooth.svg" alt="" loading="lazy">
-
-                        <span class="sidebar-label">Réglages</span>
-
-                    </a>
-
-                    <a class="sidebar-item" href="#diffusions">
-
-                        <img class="icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/megaphone.svg" alt="" loading="lazy">
-
-                        <span class="sidebar-label">Diffusions</span>
-
-                    </a>
+                    
 
                 </div>
 
@@ -235,21 +256,9 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                 <div class="sidebar-section">
 
-                    <a class="sidebar-item" href="#support">
+                    
 
-                        <img class="icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/question-mark-circle.svg" alt="" loading="lazy">
-
-                        <span class="sidebar-label">Support</span>
-
-                    </a>
-
-                    <a class="sidebar-item" href="#changelog">
-
-                        <img class="icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/sparkles.svg" alt="" loading="lazy">
-
-                        <span class="sidebar-label">Changelog</span>
-
-                    </a>
+                    
 
                 </div>
 
@@ -370,31 +379,18 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
                         </header>
 
                         <div class="performance-metric">
-
+                            <?php
+                                $gainSign = $portfolioGainEur >= 0 ? '+' : '−';
+                                $gainAbs = abs($portfolioGainEur);
+                                $formattedGain = number_format($gainAbs, 0, ',', ' ');
+                                $formattedPct = number_format(abs($portfolioGainPct), 2, ',', ' ');
+                            ?>
                             <span class="metric-label">Plus-value &middot; Tout</span>
-
-                            <span class="metric-value">+680&nbsp;251&nbsp;724&nbsp;EUR</span>
-                            <span class="metric-variation">+118,64&nbsp;%</span>
-
+                            <span class="metric-value"><?= $gainSign ?><?= htmlspecialchars($formattedGain, ENT_QUOTES, 'UTF-8') ?>&nbsp;EUR</span>
+                            <span class="metric-variation"><?= $gainSign ?><?= htmlspecialchars($formattedPct, ENT_QUOTES, 'UTF-8') ?>&nbsp;%</span>
                         </div>
 
-                        <p class="performance-description">
-
-                            La plus-value latente est la difference entre votre prix d'achat unitaire et le prix actuel.
-                            Ce montant ne tient pas compte des plus-values realisees.
-                        </p>
-
-                        <a class="performance-link" href="#details-performance">
-
-                            En savoir plus
-
-                            <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
-
-                                <path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-
-                            </svg>
-
-                        </a>
+                        
 
                     </article>
 
@@ -406,227 +402,21 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
                         <p>Suivez vos actifs suivis en temps reel.</p>
                     </div>
                     <div class="widget-grid">
-
-                        <div class="widget-card">
-
-                            <!-- TradingView Widget BEGIN -->
-
-                            <div class="tradingview-widget-container">
-
-                                <div class="tradingview-widget-container__widget"></div>
-
-                                <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/NASDAQ-AAPL/" rel="noopener nofollow" target="_blank"><span class="blue-text">AAPL stock price</span></a><span class="trademark"> by TradingView</span></div>
-
-                                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-
-                                {
-
-                                "symbol": "NASDAQ:AAPL",
-
-                                "chartOnly": false,
-
-                                "dateRange": "12M",
-
-                                "noTimeScale": false,
-
-                                "colorTheme": "dark",
-
-                                "isTransparent": false,
-
-                                "locale": "fr",
-
-                                "width": "100%",
-
-                                "autosize": true,
-
-                                "height": "100%"
-
-                                }
-
-                                </script>
-
+                        <div class="widget-card" style="grid-column: 1 / -1;">
+                            <div class="performance-header">
+                                <div class="performance-title">
+                                    <h2>Ma performance</h2>
+                                </div>
+                                <div class="range-switcher" style="display:flex;gap:8px;">
+                                    <button class="btn btn--sm" data-range="1D">1J</button>
+                                    <button class="btn btn--sm" data-range="1W">1S</button>
+                                    <button class="btn btn--sm" data-range="1M" aria-pressed="true">1M</button>
+                                    <button class="btn btn--sm" data-range="1Y">1A</button>
+                                    <button class="btn btn--sm" data-range="ALL">Tout</button>
+                                </div>
                             </div>
-
-                            <!-- TradingView Widget END -->
-
+                            <div id="performance-chart" style="height:320px;"></div>
                         </div>
-
-                        <div class="widget-card">
-
-                            <!-- TradingView Widget BEGIN -->
-
-                            <div class="tradingview-widget-container">
-
-                                <div class="tradingview-widget-container__widget"></div>
-
-                                <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/NASDAQ-NVDA/" rel="noopener nofollow" target="_blank"><span class="blue-text">NVDA stock price</span></a><span class="trademark"> by TradingView</span></div>
-
-                                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-
-                                {
-
-                                "symbol": "NASDAQ:NVDA",
-
-                                "chartOnly": false,
-
-                                "dateRange": "12M",
-
-                                "noTimeScale": false,
-
-                                "colorTheme": "dark",
-
-                                "isTransparent": false,
-
-                                "locale": "fr",
-
-                                "width": "100%",
-
-                                "autosize": true,
-
-                                "height": "100%"
-
-                                }
-
-                                </script>
-
-                            </div>
-
-                            <!-- TradingView Widget END -->
-
-                        </div>
-
-                        <div class="widget-card">
-
-                            <!-- TradingView Widget BEGIN -->
-
-                            <div class="tradingview-widget-container">
-
-                                <div class="tradingview-widget-container__widget"></div>
-
-                                <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/BINANCE-BTCUSDT/" rel="noopener nofollow" target="_blank"><span class="blue-text">BTCUSDT price</span></a><span class="trademark"> by TradingView</span></div>
-
-                                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-
-                                {
-
-                                "symbol": "BINANCE:BTCUSDT",
-
-                                "chartOnly": false,
-
-                                "dateRange": "12M",
-
-                                "noTimeScale": false,
-
-                                "colorTheme": "dark",
-
-                                "isTransparent": false,
-
-                                "locale": "fr",
-
-                                "width": "100%",
-
-                                "autosize": true,
-
-                                "height": "100%"
-
-                                }
-
-                                </script>
-
-                            </div>
-
-                            <!-- TradingView Widget END -->
-
-                        </div>
-
-                        <div class="widget-card">
-
-                            <!-- TradingView Widget BEGIN -->
-
-                            <div class="tradingview-widget-container">
-
-                                <div class="tradingview-widget-container__widget"></div>
-
-                                <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/BINANCE-DOGEUSDT/" rel="noopener nofollow" target="_blank"><span class="blue-text">DOGEUSDT price</span></a><span class="trademark"> by TradingView</span></div>
-
-                                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-
-                                {
-
-                                "symbol": "BINANCE:DOGEUSDT",
-
-                                "chartOnly": false,
-
-                                "dateRange": "12M",
-
-                                "noTimeScale": false,
-
-                                "colorTheme": "dark",
-
-                                "isTransparent": false,
-
-                                "locale": "fr",
-
-                                "width": "100%",
-
-                                "autosize": true,
-
-                                "height": "100%"
-
-                                }
-
-                                </script>
-
-                            </div>
-
-                            <!-- TradingView Widget END -->
-
-                        </div>
-
-                        <div class="widget-card">
-
-                            <!-- TradingView Widget BEGIN -->
-
-                            <div class="tradingview-widget-container">
-
-                                <div class="tradingview-widget-container__widget"></div>
-
-                                <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/TVC-GOLD/" rel="noopener nofollow" target="_blank"><span class="blue-text">Gold price</span></a><span class="trademark"> by TradingView</span></div>
-
-                                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-
-                                {
-
-                                "symbol": "TVC:GOLD",
-
-                                "chartOnly": false,
-
-                                "dateRange": "12M",
-
-                                "noTimeScale": false,
-
-                                "colorTheme": "dark",
-
-                                "isTransparent": false,
-
-                                "locale": "fr",
-
-                                "width": "100%",
-
-                                "autosize": true,
-
-                                "height": "100%"
-
-                                }
-
-                                </script>
-
-                            </div>
-
-                            <!-- TradingView Widget END -->
-
-                        </div>
-
                     </div>
 
                 </div>
@@ -1853,6 +1643,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
         };
 
+        const setChartIntervalAPI = async (interval) => {
+            try {
+                const res = await fetch('api_portfolio_series.php?range=' + encodeURIComponent(interval));
+                const json = await res.json();
+                const points = (json && json.total) ? json.total : [];
+                const data = points.map(p => ({ time: p.time, value: Number(p.value) }));
+                lineSeries.setData(data);
+                lineSeries.applyOptions({
+                    color: intervalColors[interval] || intervalColors['1M'],
+                });
+                chart.timeScale().fitContent();
+            } catch (e) {
+                // ignore network errors; keep previous data
+            }
+            buttons.forEach(button => {
+                const isActive = button.dataset.interval === interval;
+                button.classList.toggle('is-active', isActive);
+                button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+            });
+        };
+
 
 
         const styles = `
@@ -1955,7 +1766,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         buttonsContainer.classList.add('buttons-container');
 
-        const intervals = ['1D', '1W', '1M', '1Y'];
+        const intervals = ['1D', '1W', '1M', '1Y', 'ALL'];
 
         intervals.forEach(interval => {
 
@@ -1965,7 +1776,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             button.type = 'button';
 
-            button.addEventListener('click', () => setChartInterval(interval));
+            button.addEventListener('click', () => setChartIntervalAPI(interval));
 
             button.dataset.interval = interval;
 
@@ -1981,7 +1792,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         chartContainer.insertBefore(buttonsContainer, chartHost);
 
-        setChartInterval('1D');
+        setChartIntervalAPI('1M');
 
 
 

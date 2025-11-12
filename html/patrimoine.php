@@ -6,12 +6,116 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+// Charge la configuration pour accéder à la base
+require_once __DIR__ . '/../config/config.php';
+// Rafraîchit les valorisations des actifs manuels (actions/ETF et crypto)
+require_once __DIR__ . '/../api/market_data.php';
+try { refresh_manual_assets($pdo, (int)$_SESSION['user_id'], 300); } catch (Throwable $e) { /* ignore */ }
+
+$totalPowens = 0.0;
+try {
+    // Utilise la table normalisée `compte` pour le total (EUR)
+    $stmt = $pdo->prepare("SELECT COALESCE(SUM(balance_eur), 0) AS total FROM compte WHERE user_id = ? AND status = 'active'");
+    $stmt->execute([$_SESSION['user_id']]);
+    $val = $stmt->fetchColumn();
+    if ($val !== false && $val !== null) { $totalPowens = (float)$val; }
+} catch (Throwable $e) {
+    // Fallback: tente le total à partir de powens_accounts si `compte` est vide/non disponible
+    try {
+        $stmt2 = $pdo->prepare("SELECT COALESCE(SUM(balance), 0) AS total FROM powens_accounts WHERE user_id = ?");
+        $stmt2->execute([$_SESSION['user_id']]);
+        $val2 = $stmt2->fetchColumn();
+        if ($val2 !== false && $val2 !== null) { $totalPowens = (float)$val2; }
+    } catch (Throwable $e2) { /* ignore */ }
+}
+
 $username = trim((string)($_SESSION['username'] ?? ''));
 if ($username === '') {
     $username = 'Compte Nova';
 }
 
 $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
+
+// Prépare les données de répartition des actifs (crypto + actions)
+$assetsData = [];
+try {
+    $sql = "SELECT pm.external_id,
+                   COALESCE(pm.name, pm.external_id) AS name,
+                   pm.quantity,
+                   pm.purchase_price,
+                   SUM(COALESCE(c.balance_eur, 0)) AS total_eur,
+                   pm.currency,
+                   c.categorie
+            FROM compte c
+            LEFT JOIN positions_manual pm
+              ON pm.user_id = c.user_id
+             AND pm.categorie = c.categorie
+             AND pm.external_id = c.external_id
+            WHERE c.user_id = ?
+              AND c.status = 'active'
+              AND c.source = 'manual'
+              AND c.categorie IN ('crypto','actions_fonds')
+            GROUP BY pm.external_id, pm.name, pm.quantity, pm.purchase_price
+            ORDER BY total_eur DESC";
+    $q = $pdo->prepare($sql);
+    $q->execute([$_SESSION['user_id']]);
+    $rows = $q->fetchAll(PDO::FETCH_ASSOC) ?: [];
+    $grandTotal = 0.0;
+    foreach ($rows as $r) { $grandTotal += (float)$r['total_eur']; }
+    $palette = ['#8b5cf6','#3b82f6','#ef4444','#10b981','#f59e0b','#06b6d4','#64748b','#a78bfa','#fb7185','#22c55e','#f97316','#84cc16'];
+    $i = 0;
+    foreach ($rows as $r) {
+        $name = (string)($r['name'] ?? '');
+        if ($name === '') { $name = (string)$r['external_id']; }
+        $ext = (string)$r['external_id'];
+        $qty = isset($r['quantity']) ? (float)$r['quantity'] : 0.0;
+        $buyUnit = isset($r['purchase_price']) ? (float)$r['purchase_price'] : null;
+        $cur = strtoupper((string)($r['currency'] ?? 'EUR'));
+        $buyTotalNative = ($buyUnit !== null && $qty > 0) ? ($buyUnit * $qty) : null;
+        $buyTotal = ($buyTotalNative !== null) ? ($cur === 'EUR' ? $buyTotalNative : fx_convert_amount($buyTotalNative, $cur, 'EUR')) : null;
+        $val = isset($r['total_eur']) ? (float)$r['total_eur'] : 0.0;
+        $percent = $grandTotal > 0 ? round($val / $grandTotal * 100, 2) : 0.0;
+        $deltaValue = ($buyTotal !== null) ? ($val - $buyTotal) : null;
+        $deltaPercent = ($buyTotal !== null && $buyTotal > 0) ? round(($val - $buyTotal) / $buyTotal * 100, 2) : null;
+        $assetsData[] = [
+            'external_id' => $ext,
+            'name' => $name,
+            'share' => $percent,
+            'value' => $val,
+            'deltaValue' => $deltaValue,
+            'deltaPercent' => $deltaPercent,
+            'color' => $palette[$i % count($palette)],
+        ];
+        $i++;
+    }
+} catch (Throwable $e) {
+    // Laisse $assetsData vide en cas d'erreur
+}
+
+// Calcul de la plus-value globale (investi vs valorisation actuelle)
+$portfolioInvestedEur = 0.0;
+$portfolioCurrentEur = 0.0;
+try {
+    // Investi: somme des (prix d'achat * quantité) convertie en EUR
+    $ps = $pdo->prepare("SELECT quantity, purchase_price, currency FROM positions_manual WHERE user_id = ?");
+    $ps->execute([$_SESSION['user_id']]);
+    $posRows = $ps->fetchAll(PDO::FETCH_ASSOC) ?: [];
+    foreach ($posRows as $p) {
+        $qty = isset($p['quantity']) ? (float)$p['quantity'] : 0.0;
+        $buyUnit = isset($p['purchase_price']) ? (float)$p['purchase_price'] : 0.0;
+        $cur = strtoupper((string)($p['currency'] ?? 'EUR'));
+        if ($qty > 0 && $buyUnit > 0) {
+            $native = $qty * $buyUnit;
+            $portfolioInvestedEur += ($cur === 'EUR') ? $native : fx_convert_amount($native, $cur, 'EUR');
+        }
+    }
+    // Valorisation actuelle: somme des soldes en EUR
+    $cs = $pdo->prepare("SELECT COALESCE(SUM(balance_eur),0) AS total FROM compte WHERE user_id = ? AND source='manual' AND status='active'");
+    $cs->execute([$_SESSION['user_id']]);
+    $portfolioCurrentEur = (float)($cs->fetchColumn() ?: 0.0);
+} catch (Throwable $e) { /* ignore */ }
+$portfolioGainEur = $portfolioCurrentEur - $portfolioInvestedEur;
+$portfolioGainPct = ($portfolioInvestedEur > 0) ? round(($portfolioGainEur / $portfolioInvestedEur) * 100, 2) : 0.0;
 ?>
 <!DOCTYPE html>
 
@@ -31,7 +135,8 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/app.css">
-    <link rel="stylesheet" href="../css/patrimoine.css">
+    <?php $patCssVer = @filemtime(__DIR__ . '/../css/patrimoine.css'); ?>
+    <link rel="stylesheet" href="../css/patrimoine.css?v=<?= (int)($patCssVer ?: time()) ?>">
 
 </head>
 
@@ -65,7 +170,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
             </a>
 
-            <a class="icon-button" href="add_assets.php" aria-label="Ajouter des actifs" title="Ajouter des actifs">
+  <a class="icon-button" href="http://hugo:8090/html/manual_crypto.php" aria-label="Ajouter des actifs" title="Ajouter des actifs">
                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                     <path d="M12 5a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H6a1 1 0 110-2h5V6a1 1 0 011-1z" />
                 </svg>
@@ -111,21 +216,9 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                     </a>
 
-                    <a class="sidebar-item" href="#reglages">
+                    
 
-                        <img class="icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/cog-6-tooth.svg" alt="" loading="lazy">
-
-                        <span class="sidebar-label">Réglages</span>
-
-                    </a>
-
-                    <a class="sidebar-item" href="#diffusions">
-
-                        <img class="icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/megaphone.svg" alt="" loading="lazy">
-
-                        <span class="sidebar-label">Diffusions</span>
-
-                    </a>
+                    
 
                 </div>
 
@@ -137,21 +230,9 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                 <div class="sidebar-section">
 
-                    <a class="sidebar-item" href="#support">
+                    
 
-                        <img class="icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/question-mark-circle.svg" alt="" loading="lazy">
-
-                        <span class="sidebar-label">Support</span>
-
-                    </a>
-
-                    <a class="sidebar-item" href="#changelog">
-
-                        <img class="icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/sparkles.svg" alt="" loading="lazy">
-
-                        <span class="sidebar-label">Changelog</span>
-
-                    </a>
+                    
 
                 </div>
 
@@ -169,9 +250,9 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
                         <span class="sidebar-label sidebar-user">
 
-                            <span class="sidebar-user-name">Erica</span>
+                            <span class="sidebar-user-name"><?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?></span>
 
-                            <span class="sidebar-user-email">erica@example.com</span>
+                            <span class="sidebar-user-email"><?= htmlspecialchars($userEmail, ENT_QUOTES, 'UTF-8') ?></span>
 
                         </span>
 
@@ -241,6 +322,18 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
 
         <main class="app-content" id="main-content" tabindex="-1">
 
+            <?php if (isset($_SESSION['success'])): ?>
+                <div class="alert alert-success" role="status" aria-live="polite">
+                    <?= htmlspecialchars($_SESSION['success'], ENT_QUOTES, 'UTF-8'); ?>
+                </div>
+                <?php unset($_SESSION['success']); ?>
+            <?php elseif (isset($_SESSION['error'])): ?>
+                <div class="alert alert-danger" role="status" aria-live="polite">
+                    <?= htmlspecialchars($_SESSION['error'], ENT_QUOTES, 'UTF-8'); ?>
+                </div>
+                <?php unset($_SESSION['error']); ?>
+            <?php endif; ?>
+
             <section class="content-section">
 
                 <div class="content-grid dashboard-grid">
@@ -258,38 +351,27 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
                         <header class="performance-header">
 
                             <div class="performance-title">
-
                                 <h2>Performance</h2>
                             </div>
 
                         </header>
 
                         <div class="performance-metric">
-
-                            <span class="metric-label">Plus-value &middot; Tout</span>
-
-                            <span class="metric-value">+680&nbsp;251&nbsp;724&nbsp;EUR</span>
-                            <span class="metric-variation">+118,64&nbsp;%</span>
-
+                            <span class="metric-label">Plus-value · Tout</span>
+                            <?php 
+                                $gainSign = $portfolioGainEur >= 0 ? '+' : '−';
+                                $gainAbs = abs($portfolioGainEur);
+                                $formattedGain = number_format($gainAbs, 0, ',', ' ');
+                                $formattedPct = number_format(abs($portfolioGainPct), 2, ',', ' ');
+                            ?>
+                            <span class="metric-value"><?= $gainSign ?><?= htmlspecialchars($formattedGain, ENT_QUOTES, 'UTF-8') ?>&nbsp;EUR</span>
+                            <span class="metric-variation"><?= $gainSign ?><?= htmlspecialchars($formattedPct, ENT_QUOTES, 'UTF-8') ?>&nbsp;%</span>
                         </div>
 
-                        <p class="performance-description">
-
-                            La plus-value latente est la difference entre votre prix d'achat unitaire et le prix actuel.
-                            Ce montant ne tient pas compte des plus-values realisees.
-                        </p>
-
-                        <a class="performance-link" href="#details-performance">
-
-                            En savoir plus
-
-                            <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
-
-                                <path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-
-                            </svg>
-
-                        </a>
+                        <div class="performance-note" style="margin-top:10px;color:#6b7280;font-size:14px;">
+                            <span>La plus-value affichée correspond à la différence entre la valeur actuelle et le prix d’achat cumulé. Elle exclut frais et impôts.</span>
+                            <a href="analyse.php" class="performance-more" style="margin-left:8px;color:#2962FF;text-decoration:none;">En savoir plus</a>
+                        </div>
 
                     </article>
 
@@ -302,9 +384,16 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
                     <div class="assets-header">
                         <div class="assets-header-text">
                             <h2>Actifs</h2>
-                            <p>Suivez la repartition de votre patrimoine par classe d'actifs.</p>
+                            <p>Suivez la répartition de votre patrimoine.</p>
                         </div>
                     </div>
+                    <?php 
+                        // Prépare les messages de toast et nettoie la session
+                        $toastSuccess = $_SESSION['success'] ?? null; 
+                        $toastError = $_SESSION['error'] ?? null; 
+                        unset($_SESSION['success'], $_SESSION['error']);
+                    ?>
+                    <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
                     <div class="assets-layout">
                         <div class="assets-table">
                             <div class="assets-table-header">
@@ -316,10 +405,6 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
                             <ul class="assets-rows" id="assets-list" aria-label="Repartition des actifs"></ul>
                         </div>
                         <div class="assets-chart-card">
-                            <div class="assets-chart-toolbar" role="group" aria-label="Filtres patrimoine">
-                                <button class="assets-filter-button is-active" type="button">Toutes les categories</button>
-                                <button class="assets-filter-button" type="button">Tout</button>
-                            </div>
                             <div class="assets-donut-wrapper">
                                 <div class="assets-donut-ring" id="assets-donut-ring" role="img" aria-label="Diagramme des actifs"></div>
                                 <div class="assets-donut-center">
@@ -327,7 +412,7 @@ $userEmail = trim((string)($_SESSION['user_email'] ?? ''));
                                     <span class="assets-donut-label">Total</span>
                                 </div>
                             </div>
-                            <p class="assets-chart-note">Mise a jour selon vos positions synchronisees.</p>
+                            
                         </div>
                     </div>
                 </div>
@@ -1515,42 +1600,56 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-        const lineSeries = chart.addLineSeries({ color: intervalColors['1D'] });
+        let assetSeriesRefs = [];
+        const lineSeries = null;
 
         const buttons = [];
 
 
 
-        const setChartInterval = (interval) => {
+        const labelToRange = { '1J': '1D', '7J': '1W', '1M': '1M', '1A': '1Y', 'YTD': 'YTD', 'TOUT': 'ALL' };
+        const palette = ['#8b5cf6','#3b82f6','#ef4444','#10b981','#f59e0b','#06b6d4','#64748b','#a78bfa','#fb7185','#22c55e','#f97316','#84cc16'];
+        const toPoint = (p) => ({ time: p.time, value: Number(p.value) });
+        const lastVal = (a) => {
+            const pts = Array.isArray(a.points) ? a.points : [];
+            if (!pts.length) return 0;
+            const p = pts[pts.length - 1];
+            return Number(p.value || 0);
+        };
 
-            const data = seriesData.get(interval);
+        const setChartInterval = async (intervalLabelOrRange) => {
+            const interval = labelToRange[intervalLabelOrRange] || intervalLabelOrRange;
+            const categorySelect = document.getElementById('chart-category');
+            const category = categorySelect ? (categorySelect.value || 'all') : 'all';
+            const url = 'api_portfolio_series.php?range=' + encodeURIComponent(interval);
+            try {
+                const res = await fetch(url);
+                const json = await res.json();
 
-            if (!data) {
+                // Supprime les anciennes séries (uniquement actifs sur Patrimoine)
+                assetSeriesRefs.forEach(s => { try { chart.removeSeries(s); } catch(e){} });
+                assetSeriesRefs = [];
 
-                return;
+                // Actifs multi‑lignes
+                let assets = Array.isArray(json.assets) ? json.assets : [];
+                if (category && category !== 'all') { assets = assets.filter(a => a && a.categorie === category); }
+                assets.sort((a,b) => lastVal(b) - lastVal(a));
+                const topAssets = assets.slice(0, 6);
+                topAssets.forEach((a,i) => {
+                    const s = chart.addLineSeries({ color: palette[i % palette.length], lineWidth: 1 });
+                    s.setData((a.points || []).map(toPoint));
+                    assetSeriesRefs.push(s);
+                });
 
-            }
+                chart.timeScale().fitContent();
+            } catch(e) { /* ignore */ }
 
-            lineSeries.setData(data);
-
-            lineSeries.applyOptions({
-
-                color: intervalColors[interval],
-
-            });
-
-            chart.timeScale().fitContent();
-
+            // Etat visuel des boutons
             buttons.forEach(button => {
-
                 const isActive = button.dataset.interval === interval;
-
                 button.classList.toggle('is-active', isActive);
-
                 button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-
             });
-
         };
 
 
@@ -1680,8 +1779,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         chartContainer.insertBefore(buttonsContainer, chartHost);
+        // Reconstruit les boutons pour les nouveaux intervalles harmonisés
+        const labels = ['1J', '7J', '1M', '1A', 'YTD', 'TOUT'];
+        const intervalMap = { '1J':'1D', '7J':'1W', '1M':'1M', '1A':'1Y', 'YTD':'YTD', 'TOUT':'ALL' };
+        let currentInterval = '1M';
+        buttons.length = 0;
+        while (buttonsContainer.firstChild) { buttonsContainer.removeChild(buttonsContainer.firstChild); }
+        labels.forEach(lbl => {
+            const button = document.createElement('button');
+            button.innerText = lbl;
+            button.type = 'button';
+            const interval = intervalMap[lbl];
+            button.addEventListener('click', () => { currentInterval = interval; setChartInterval(interval); });
+            button.dataset.interval = interval;
+            button.setAttribute('aria-pressed', 'false');
+            buttons.push(button);
+            buttonsContainer.appendChild(button);
+        });
+        const categorySelect = document.getElementById('chart-category');
+        if (categorySelect) { categorySelect.addEventListener('change', () => setChartInterval(currentInterval)); }
 
-        setChartInterval('1D');
+        setChartInterval(currentInterval);
 
 
 
@@ -1714,11 +1832,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const assetsData = [
-            { name: 'Actions & Fonds', share: 39, value: 538851384, deltaValue: 35740030, deltaPercent: 7.09, color: '#3b82f6' },
-            { name: 'Crypto', share: 18, value: 221197933, deltaValue: 171060186, deltaPercent: 341.6, color: '#8b5cf6' },
-            { name: 'Crowdlending', share: 15, value: 210000000, deltaValue: 0, deltaPercent: 0, color: '#06b6d4' },
-        ];
+        const assetsData = <?= json_encode($assetsData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
 
         const numberFormatter = new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
         const percentFormatter = new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -1731,22 +1845,34 @@ document.addEventListener('DOMContentLoaded', () => {
         const formatCurrency = (value) => `${numberFormatter.format(value)} €`;
 
         const formatSignedCurrency = (value) => {
-            if (!value) {
+            if (value === null || value === undefined) {
                 return '—';
             }
-            const sign = value >= 0 ? '+' : '−';
+            if (value === 0) {
+                return `${numberFormatter.format(0)} €`;
+            }
+            const sign = value > 0 ? '+' : '−';
             return `${sign}${numberFormatter.format(Math.abs(value))} €`;
         };
 
         const formatSignedPercent = (value) => {
-            if (!value) {
+            if (value === null || value === undefined) {
                 return '—';
             }
-            const sign = value >= 0 ? '+' : '−';
+            if (value === 0) {
+                return `${percentFormatter.format(0)} %`;
+            }
+            const sign = value > 0 ? '+' : '−';
             return `${sign}${percentFormatter.format(Math.abs(value))} %`;
         };
 
-        const totalValue = assetsData.reduce((sum, asset) => sum + asset.value, 0);
+        if (assetsData.length === 0) {
+            totalValueTarget.textContent = '—';
+            donut.style.background = 'conic-gradient(#e5e7eb 0 100%)';
+            return;
+        }
+
+        const totalValue = assetsData.reduce((sum, asset) => sum + (asset.value || 0), 0);
         totalValueTarget.textContent = formatCurrency(totalValue);
 
         const fragment = document.createDocumentFragment();
@@ -1756,6 +1882,7 @@ document.addEventListener('DOMContentLoaded', () => {
             row.className = 'assets-row';
             const deltaClass = asset.deltaValue > 0 ? 'is-positive' : asset.deltaValue < 0 ? 'is-negative' : 'is-neutral';
 
+            const delUrl = `delete_manual_asset.php?category=crypto&external_id=${encodeURIComponent(asset.external_id || '')}`;
             row.innerHTML = `
                 <div class="assets-row-name">
                     <span class="assets-row-arrow" aria-hidden="true">
@@ -1765,6 +1892,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </span>
                     <span class="assets-row-dot" style="background:${asset.color};"></span>
                     <span class="assets-row-label">${asset.name}</span>
+                    <a href="${delUrl}" class="assets-row-delete" title="Supprimer" aria-label="Supprimer" style="margin-left:8px;color:#ef4444;text-decoration:none">✕</a>
                 </div>
                 <span class="assets-row-share">${formatShare(asset.share)} %</span>
                 <span class="assets-row-value">${formatCurrency(asset.value)}</span>
@@ -1794,6 +1922,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initAssetsSection();
 });
+
+// Toaster (pop-up notifications)
+(function(){
+    const initialToasts = {
+        success: <?php echo json_encode($toastSuccess, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>,
+        error: <?php echo json_encode($toastError, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>
+    };
+
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+
+    const showToast = (message, type = 'info', timeout = 3500) => {
+        if (!message) return;
+        const toast = document.createElement('div');
+        toast.className = `toast ${type === 'success' ? 'toast--success' : type === 'error' ? 'toast--error' : 'toast--info'}`;
+        const text = document.createElement('span');
+        text.className = 'toast-text';
+        text.textContent = message;
+        const close = document.createElement('button');
+        close.className = 'toast-close';
+        close.type = 'button';
+        close.setAttribute('aria-label', 'Fermer');
+        close.textContent = '×';
+        close.addEventListener('click', () => {
+            toast.classList.remove('is-visible');
+            setTimeout(() => toast.remove(), 200);
+        });
+        toast.appendChild(text);
+        toast.appendChild(close);
+        container.appendChild(toast);
+        requestAnimationFrame(() => toast.classList.add('is-visible'));
+        setTimeout(() => {
+            toast.classList.remove('is-visible');
+            setTimeout(() => toast.remove(), 200);
+        }, timeout);
+    };
+
+    if (initialToasts.success) showToast(initialToasts.success, 'success');
+    if (initialToasts.error) showToast(initialToasts.error, 'error');
+
+    // Expose pour usage futur éventuel
+    window.NovaToast = { show: showToast };
+})();
 
 </script>
 

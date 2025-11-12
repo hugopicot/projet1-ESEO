@@ -6,9 +6,34 @@
     <title>Paramètres - Nova</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/app.css">
+    <link rel="stylesheet" href="../css/patrimoine.css">
 </head>
 
 <body class="settings-page">
+<header class="app-navbar" role="banner">
+    <div class="navbar-brand">
+        <a href="app.php" title="logo">
+            <img class="navbar-logo" src="../asset/img/logo.png" alt="Nova">
+        </a>
+        <span class="navbar-title">Nova Console</span>
+    </div>
+    <div class="navbar-spacer" aria-hidden="true"></div>
+    <nav class="navbar-actions" aria-label="Actions principales">
+        <a class="icon-button" href="#search" aria-label="Ouvrir la recherche">
+            <img class="icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/magnifying-glass.svg" alt="" loading="lazy">
+        </a>
+        <a class="icon-button" href="#inbox" aria-label="Consulter la messagerie">
+            <img class="icon" src="https://raw.githubusercontent.com/tailwindlabs/heroicons/master/src/24/solid/inbox.svg" alt="" loading="lazy">
+        </a>
+  <a class="icon-button" href="http://hugo:8090/html/manual_crypto.php" aria-label="Ajouter des actifs" title="Ajouter des actifs">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 5a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H6a1 1 0 110-2h5V6a1 1 0 011-1z" />
+            </svg>
+            <span class="sr-only">Ajouter des actifs</span>
+        </a>
+    </nav>
+ </header>
 <div class="container-fluid">
     <div class="row flex-nowrap">
 

@@ -22,6 +22,15 @@ if (isset($_POST['login'])) {
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
 
+            // Se souvenir de moi: stocke l'email pendant 30 jours si coché
+            if (!empty($_POST['remember'])) {
+                setcookie('remember_email', $email, time() + 60*60*24*30, '/');
+            } else {
+                if (isset($_COOKIE['remember_email'])) {
+                    setcookie('remember_email', '', time() - 3600, '/');
+                }
+            }
+
             if ($user['role'] === 'Admin') {
                 header("Location: ./admin_panel.php");
                 exit;
@@ -116,7 +125,7 @@ if (isset($_POST['register'])) {
                 </div>
                 <div class="auth-field">
                     <label for="login-email">Email</label>
-                    <input type="email" id="login-email" name="email" autocomplete="email" required>
+                    <input type="email" id="login-email" name="email" autocomplete="email" required value="<?php echo htmlspecialchars($_COOKIE['remember_email'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
                 </div>
                 <div class="auth-field">
                     <label for="login-password">Mot de passe</label>
@@ -124,7 +133,7 @@ if (isset($_POST['register'])) {
                 </div>
                 <div class="auth-form-row">
                     <label class="auth-checkbox">
-                        <input type="checkbox" name="remember">
+                        <input type="checkbox" name="remember" <?php if (isset($_COOKIE['remember_email'])) echo 'checked'; ?>>
                         <span>Se souvenir de moi</span>
                     </label>
                     <button type="button" class="auth-link" data-switch-to="reset">Mot de passe oublie ?</button>

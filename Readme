@@ -55,8 +55,31 @@ Avant d'installer le projet, assurez-vous d'avoir les éléments suivants :
    - Clic droit sur `index.html` → "Open with Live Server"
 
 4. **Accéder à l'application**
-   - Ouvrir votre navigateur
-   - Aller à `http://localhost:8000`
+    - Ouvrir votre navigateur
+    - Aller à `http://localhost:8000`
+
+### Installation PHP/MySQL (WAMP/XAMPP/MAMP)
+
+Si vous utilisez un stack PHP classique (WAMP/XAMPP/MAMP), suivez ces étapes pour une démo fonctionnelle:
+
+1. Démarrer Apache et MySQL depuis votre stack.
+2. Copier le dossier `projet1-ESEO` dans le répertoire web:
+   - WAMP: `C:\wamp64\www\projet1-ESEO`
+   - XAMPP: `C:\xampp\htdocs\projet1-ESEO`
+   - MAMP (macOS): `Applications/MAMP/htdocs/projet1-ESEO`
+3. Créer la base `projet_site1` dans phpMyAdmin.
+4. Importer le fichier `db_Nova.sql` dans cette base.
+5. Ouvrir `config/config.php` et ajuster si besoin:
+   - Mettre le mot de passe MySQL local dans `$pass`.
+   - L’auto-détection `APP_DOMAIN` fonctionne, accédez via `http://localhost/projet1-ESEO/` ou avec le port de votre stack.
+6. Accéder aux pages:
+   - Home: `http://localhost/projet1-ESEO/index.php`
+   - Authentification: `http://localhost/projet1-ESEO/html/auth.php`
+   - Abonnement: `http://localhost/projet1-ESEO/html/subscription.php`
+
+Notes:
+- Les appels de retour (Stripe/Powens) utilisent `APP_DOMAIN` pour rediriger correctement avec votre port/hôte.
+- En démo, le Checkout Stripe est simulé côté serveur et active 30 jours d’essai.
 
 ### Configuration initiale requise
 
