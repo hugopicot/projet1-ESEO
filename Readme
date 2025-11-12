@@ -1,21 +1,25 @@
 Nova — Plateforme d’analyse et de gestion de patrimoine (crypto)
 
 **Aperçu**
+
 - Application web pour analyser et suivre en temps réel un portefeuille d’investissement, actuellement orientée crypto.
 - Permet d’ajouter des positions manuelles, de visualiser la performance (24h, 7j), une heatmap marché, des suggestions de picks, et un système d’abonnement Starter/Pro.
 
 **Fonctionnalités clés**
+
 - Suivi du portefeuille et agrégation des positions manuelles.
 - Analyse marché: top movers 24h, heatmap des principaux actifs.
 - Pages dédiées: `Synthèse`, `Patrimoine`, `Analyse`, `Profil`, `Abonnement`.
 - Abonnement Starter/Pro avec activation locale et intégration Stripe.
 
 **Prérequis**
+
 - Windows: WAMP (ou XAMPP) avec Apache, PHP et MySQL.
 - macOS: MAMP (ou équivalent avec Apache/PHP/MySQL).
 - Accès à `phpMyAdmin` ou au client MySQL pour importer la base.
 
 **Installation (Windows — WAMP)**
+
 - Installer WAMP et démarrer Apache et MySQL.
 - Placer le projet dans le répertoire web de WAMP: `C:\wamp64\www\projet1-ESEO`.
 - Créer la base de données `projet_site1`.
@@ -30,6 +34,7 @@ Nova — Plateforme d’analyse et de gestion de patrimoine (crypto)
 - Créer un compte depuis la page Auth, puis accéder aux pages `Synthèse/Patrimoine/Analyse`.
 
 **Installation (macOS — MAMP)**
+
 - Installer MAMP et démarrer Apache et MySQL.
 - Placer le projet dans `Applications/MAMP/htdocs/projet1-ESEO`.
 - Créer la base `projet_site1` et importer `projet_site1 (3).sql` via `http://localhost:8888/phpMyAdmin` (port par défaut MAMP).
@@ -37,6 +42,7 @@ Nova — Plateforme d’analyse et de gestion de patrimoine (crypto)
 - Ouvrir `http://localhost:8888/projet1-ESEO/index.php` ou `http://localhost:8888/projet1-ESEO/html/auth.php`.
 
 **Pages utiles**
+
 - `html/auth.php`: inscription/connexion.
 - `html/subscription.php`: activation d’abonnement (Starter/Pro) en local.
 - `html/app.php`: page Synthèse (accessible si abonnement actif).
@@ -44,6 +50,7 @@ Nova — Plateforme d’analyse et de gestion de patrimoine (crypto)
 - `html/analyse.php`: heatmap marché, top movers, etc.
 
 **Structure du projet**
+
 - `html/`
 - `js/pages/`
 - `css/`
